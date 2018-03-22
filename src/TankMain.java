@@ -102,7 +102,7 @@ public class TankMain extends Application {
 
     private static class Enemy extends GameObjects {
         Enemy() {
-            super(new ImageView("/dot.png"));
+            super(new ImageView("/lul.png"));
         }
     }
 
@@ -119,12 +119,10 @@ public class TankMain extends Application {
         stage.getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.LEFT) {
                 player.rotateLeft();
-
             }
 
             else if (e.getCode() == KeyCode.RIGHT) {
                 player.rotateRight();
-                enemy.rotateLeft();
             }
 
             else if (e.getCode() == KeyCode.A) {
