@@ -8,7 +8,7 @@ public class GameObjects {
 
     private boolean alive = true;
 
-    public GameObject(Node view) {
+    public GameObjects(Node view) {
         this.view = view;
     }
 
