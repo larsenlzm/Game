@@ -1,9 +1,3 @@
-
-
-
-// Må endre en del av koden så den ikke er lik som forskjellige tutorials på nett ofc, men det fikser vi.
-
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
@@ -89,7 +83,6 @@ public class TankMain extends Application {
 
         player.update();
         enemy.update();
-        //Slett denne for å fjerne Røde dotter
 
     }
 
