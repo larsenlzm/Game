@@ -23,6 +23,11 @@ public class TankMain extends Application {
 
     private GameObjects player;
     private GameObjects enemy;
+    private GameObjects wall1;
+    private GameObjects wall2;
+    private GameObjects wall3;
+    private GameObjects wall4;
+
 
     private Parent createContent() {
 
@@ -36,6 +41,19 @@ public class TankMain extends Application {
         enemy = new Enemy();
         enemy.setVelocity(new Point2D(1,0));
         addGameObject(enemy,100,300);
+
+        wall1 = new Wall1();
+        addGameObject(wall1,200,300);
+
+        wall2 = new Wall1();
+        addGameObject(wall2,200,150);
+
+        wall3 = new Wall1();
+        addGameObject(wall3,400,150);
+
+        wall4 = new Wall1();
+        addGameObject(wall4,400,300);
+
 
 
         AnimationTimer timer = new AnimationTimer() {
@@ -53,7 +71,6 @@ public class TankMain extends Application {
         bullets.add(bullet);
         addGameObject(bullet,x,y);
     }
-
 
 
     private void addGameObject(GameObjects object, double x, double y) {
@@ -102,6 +119,12 @@ public class TankMain extends Application {
     private static class Bullet extends GameObjects {
         Bullet() {
             super(new Circle(5,5,5,Color.BROWN));
+        }
+    }
+
+    private static class Wall1 extends GameObjects {
+        Wall1() {
+            super(new Rectangle(20,70,Color.ORANGE));
         }
     }
 
