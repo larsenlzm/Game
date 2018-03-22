@@ -20,14 +20,14 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AsteroidsApp extends Application {
+public class TankMain extends Application {
 
     private Pane root;
 
-    private List<GameObject> bullets = new ArrayList<>();
-    private List <GameObject> enemies = new ArrayList<>();
+    private List<GameObjects> bullets = new ArrayList<>();
+    private List <GameObjects> enemies = new ArrayList<>();
 
-    private GameObject player;
+    private GameObjects player;
 
     private Parent createContent() {
 
@@ -49,25 +49,25 @@ public class AsteroidsApp extends Application {
         return root;
     }
 
-    private void addBullet(GameObject bullet, double x, double y) {
+    private void addBullet(GameObjects bullet, double x, double y) {
         bullets.add(bullet);
         addGameObject(bullet,x,y);
     }
 
-    private void addEnemy(GameObject enemy, double x, double y) {
+    private void addEnemy(GameObjects enemy, double x, double y) {
         enemies.add(enemy);
         addGameObject(enemy,x,y);
     }
 
-    private void addGameObject(GameObject object, double x, double y) {
+    private void addGameObject(GameObjects object, double x, double y) {
         object.getView().setTranslateX(x);
         object.getView().setTranslateY(y);
         root.getChildren().add(object.getView());
     }
 
     private void onUpdate() {
-        for (GameObject bullet : bullets) {
-            for (GameObject enemy : enemies) {
+        for (GameObjects bullet : bullets) {
+            for (GameObjects enemy : enemies) {
                 if (bullet.isColliding(enemy)) {
                     bullet.setAlive(false);
                     enemy.setAlive(false);
@@ -78,11 +78,11 @@ public class AsteroidsApp extends Application {
             }
         }
 
-        bullets.removeIf(GameObject::isDead);
-        enemies.removeIf(GameObject::isDead);
+        bullets.removeIf(GameObjects::isDead);
+        enemies.removeIf(GameObjects::isDead);
 
-        bullets.forEach(GameObject::update);
-        enemies.forEach(GameObject::update);
+        bullets.forEach(GameObjects::update);
+        enemies.forEach(GameObjects::update);
 
 
         player.update();
@@ -95,19 +95,19 @@ public class AsteroidsApp extends Application {
     }
 
 
-    private static class Player extends GameObject {
+    private static class Player extends GameObjects {
         Player() {
             super(new ImageView("/anansi.png"));
         }
     }
 
-    private static class Enemy extends GameObject {
+    private static class Enemy extends GameObjects {
         Enemy() {
             super(new Circle(15,15,15,Color.RED));
         }
     }
 
-    private static class Bullet extends GameObject {
+    private static class Bullet extends GameObjects {
         Bullet() {
             super(new Circle(5,5,5,Color.BROWN));
         }

@@ -1,7 +1,7 @@
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 
-public class GameObject {
+public class GameObjects {
 
     private Node view;
     private Point2D velocity = new Point2D(0,0);
@@ -55,7 +55,7 @@ public class GameObject {
         setVelocity(new Point2D(Math.cos(Math.toRadians(getRotate())), Math.sin(Math.toRadians(getRotate()))));
     }
 
-    public boolean isColliding(GameObject other) {
+    public boolean isColliding(GameObjects other) {
         return getView().getBoundsInParent().intersects(other.getView().getBoundsInParent());
     }
 }
