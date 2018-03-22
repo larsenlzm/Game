@@ -25,9 +25,10 @@ public class TankMain extends Application {
     private Pane root;
 
     private List<GameObjects> bullets = new ArrayList<>();
-    private List <GameObjects> enemies = new ArrayList<>();
+
 
     private GameObjects player;
+    private GameObjects enemy;
 
     private Parent createContent() {
 
@@ -37,6 +38,11 @@ public class TankMain extends Application {
         player = new Player();
         player.setVelocity(new Point2D(1,0));
         addGameObject(player,300,300);
+
+        enemy = new Enemy();
+        enemy.setVelocity(new Point2D(1,0));
+        addGameObject(enemy,100,300);
+
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -54,10 +60,7 @@ public class TankMain extends Application {
         addGameObject(bullet,x,y);
     }
 
-    private void addEnemy(GameObjects enemy, double x, double y) {
-        enemies.add(enemy);
-        addGameObject(enemy,x,y);
-    }
+
 
     private void addGameObject(GameObjects object, double x, double y) {
         object.getView().setTranslateX(x);
@@ -67,31 +70,27 @@ public class TankMain extends Application {
 
     private void onUpdate() {
         for (GameObjects bullet : bullets) {
-            for (GameObjects enemy : enemies) {
                 if (bullet.isColliding(enemy)) {
                     bullet.setAlive(false);
                     enemy.setAlive(false);
 
                     //remover bullet og enemy når de blir hit av bullet
-                    root.getChildren().removeAll(bullet.getView(), enemy.getView());
+                    
                 }
-            }
+
         }
 
         bullets.removeIf(GameObjects::isDead);
-        enemies.removeIf(GameObjects::isDead);
+
 
         bullets.forEach(GameObjects::update);
-        enemies.forEach(GameObjects::update);
+
 
 
         player.update();
-
+        enemy.update();
         //Slett denne for å fjerne Røde dotter
-        if (Math.random() < 0.02) {
-            // istedet for 600, så skriver man root.getPrefWidth,
-            addEnemy(new Enemy(), Math.random() * root.getPrefWidth(), Math.random() * root.getPrefHeight());
-        }
+
     }
 
 
@@ -103,7 +102,7 @@ public class TankMain extends Application {
 
     private static class Enemy extends GameObjects {
         Enemy() {
-            super(new Circle(15,15,15,Color.RED));
+            super(new ImageView("/dot.png"));
         }
     }
 
@@ -120,20 +119,41 @@ public class TankMain extends Application {
         stage.getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.LEFT) {
                 player.rotateLeft();
+
             }
 
             else if (e.getCode() == KeyCode.RIGHT) {
                 player.rotateRight();
+                enemy.rotateLeft();
+            }
+
+            else if (e.getCode() == KeyCode.A) {
+                enemy.rotateLeft();
+            }
+
+            else if (e.getCode() == KeyCode.D) {
+                enemy.rotateRight();
             }
 
             else if (e.getCode() == KeyCode.SPACE) {
                 Bullet bullet = new Bullet();
+                Bullet bullet2 = new Bullet();
                 // Setter bullet velocity til 5 ganger så mye som player
                 bullet.setVelocity(player.getVelocity().normalize().multiply(5));
+                bullet2.setVelocity(enemy.getVelocity().normalize().multiply(5));
                 //Adder bulleten til gameworld og posisjonen er da samme som player
                 addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
+
+
+                // Denne ødelegger for enemy-objektet
+                addBullet(bullet2, enemy.getView().getTranslateX(), enemy.getView().getTranslateY());
+
+
             }
         });
+
+
+
 
         stage.show();
 
