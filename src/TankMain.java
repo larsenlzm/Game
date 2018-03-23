@@ -1,9 +1,3 @@
-
-
-
-// Må endre en del av koden så den ikke er lik som forskjellige tutorials på nett ofc, men det fikser vi.
-
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
@@ -16,7 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
+import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -30,6 +24,11 @@ public class TankMain extends Application {
 
     private GameObjects player;
     private GameObjects enemy;
+    private GameObjects wall1;
+    private GameObjects wall2;
+    private GameObjects wall3;
+    private GameObjects wall4;
+
 
     public BitSet keyboardBitSet = new BitSet();
 
@@ -40,11 +39,6 @@ public class TankMain extends Application {
         scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
             keyboardBitSet.set(event.getCode().ordinal(), false);
         });
-    }
-
-    private void addBullet(GameObjects bullet, double x, double y) {
-        bullets.add(bullet);
-        addGameObject(bullet,x,y);
     }
 
     private Parent createContent() {
@@ -60,6 +54,19 @@ public class TankMain extends Application {
         enemy.setVelocity(new Point2D(1,0));
         addGameObject(enemy,100,300);
 
+        wall1 = new Wall1();
+        addGameObject(wall1,200,300);
+
+        wall2 = new Wall1();
+        addGameObject(wall2,200,150);
+
+        wall3 = new Wall1();
+        addGameObject(wall3,400,150);
+
+        wall4 = new Wall1();
+        addGameObject(wall4,400,300);
+
+
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -70,6 +77,11 @@ public class TankMain extends Application {
         timer.start();
 
         return root;
+    }
+
+    private void addBullet(GameObjects bullet, double x, double y) {
+        bullets.add(bullet);
+        addGameObject(bullet,x,y);
     }
 
     private void addGameObject(GameObjects object, double x, double y) {
@@ -93,6 +105,12 @@ public class TankMain extends Application {
     private static class Bullet extends GameObjects {
         Bullet() {
             super(new Circle(5,5,5,Color.BROWN));
+        }
+    }
+
+    private static class Wall1 extends GameObjects {
+        Wall1() {
+            super(new Rectangle(20,70,Color.ORANGE));
         }
     }
 
