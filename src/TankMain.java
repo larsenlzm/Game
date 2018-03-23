@@ -131,9 +131,10 @@ public class TankMain extends Application {
 
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());
         boolean isDPressed = keyboardBitSet.get(KeyCode.D.ordinal());
+        boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
         boolean isLeftPressed = keyboardBitSet.get(KeyCode.LEFT.ordinal());
         boolean isRightPressed = keyboardBitSet.get(KeyCode.RIGHT.ordinal());
-        boolean isSpacePressed = keyboardBitSet.get(KeyCode.SPACE.ordinal());
+        boolean isUpPressed = keyboardBitSet.get(KeyCode.UP.ordinal());
 
             if (isLeftPressed && !isRightPressed) {
                 player.rotateLeft();
@@ -151,32 +152,20 @@ public class TankMain extends Application {
                 enemy.rotateRight();
             }
 
-            if ( isSpacePressed) {
+            if (isUpPressed) {
                 Bullet bullet = new Bullet();
-                Bullet bullet2 = new Bullet();
                 // Setter bullet velocity til 5 ganger så mye som player
                 bullet.setVelocity(player.getVelocity().normalize().multiply(5));
-                bullet2.setVelocity(enemy.getVelocity().normalize().multiply(5));
                 //Adder bulleten til gameworld og posisjonen er da samme som player
                 addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
-
-
-                // Denne ødelegger for enemy-objektet
+            }
+            if (isWPressed) {
+                Bullet bullet2 = new Bullet();
+                // Setter bullet velocity til 5 ganger så mye som player
+                bullet2.setVelocity(enemy.getVelocity().normalize().multiply(5));
+                //Adder bulleten til gameworld og posisjonen er da samme som player
                 addBullet(bullet2, enemy.getView().getTranslateX(), enemy.getView().getTranslateY());
-
-
             }
-
-        for (GameObjects bullet : bullets) {
-            if (bullet.isColliding(enemy)) {
-                bullet.setAlive(false);
-                enemy.setAlive(false);
-
-                //remover bullet og enemy når de blir hit av bullet
-
-            }
-
-        }
 
         bullets.removeIf(GameObjects::isDead);
 
