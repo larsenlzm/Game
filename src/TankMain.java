@@ -136,36 +136,32 @@ public class TankMain extends Application {
         boolean isRightPressed = keyboardBitSet.get(KeyCode.RIGHT.ordinal());
         boolean isUpPressed = keyboardBitSet.get(KeyCode.UP.ordinal());
 
-            if (isLeftPressed && !isRightPressed) {
-                player.rotateLeft();
-            }
+        if (isUpPressed) {
+            Bullet bullet = new Bullet();
+            // Setter bullet velocity til 5 ganger så mye som player
+            bullet.setVelocity(player.getVelocity().normalize().multiply(5));
+            //Adder bulleten til gameworld og posisjonen er da samme som player
+            addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
+        }
+        if (isWPressed) {
+            Bullet bullet2 = new Bullet();
+            // Setter bullet velocity til 5 ganger så mye som enemy
+            bullet2.setVelocity(enemy.getVelocity().normalize().multiply(5));
+            //Adder bulleten til gameworld og posisjonen er da samme som enemy
+            addBullet(bullet2, enemy.getView().getTranslateX(), enemy.getView().getTranslateY());
+        }
 
-            else if ( !isLeftPressed && isRightPressed) {
-                player.rotateRight();
-            }
+        if (isLeftPressed && !isRightPressed) {
+            player.rotateLeft();
+        } else if ( !isLeftPressed && isRightPressed) {
+            player.rotateRight();
+        }
 
-            if ( isAPressed && !isDPressed) {
+        if ( isAPressed && !isDPressed) {
                 enemy.rotateLeft();
-            }
-
-            else if ( !isAPressed && isDPressed) {
-                enemy.rotateRight();
-            }
-
-            if (isUpPressed) {
-                Bullet bullet = new Bullet();
-                // Setter bullet velocity til 5 ganger så mye som player
-                bullet.setVelocity(player.getVelocity().normalize().multiply(5));
-                //Adder bulleten til gameworld og posisjonen er da samme som player
-                addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
-            }
-            if (isWPressed) {
-                Bullet bullet2 = new Bullet();
-                // Setter bullet velocity til 5 ganger så mye som player
-                bullet2.setVelocity(enemy.getVelocity().normalize().multiply(5));
-                //Adder bulleten til gameworld og posisjonen er da samme som player
-                addBullet(bullet2, enemy.getView().getTranslateX(), enemy.getView().getTranslateY());
-            }
+        } else if ( !isAPressed && isDPressed) {
+            enemy.rotateRight();
+        }
 
         bullets.removeIf(GameObjects::isDead);
 
