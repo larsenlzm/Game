@@ -169,7 +169,7 @@ public class TankMain extends Application {
 
         player.update();
         enemy.update();
-        //Slett denne for å fjerne Røde dotter
+
 
     }
 
