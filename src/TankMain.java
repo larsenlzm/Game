@@ -54,16 +54,16 @@ public class TankMain extends Application {
         enemy.setVelocity(new Point2D(1,0));
         addGameObject(enemy,100,300);
 
-        wall1 = new Wall1();
+        wall1 = new Wall();
         addGameObject(wall1,200,300);
 
-        wall2 = new Wall1();
+        wall2 = new Wall();
         addGameObject(wall2,200,150);
 
-        wall3 = new Wall1();
+        wall3 = new Wall();
         addGameObject(wall3,400,150);
 
-        wall4 = new Wall1();
+        wall4 = new Wall();
         addGameObject(wall4,400,300);
 
 
@@ -108,8 +108,8 @@ public class TankMain extends Application {
         }
     }
 
-    private static class Wall1 extends GameObjects {
-        Wall1() {
+    private static class Wall extends GameObjects {
+        Wall() {
             super(new Rectangle(20,70,Color.ORANGE));
         }
     }
@@ -128,7 +128,6 @@ public class TankMain extends Application {
 
     private void onUpdate() {
 
-
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());
         boolean isDPressed = keyboardBitSet.get(KeyCode.D.ordinal());
         boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
@@ -140,6 +139,7 @@ public class TankMain extends Application {
             Bullet bullet = new Bullet();
             // Setter bullet velocity til 5 ganger så mye som player
             bullet.setVelocity(player.getVelocity().normalize().multiply(5));
+
             //Adder bulleten til gameworld og posisjonen er da samme som player
             addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
         }
@@ -147,6 +147,7 @@ public class TankMain extends Application {
             Bullet bullet2 = new Bullet();
             // Setter bullet velocity til 5 ganger så mye som enemy
             bullet2.setVelocity(enemy.getVelocity().normalize().multiply(5));
+
             //Adder bulleten til gameworld og posisjonen er da samme som enemy
             addBullet(bullet2, enemy.getView().getTranslateX(), enemy.getView().getTranslateY());
         }
