@@ -195,7 +195,8 @@ public class TankMain extends Application {
                     enemyHP = enemyHP - 1;
                 } else {
                     enemyHP = 5;
-                    addGameObject(enemy, 500, 500);
+                    enemy.getView().setTranslateX(100);
+                    enemy.getView().setTranslateY(500);
                 }
 
             }
@@ -210,7 +211,8 @@ public class TankMain extends Application {
                     playerHP = playerHP - 1;
                 } else {
                     playerHP = 5;
-                    addGameObject(player,100,100);
+                    player.getView().setTranslateX(100);
+                    player.getView().setTranslateY(100);
                 }
             }
         }
@@ -231,11 +233,13 @@ public class TankMain extends Application {
             player.getView().setTranslateY(maxY);
         }
 
+        // går for langt til høyre eller venstre så kommer du ut på andre siden
         if(enemy.getView().getTranslateX() >= maxX) {
             enemy.getView().setTranslateX(minX);
         } else if (enemy.getView().getTranslateX() <= minX) {
             enemy.getView().setTranslateX(maxX);
         }
+        // går for langt opp eller ned så kommer du ut på andre siden
         if(enemy.getView().getTranslateY() >= maxY) {
             enemy.getView().setTranslateY(minY);
         } else if (enemy.getView().getTranslateY() <= minY) {
