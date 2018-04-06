@@ -156,7 +156,7 @@ public class TankMain extends Application {
                 Bullet bullet = new Bullet();
                 // Setter bullet velocity til 5 ganger så mye som player
                 bullet.setVelocity(player.getVelocity().normalize().multiply(5));
-                //Adder bulleten til gameworld og posisjonen er da samme som player
+                //Adder bulleten til gameworld og posisjonen e r da samme som player
                 addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
             }
             if (isWPressed) {
