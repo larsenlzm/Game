@@ -33,7 +33,8 @@ public class TankMain extends Application {
     double pistolladerteller = pistollader;
     double pistolladertellerDelta = 1;
 
-    boolean notpaused = true;
+    double playerHP = 5;
+    double enemyHP = 5;
 
     public BitSet keyboardBitSet = new BitSet();
 
@@ -53,11 +54,11 @@ public class TankMain extends Application {
 
         player = new Player();
         player.setVelocity(new Point2D(1,0));
-        addGameObject(player,300,300);
+        addGameObject(player,100,100);
 
         enemy = new Enemy();
         enemy.setVelocity(new Point2D(1,0));
-        addGameObject(enemy,100,300);
+        addGameObject(enemy,100,500);
 
         wall1 = new Wall();
         addGameObject(wall1,200,300);
@@ -78,9 +79,8 @@ public class TankMain extends Application {
             }
         };
 
-        if(notpaused) {
-            timer.start();
-        }
+        timer.start();
+
         return root;
     }
 
@@ -175,31 +175,38 @@ public class TankMain extends Application {
             player.rotateRight();
         }
 
-<<<<<<< HEAD
-            if (isUpPressed) {
-                Bullet bullet = new Bullet();
-                // Setter bullet velocity til 5 ganger så mye som player
-                bullet.setVelocity(player.getVelocity().normalize().multiply(5));
-                //Adder bulleten til gameworld og posisjonen e r da samme som player
-                addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
-=======
         if ( isAPressed && !isDPressed) {
             enemy.rotateLeft();
         } else if ( !isAPressed && isDPressed) {
             enemy.rotateRight();
         }
 
-        for (int i = 0; i < bullets2.size(); i++){
-            if(bullets2.get(i).isColliding(player)) {
-                addGameObject(player,500,500);
->>>>>>> 7bd9f76881f5cb5b4140791a5e4b9601ec41cea4
-            }
-        }
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(enemy)) {
-                addGameObject(enemy,100,100);
-                //hvordan fjerner man kulen? midlertidig bare legger den utenfor kartet
-                bullets.remove(i);
+                bullets.get(i).getView().setTranslateX(-100);
+                bullets.get(i).getView().setTranslateY(-100);
+                bullets.get(i).setVelocity(new Point2D(0,0));
+                if (enemyHP != 0) {
+                    enemyHP = enemyHP - 1;
+                } else {
+                    enemyHP = 5;
+                    addGameObject(enemy, 500, 500);
+                }
+
+            }
+        }
+
+        for (int i = 0; i < bullets2.size(); i++){
+            if(bullets2.get(i).isColliding(player)) {
+                bullets2.get(i).getView().setTranslateX(-100);
+                bullets2.get(i).getView().setTranslateY(-100);
+                bullets2.get(i).setVelocity(new Point2D(0,0));
+                if(playerHP != 0){
+                    playerHP = playerHP - 1;
+                } else {
+                    playerHP = 5;
+                    addGameObject(player,100,100);
+                }
             }
         }
 
