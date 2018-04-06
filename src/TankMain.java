@@ -104,17 +104,6 @@ public class TankMain extends Application {
         root.getChildren().add(object.getView());
     }
 
-    private static class Player extends GameObjects {
-        Player() {
-            super(new ImageView("/tank1.png"));
-        }
-    }
-
-    private static class Enemy extends GameObjects {
-        Enemy() {
-            super(new ImageView("/tank2.png"));
-        }
-    }
 
     private static class Bullet extends GameObjects {
         Bullet() {
@@ -157,6 +146,7 @@ public class TankMain extends Application {
 
         if (isUpPressed && isPistolLadet) {
             Bullet bullet = new Bullet();
+
             // Setter bullet velocity til 5 ganger så mye som player
             bullet.setVelocity(player.getVelocity().normalize().multiply(5));
 
@@ -166,6 +156,7 @@ public class TankMain extends Application {
         }
         if (isWPressed && isPistolLadet) {
             Bullet bullet2 = new Bullet();
+
             // Setter bullet velocity til 5 ganger så mye som enemy
             bullet2.setVelocity(enemy.getVelocity().normalize().multiply(5));
 
