@@ -11,6 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -29,12 +31,15 @@ public class TankMain extends Application {
     private GameObjects wall3;
     private GameObjects wall4;
 
-    double pistollader = 10;
+    double pistollader = 10; //skudd per antall frames
     double pistolladerteller = pistollader;
     double pistolladertellerDelta = 1;
 
-    double playerHP = 5;
-    double enemyHP = 5;
+    double playerHP = 5; //spiller liv
+    double enemyHP = 5; //spiller2 liv
+
+    double scenewidth = 600;
+    double sceneheigth = 600;
 
     public BitSet keyboardBitSet = new BitSet();
 
@@ -50,7 +55,7 @@ public class TankMain extends Application {
     private Parent createContent() {
 
         root = new Pane();
-        root.setPrefSize(600,600);
+        root.setPrefSize(scenewidth,sceneheigth);
 
         player = new Player();
         player.setVelocity(new Point2D(1,0));
@@ -208,6 +213,33 @@ public class TankMain extends Application {
                     addGameObject(player,100,100);
                 }
             }
+        }
+
+        double maxX = scenewidth -15;
+        double minX = 0 -15;
+        double maxY = sceneheigth -15;
+        double minY = 0 - 15;
+
+        if(player.getView().getTranslateX() >= maxX) {
+            player.getView().setTranslateX(minX);
+        } else if (player.getView().getTranslateX() <= minX) {
+            player.getView().setTranslateX(maxX);
+        }
+        if(player.getView().getTranslateY() >= maxY) {
+            player.getView().setTranslateY(minY);
+        } else if (player.getView().getTranslateY() <= minY) {
+            player.getView().setTranslateY(maxY);
+        }
+
+        if(enemy.getView().getTranslateX() >= maxX) {
+            enemy.getView().setTranslateX(minX);
+        } else if (enemy.getView().getTranslateX() <= minX) {
+            enemy.getView().setTranslateX(maxX);
+        }
+        if(enemy.getView().getTranslateY() >= maxY) {
+            enemy.getView().setTranslateY(minY);
+        } else if (enemy.getView().getTranslateY() <= minY) {
+            enemy.getView().setTranslateY(maxY);
         }
 
         bullets.forEach(GameObjects::update);
