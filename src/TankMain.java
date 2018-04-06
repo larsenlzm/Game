@@ -20,7 +20,7 @@ public class TankMain extends Application {
     private Pane root;
 
     private List<GameObjects> bullets = new ArrayList<>();
-
+    private List<GameObjects> bullets2 = new ArrayList<>();
 
     private GameObjects player;
     private GameObjects enemy;
@@ -29,6 +29,11 @@ public class TankMain extends Application {
     private GameObjects wall3;
     private GameObjects wall4;
 
+    double pistollader = 10;
+    double pistolladerteller = pistollader;
+    double pistolladertellerDelta = 1;
+
+    boolean notpaused = true;
 
     public BitSet keyboardBitSet = new BitSet();
 
@@ -54,19 +59,17 @@ public class TankMain extends Application {
         enemy.setVelocity(new Point2D(1,0));
         addGameObject(enemy,100,300);
 
-        wall1 = new Wall1();
+        wall1 = new Wall();
         addGameObject(wall1,200,300);
 
-        wall2 = new Wall1();
+        wall2 = new Wall();
         addGameObject(wall2,200,150);
 
-        wall3 = new Wall1();
+        wall3 = new Wall();
         addGameObject(wall3,400,150);
 
-        wall4 = new Wall1();
+        wall4 = new Wall();
         addGameObject(wall4,400,300);
-
-
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -74,13 +77,19 @@ public class TankMain extends Application {
                 onUpdate();
             }
         };
-        timer.start();
 
+        if(notpaused) {
+            timer.start();
+        }
         return root;
     }
 
     private void addBullet(GameObjects bullet, double x, double y) {
         bullets.add(bullet);
+        addGameObject(bullet,x,y);
+    }
+    private void addBullet2(GameObjects bullet, double x, double y) {
+        bullets2.add(bullet);
         addGameObject(bullet,x,y);
     }
 
@@ -108,8 +117,8 @@ public class TankMain extends Application {
         }
     }
 
-    private static class Wall1 extends GameObjects {
-        Wall1() {
+    private static class Wall extends GameObjects {
+        Wall() {
             super(new Rectangle(20,70,Color.ORANGE));
         }
     }
@@ -121,13 +130,11 @@ public class TankMain extends Application {
 
         addInputControls(stage.getScene());
 
-
         stage.show();
 
     }
 
     private void onUpdate() {
-
 
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());
         boolean isDPressed = keyboardBitSet.get(KeyCode.D.ordinal());
@@ -136,44 +143,71 @@ public class TankMain extends Application {
         boolean isRightPressed = keyboardBitSet.get(KeyCode.RIGHT.ordinal());
         boolean isUpPressed = keyboardBitSet.get(KeyCode.UP.ordinal());
 
-            if (isLeftPressed && !isRightPressed) {
-                player.rotateLeft();
-            }
+        pistolladerteller += pistolladertellerDelta;
+        if( pistolladerteller > pistollader) {
+            pistolladerteller = pistollader;
+        }
 
-            else if ( !isLeftPressed && isRightPressed) {
-                player.rotateRight();
-            }
+        boolean isPistolLadet = pistolladerteller >= pistollader;
 
-            if ( isAPressed && !isDPressed) {
-                enemy.rotateLeft();
-            }
+        if (isUpPressed && isPistolLadet) {
+            Bullet bullet = new Bullet();
+            // Setter bullet velocity til 5 ganger så mye som player
+            bullet.setVelocity(player.getVelocity().normalize().multiply(5));
 
-            else if ( !isAPressed && isDPressed) {
-                enemy.rotateRight();
-            }
+            //Adder bulleten til gameworld og posisjonen er da samme som player
+            addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
+            pistolladerteller = 0;
+        }
+        if (isWPressed && isPistolLadet) {
+            Bullet bullet2 = new Bullet();
+            // Setter bullet velocity til 5 ganger så mye som enemy
+            bullet2.setVelocity(enemy.getVelocity().normalize().multiply(5));
 
+            //Adder bulleten til gameworld og posisjonen er da samme som enemy
+            addBullet2(bullet2, enemy.getView().getTranslateX(), enemy.getView().getTranslateY());
+            pistolladerteller = 0;
+        }
+
+        if (isLeftPressed && !isRightPressed) {
+            player.rotateLeft();
+        } else if ( !isLeftPressed && isRightPressed) {
+            player.rotateRight();
+        }
+
+<<<<<<< HEAD
             if (isUpPressed) {
                 Bullet bullet = new Bullet();
                 // Setter bullet velocity til 5 ganger så mye som player
                 bullet.setVelocity(player.getVelocity().normalize().multiply(5));
                 //Adder bulleten til gameworld og posisjonen e r da samme som player
                 addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
-            }
-            if (isWPressed) {
-                Bullet bullet2 = new Bullet();
-                // Setter bullet velocity til 5 ganger så mye som player
-                bullet2.setVelocity(enemy.getVelocity().normalize().multiply(5));
-                //Adder bulleten til gameworld og posisjonen er da samme som player
-                addBullet(bullet2, enemy.getView().getTranslateX(), enemy.getView().getTranslateY());
-            }
+=======
+        if ( isAPressed && !isDPressed) {
+            enemy.rotateLeft();
+        } else if ( !isAPressed && isDPressed) {
+            enemy.rotateRight();
+        }
 
-        bullets.removeIf(GameObjects::isDead);
+        for (int i = 0; i < bullets2.size(); i++){
+            if(bullets2.get(i).isColliding(player)) {
+                addGameObject(player,500,500);
+>>>>>>> 7bd9f76881f5cb5b4140791a5e4b9601ec41cea4
+            }
+        }
+        for (int i = 0; i < bullets.size(); i++){
+            if(bullets.get(i).isColliding(enemy)) {
+                addGameObject(enemy,100,100);
+                //hvordan fjerner man kulen? midlertidig bare legger den utenfor kartet
+                bullets.remove(i);
+            }
+        }
 
         bullets.forEach(GameObjects::update);
+        bullets2.forEach(GameObjects::update);
 
         player.update();
         enemy.update();
-        //Slett denne for å fjerne Røde dotter
 
     }
 
