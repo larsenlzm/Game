@@ -41,6 +41,11 @@ public class TankMain extends Application {
     double scenewidth = 600;
     double sceneheigth = 600;
 
+    double gammelPx;
+    double gammelPy;
+    double gammelEx;
+    double gammelEy;
+
     public BitSet keyboardBitSet = new BitSet();
 
     private void addInputControls(Scene scene) {
@@ -66,16 +71,16 @@ public class TankMain extends Application {
         addGameObject(enemy,100,500);
 
         wall1 = new Wall();
-        addGameObject(wall1,200,300);
+        addGameObject(wall1,150,375);
 
         wall2 = new Wall();
-        addGameObject(wall2,200,150);
+        addGameObject(wall2,150,100);
 
         wall3 = new Wall();
-        addGameObject(wall3,400,150);
+        addGameObject(wall3,400,100);
 
         wall4 = new Wall();
-        addGameObject(wall4,400,300);
+        addGameObject(wall4,400,375);
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -113,7 +118,7 @@ public class TankMain extends Application {
 
     private static class Wall extends GameObjects {
         Wall() {
-            super(new Rectangle(20,70,Color.ORANGE));
+            super(new Rectangle(25,100,Color.ORANGE));
         }
     }
 
@@ -136,6 +141,11 @@ public class TankMain extends Application {
         boolean isLeftPressed = keyboardBitSet.get(KeyCode.LEFT.ordinal());
         boolean isRightPressed = keyboardBitSet.get(KeyCode.RIGHT.ordinal());
         boolean isUpPressed = keyboardBitSet.get(KeyCode.UP.ordinal());
+
+        double maxX = scenewidth - (player.getView().getLayoutBounds().getHeight() / 2);
+        double minX = 0 - (player.getView().getLayoutBounds().getHeight() / 2);
+        double maxY = sceneheigth -(player.getView().getLayoutBounds().getHeight() / 2);
+        double minY = 0 - (player.getView().getLayoutBounds().getHeight() / 2);
 
         pistolladerteller += pistolladertellerDelta;
         if( pistolladerteller > pistollader) {
@@ -179,9 +189,8 @@ public class TankMain extends Application {
 
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(enemy)) {
-                bullets.get(i).getView().setTranslateX(-100);
-                bullets.get(i).getView().setTranslateY(-100);
-                bullets.get(i).setVelocity(new Point2D(0,0));
+                root.getChildren().remove(bullets.get(i).getView());
+                bullets.remove(i);
                 if (enemyHP != 0) {
                     enemyHP = enemyHP - 1;
                 } else {
@@ -189,15 +198,26 @@ public class TankMain extends Application {
                     enemy.getView().setTranslateX(100);
                     enemy.getView().setTranslateY(500);
                 }
-
+            } //sjekker om kulene treffer veggene
+            else if(bullets.get(i).isColliding(wall1)) {
+                root.getChildren().remove(bullets.get(i).getView());
+            } else if(bullets.get(i).isColliding(wall2)) {
+                root.getChildren().remove(bullets.get(i).getView());
+            } else if(bullets.get(i).isColliding(wall3)) {
+                root.getChildren().remove(bullets.get(i).getView());
+            } else if(bullets.get(i).isColliding(wall4)) {
+                root.getChildren().remove(bullets.get(i).getView());
+            } else if (bullets.get(i).getView().getTranslateY() <= minY  || bullets.get(i).getView().getTranslateY() >= maxY) {
+                root.getChildren().remove(bullets.get(i).getView());
+            } else if (bullets.get(i).getView().getTranslateX() <= minX  || bullets.get(i).getView().getTranslateX() >= maxX) {
+                root.getChildren().remove(bullets.get(i).getView());
             }
         }
 
         for (int i = 0; i < bullets2.size(); i++){
             if(bullets2.get(i).isColliding(player)) {
-                bullets2.get(i).getView().setTranslateX(-100);
-                bullets2.get(i).getView().setTranslateY(-100);
-                bullets2.get(i).setVelocity(new Point2D(0,0));
+                root.getChildren().remove(bullets2.get(i).getView());
+                bullets2.remove(i);
                 if(playerHP != 0){
                     playerHP = playerHP - 1;
                 } else {
@@ -205,19 +225,36 @@ public class TankMain extends Application {
                     player.getView().setTranslateX(100);
                     player.getView().setTranslateY(100);
                 }
+            } //sjekker om kulene treffer veggene
+            else if(bullets2.get(i).isColliding(wall1)) {
+                root.getChildren().remove(bullets2.get(i).getView());
+            } else if(bullets2.get(i).isColliding(wall2)) {
+                root.getChildren().remove(bullets2.get(i).getView());
+            } else if(bullets2.get(i).isColliding(wall3)) {
+                root.getChildren().remove(bullets2.get(i).getView());
+            } else if(bullets2.get(i).isColliding(wall4)) {
+                root.getChildren().remove(bullets2.get(i).getView());
+            } else if (bullets2.get(i).getView().getTranslateY() <= minY  || bullets2.get(i).getView().getTranslateY() >= maxY) {
+                root.getChildren().remove(bullets2.get(i).getView());
+            } else if (bullets2.get(i).getView().getTranslateX() <= minX  || bullets2.get(i).getView().getTranslateX() >= maxX) {
+                root.getChildren().remove(bullets2.get(i).getView());
             }
         }
 
-        double maxX = scenewidth -15;
-        double minX = 0 -15;
-        double maxY = sceneheigth -15;
-        double minY = 0 - 15;
+        if (player.isColliding(wall2)) {
+            gammelPx = player.getView().getTranslateX();
+            gammelPy = player.getView().getTranslateY();
+            player.getView().setTranslateX(gammelPx);
+            player.getView().setTranslateY(gammelPy);
+        }
 
+        // går for langt til høyre eller venstre så kommer du ut på andre siden
         if(player.getView().getTranslateX() >= maxX) {
             player.getView().setTranslateX(minX);
         } else if (player.getView().getTranslateX() <= minX) {
             player.getView().setTranslateX(maxX);
         }
+        // går for langt opp eller ned så kommer du ut på andre siden
         if(player.getView().getTranslateY() >= maxY) {
             player.getView().setTranslateY(minY);
         } else if (player.getView().getTranslateY() <= minY) {
@@ -237,6 +274,8 @@ public class TankMain extends Application {
             enemy.getView().setTranslateY(maxY);
         }
 
+
+        //oppdaterer shiten
         bullets.forEach(GameObjects::update);
         bullets2.forEach(GameObjects::update);
 
