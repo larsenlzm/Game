@@ -41,11 +41,6 @@ public class TankMain extends Application {
     double scenewidth = 600;
     double sceneheigth = 600;
 
-    double gammelPx;
-    double gammelPy;
-    double gammelEx;
-    double gammelEy;
-
     public BitSet keyboardBitSet = new BitSet();
 
     private void addInputControls(Scene scene) {
@@ -71,16 +66,16 @@ public class TankMain extends Application {
         addGameObject(enemy,100,500);
 
         wall1 = new Wall();
-        addGameObject(wall1,150,375);
+        addGameObject(wall1,150,100);
 
         wall2 = new Wall();
-        addGameObject(wall2,150,100);
+        addGameObject(wall2,425,100);
 
         wall3 = new Wall();
-        addGameObject(wall3,400,100);
+        addGameObject(wall3,150,375);
 
         wall4 = new Wall();
-        addGameObject(wall4,400,375);
+        addGameObject(wall4,425,375);
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -147,6 +142,11 @@ public class TankMain extends Application {
         double maxY = sceneheigth -(player.getView().getLayoutBounds().getHeight() / 2);
         double minY = 0 - (player.getView().getLayoutBounds().getHeight() / 2);
 
+        double playerX = player.getView().getTranslateX();
+        double playerY = player.getView().getTranslateY();
+        double enemyX = enemy.getView().getTranslateX();
+        double enemyY = enemy.getView().getTranslateY();
+
         pistolladerteller += pistolladertellerDelta;
         if( pistolladerteller > pistollader) {
             pistolladerteller = pistollader;
@@ -158,20 +158,20 @@ public class TankMain extends Application {
             Bullet bullet = new Bullet();
 
             // Setter bullet velocity til 5 ganger så mye som player
-            bullet.setVelocity(player.getVelocity().normalize().multiply(5));
+            bullet.setVelocity(new Point2D(Math.cos(Math.toRadians(player.getRotate()))*5,Math.sin(Math.toRadians(player.getRotate()))*5));
 
             //Adder bulleten til gameworld og posisjonen er da samme som player
-            addBullet(bullet, player.getView().getTranslateX(), player.getView().getTranslateY());
+            addBullet(bullet, playerX, playerY);
             pistolladerteller = 0;
         }
         if (isWPressed && isPistolLadet) {
             Bullet bullet2 = new Bullet();
 
             // Setter bullet velocity til 5 ganger så mye som enemy
-            bullet2.setVelocity(enemy.getVelocity().normalize().multiply(5));
+            bullet2.setVelocity(new Point2D(Math.cos(Math.toRadians(enemy.getRotate()))*5,Math.sin(Math.toRadians(enemy.getRotate()))*5));
 
             //Adder bulleten til gameworld og posisjonen er da samme som enemy
-            addBullet2(bullet2, enemy.getView().getTranslateX(), enemy.getView().getTranslateY());
+            addBullet2(bullet2, enemyX, enemyY);
             pistolladerteller = 0;
         }
 
@@ -186,7 +186,7 @@ public class TankMain extends Application {
         } else if ( !isAPressed && isDPressed) {
             enemy.rotateRight();
         }
-
+        //behandler kulekollisjon
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(enemy)) {
                 root.getChildren().remove(bullets.get(i).getView());
@@ -213,7 +213,7 @@ public class TankMain extends Application {
                 root.getChildren().remove(bullets.get(i).getView());
             }
         }
-
+        //behandler kulekollisjon
         for (int i = 0; i < bullets2.size(); i++){
             if(bullets2.get(i).isColliding(player)) {
                 root.getChildren().remove(bullets2.get(i).getView());
@@ -241,39 +241,31 @@ public class TankMain extends Application {
             }
         }
 
-        if (player.isColliding(wall2)) {
-            gammelPx = player.getView().getTranslateX();
-            gammelPy = player.getView().getTranslateY();
-            player.getView().setTranslateX(gammelPx);
-            player.getView().setTranslateY(gammelPy);
-        }
-
         // går for langt til høyre eller venstre så kommer du ut på andre siden
-        if(player.getView().getTranslateX() >= maxX) {
+        if(playerX >= maxX) {
             player.getView().setTranslateX(minX);
-        } else if (player.getView().getTranslateX() <= minX) {
+        } else if (playerX <= minX) {
             player.getView().setTranslateX(maxX);
         }
         // går for langt opp eller ned så kommer du ut på andre siden
-        if(player.getView().getTranslateY() >= maxY) {
+        if(playerY >= maxY) {
             player.getView().setTranslateY(minY);
-        } else if (player.getView().getTranslateY() <= minY) {
+        } else if (playerY <= minY) {
             player.getView().setTranslateY(maxY);
         }
 
         // går for langt til høyre eller venstre så kommer du ut på andre siden
-        if(enemy.getView().getTranslateX() >= maxX) {
+        if(enemyX >= maxX) {
             enemy.getView().setTranslateX(minX);
-        } else if (enemy.getView().getTranslateX() <= minX) {
+        } else if (enemyX <= minX) {
             enemy.getView().setTranslateX(maxX);
         }
         // går for langt opp eller ned så kommer du ut på andre siden
-        if(enemy.getView().getTranslateY() >= maxY) {
+        if(enemyY >= maxY) {
             enemy.getView().setTranslateY(minY);
-        } else if (enemy.getView().getTranslateY() <= minY) {
+        } else if (enemyY <= minY) {
             enemy.getView().setTranslateY(maxY);
         }
-
 
         //oppdaterer shiten
         bullets.forEach(GameObjects::update);
