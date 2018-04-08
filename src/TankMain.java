@@ -241,25 +241,66 @@ public class TankMain extends Application {
             }
         }
 
-        //hitbox for vegg1 for spiller 1
+        //Hitbox for vegg1 for spiller 1
+
         if(playerX >= 110 && playerX <= 111 && playerY >= 60 && playerY <= 200){
             player.getView().setTranslateX(110);
-        } else if(playerX >= 175 && playerX <= 176 && playerY >= 60 && playerY <= 200){
+        }
+        else if(playerX >= 175 && playerX <= 176 && playerY >= 60 && playerY <= 200){
             player.getView().setTranslateX(176);
-        } else if(playerX >= 110 && playerX <= 176 && playerY >= 60 && playerY <= 61){
+        }
+        else if(playerX >= 110 && playerX <= 176 && playerY >= 60 && playerY <= 61){
             player.getView().setTranslateY(60);
-        } else if(playerX >= 110 && playerX <= 176 && playerY >= 199 && playerY <= 200){
+        }
+        else if(playerX >= 110 && playerX <= 176 && playerY >= 199 && playerY <= 200){
             player.getView().setTranslateY(200);
         }
+
+        //Hitbox for vegg1 for spiller 2
+
         if(enemyX >= 110 && enemyX <= 111 && enemyY >= 60 && enemyY <= 200){
             enemy.getView().setTranslateX(110);
-        } else if(enemyX >= 175 && enemyX <= 176 && enemyY >= 60 && enemyY <= 200){
+        }
+        else if(enemyX >= 175 && enemyX <= 176 && enemyY >= 60 && enemyY <= 200){
             enemy.getView().setTranslateX(176);
-        } else if(enemyX >= 110 && enemyX <= 176 && enemyY >= 60 && enemyY <= 61){
+        }
+        else if(enemyX >= 110 && enemyX <= 176 && enemyY >= 60 && enemyY <= 61){
             enemy.getView().setTranslateY(60);
-        } else if(enemyX >= 110 && enemyX <= 176 && enemyY >= 199 && enemyY <= 200){
+        }
+        else if(enemyX >= 110 && enemyX <= 176 && enemyY >= 199 && enemyY <= 200){
             enemy.getView().setTranslateY(200);
         }
+
+        //Hitbox for vegg2 for spiller 1
+
+        if(playerX >= 385 && playerX <= 386 && playerY >= 60 && playerY <= 200) {
+            player.getView().setTranslateX(385);
+        }
+        else if(playerX >= 450 && playerX <= 451 && playerY >= 60 && playerY <= 200) {
+            player.getView().setTranslateX(451);
+        }
+        else if(playerX >= 385 && playerX <= 451 && playerY >= 60 && playerY <= 61){
+            player.getView().setTranslateY(60);
+        }
+        else if(playerX >= 385 && playerX <= 451 && playerY >= 199 && playerY <= 200){
+            player.getView().setTranslateY(200);
+        }
+
+        //Hitbox for vegg2 for spiller 2
+
+        if(enemyX >= 385 && enemyX <= 386 && enemyY >= 60 && enemyY <= 200) {
+            enemy.getView().setTranslateX(385);
+        }
+        else if(enemyX >= 450 && enemyX <= 451 && enemyY >= 60 && enemyY <= 200) {
+            enemy.getView().setTranslateX(451);
+        }
+        else if(enemyX >= 385 && enemyX <= 451 && enemyY >= 60 && enemyY <= 61){
+            enemy.getView().setTranslateY(60);
+        }
+        else if(enemyX >= 385 && enemyX <= 451 && enemyY >= 199 && enemyY <= 200){
+            enemy.getView().setTranslateY(200);
+        }
+
 
         // går for langt til høyre eller venstre så kommer du ut på andre siden
         if(playerX >= maxX) {
