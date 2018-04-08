@@ -4,11 +4,9 @@ public class Player extends GameObjects {
 
     private int hp;
 
-    Player(String sprite, int hp) {
+    Player(String sprite, int hp, double x, double y) {
         super(new ImageView(sprite));
         this.hp = hp;
-    }
-    public void addPlayer(double x, double y) {
         getView().setTranslateX(x);
         getView().setTranslateY(y);
     }

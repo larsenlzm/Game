@@ -50,30 +50,24 @@ public class TankMain extends Application {
         root = new Pane();
         root.setPrefSize(scenewidth,sceneheigth);
 
-        player = new Player("tank1.png", 5);
+        player = new Player("tank1.png", 5, 50,50);
         player.setVelocity(new Point2D(1,0));
-        player.addPlayer(100,100);
         root.getChildren().add(player.getView()); //noen måte å få denne inn i addGameObjects?
 
-        enemy = new Player("tank2.png", 5);
+        enemy = new Player("tank2.png", 5, 50,500);
         enemy.setVelocity(new Point2D(1,0));
-        enemy.addPlayer(100,500);
         root.getChildren().add(enemy.getView()); //noen måte å få denne inn i addGameObjects?
 
-        Wall vegg = new Wall(25,100,Color.ORANGE);
-        vegg.addWall(150,100);
+        Wall vegg = new Wall(25,100,Color.ORANGE,150,100);
         root.getChildren().add(vegg.getView());
         walls.add(vegg);
-        Wall vegg2 = new Wall(25,100,Color.ORANGE);
-        vegg2.addWall(425,100);
+        Wall vegg2 = new Wall(25,100,Color.ORANGE,425,100);
         root.getChildren().add(vegg2.getView());
         walls.add(vegg2);
-        Wall vegg3 = new Wall(25,100,Color.ORANGE);
-        vegg3.addWall(150,375);
+        Wall vegg3 = new Wall(25,100,Color.ORANGE,150,375);
         walls.add(vegg3);
         root.getChildren().add(vegg3.getView());
-        Wall vegg4 = new Wall(25,100,Color.ORANGE);
-        vegg4.addWall(425,375);
+        Wall vegg4 = new Wall(25,100,Color.ORANGE,425,375);
         walls.add(vegg4);
         root.getChildren().add(vegg4.getView());
 
