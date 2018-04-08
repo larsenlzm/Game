@@ -58,4 +58,22 @@ public class GameObjects {
     public boolean isColliding(GameObjects other) {
         return getView().getBoundsInParent().intersects(other.getView().getBoundsInParent());
     }
+    public double getWidth() {
+        return getView().getLayoutBounds().getWidth();
+    }
+    public double getHeigth() {
+         return getView().getLayoutBounds().getHeight();
+    }
+    public double getMaxX() {
+        return getView().getBoundsInParent().getMaxX();
+    }
+    public double getMinX() {
+        return getView().getBoundsInParent().getMinX();
+    }
+    public double getMaxY() {
+        return getView().getBoundsInParent().getMaxY();
+    }
+    public double getMinY() {
+        return getView().getBoundsInParent().getMinY();
+    }
 }

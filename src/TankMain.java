@@ -21,22 +21,15 @@ public class TankMain extends Application {
 
     private Pane root;
 
-    private List<GameObjects> bullets = new ArrayList<>();
-    private List<GameObjects> bullets2 = new ArrayList<>();
-
-    private GameObjects player;
-    private GameObjects enemy;
-    private GameObjects wall1;
-    private GameObjects wall2;
-    private GameObjects wall3;
-    private GameObjects wall4;
+    private List<Bullet> bullets = new ArrayList<>();
+    private List<Bullet> bullets2 = new ArrayList<>();
+    private List<Wall> walls = new ArrayList<>();
+    private Player player;
+    private Player enemy;
 
     double pistollader = 10; //skudd per antall frames
     double pistolladerteller = pistollader;
     double pistolladertellerDelta = 1;
-
-    double playerHP = 5; //spiller liv
-    double enemyHP = 5; //spiller2 liv
 
     double scenewidth = 600;
     double sceneheigth = 600;
@@ -57,25 +50,32 @@ public class TankMain extends Application {
         root = new Pane();
         root.setPrefSize(scenewidth,sceneheigth);
 
-        player = new Player();
+        player = new Player("tank1.png", 5);
         player.setVelocity(new Point2D(1,0));
-        addGameObject(player,100,100);
+        player.addPlayer(100,100);
+        root.getChildren().add(player.getView()); //noen måte å få denne inn i addGameObjects?
 
-        enemy = new Enemy();
+        enemy = new Player("tank2.png", 5);
         enemy.setVelocity(new Point2D(1,0));
-        addGameObject(enemy,100,500);
+        enemy.addPlayer(100,500);
+        root.getChildren().add(enemy.getView()); //noen måte å få denne inn i addGameObjects?
 
-        wall1 = new Wall();
-        addGameObject(wall1,150,100);
-
-        wall2 = new Wall();
-        addGameObject(wall2,425,100);
-
-        wall3 = new Wall();
-        addGameObject(wall3,150,375);
-
-        wall4 = new Wall();
-        addGameObject(wall4,425,375);
+        Wall vegg = new Wall(25,100,Color.ORANGE);
+        vegg.addWall(150,100);
+        root.getChildren().add(vegg.getView());
+        walls.add(vegg);
+        Wall vegg2 = new Wall(25,100,Color.ORANGE);
+        vegg2.addWall(425,100);
+        root.getChildren().add(vegg2.getView());
+        walls.add(vegg2);
+        Wall vegg3 = new Wall(25,100,Color.ORANGE);
+        vegg3.addWall(150,375);
+        walls.add(vegg3);
+        root.getChildren().add(vegg3.getView());
+        Wall vegg4 = new Wall(25,100,Color.ORANGE);
+        vegg4.addWall(425,375);
+        walls.add(vegg4);
+        root.getChildren().add(vegg4.getView());
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -87,34 +87,6 @@ public class TankMain extends Application {
         timer.start();
 
         return root;
-    }
-
-    private void addBullet(GameObjects bullet, double x, double y) {
-        bullets.add(bullet);
-        addGameObject(bullet,x,y);
-    }
-    private void addBullet2(GameObjects bullet, double x, double y) {
-        bullets2.add(bullet);
-        addGameObject(bullet,x,y);
-    }
-
-    private void addGameObject(GameObjects object, double x, double y) {
-        object.getView().setTranslateX(x);
-        object.getView().setTranslateY(y);
-        root.getChildren().add(object.getView());
-    }
-
-
-    private static class Bullet extends GameObjects {
-        Bullet() {
-            super(new Circle(5,5,5,Color.BROWN));
-        }
-    }
-
-    private static class Wall extends GameObjects {
-        Wall() {
-            super(new Rectangle(25,100,Color.ORANGE));
-        }
     }
 
     @Override
@@ -137,15 +109,10 @@ public class TankMain extends Application {
         boolean isRightPressed = keyboardBitSet.get(KeyCode.RIGHT.ordinal());
         boolean isUpPressed = keyboardBitSet.get(KeyCode.UP.ordinal());
 
-        double maxX = scenewidth - (player.getView().getLayoutBounds().getHeight() / 2);
-        double minX = 0 - (player.getView().getLayoutBounds().getHeight() / 2);
-        double maxY = sceneheigth -(player.getView().getLayoutBounds().getHeight() / 2);
-        double minY = 0 - (player.getView().getLayoutBounds().getHeight() / 2);
-
-        double playerX = player.getView().getTranslateX();
-        double playerY = player.getView().getTranslateY();
-        double enemyX = enemy.getView().getTranslateX();
-        double enemyY = enemy.getView().getTranslateY();
+        double maxX = scenewidth - (player.getWidth() / 2);
+        double minX = 0 - (player.getWidth() / 2);
+        double maxY = sceneheigth -(player.getHeigth() / 2);
+        double minY = 0 - (player.getHeigth() / 2);
 
         pistolladerteller += pistolladertellerDelta;
         if( pistolladerteller > pistollader) {
@@ -156,22 +123,25 @@ public class TankMain extends Application {
 
         if (isUpPressed && isPistolLadet) {
             Bullet bullet = new Bullet();
-
             // Setter bullet velocity til 5 ganger så mye som player
             bullet.setVelocity(new Point2D(Math.cos(Math.toRadians(player.getRotate()))*5,Math.sin(Math.toRadians(player.getRotate()))*5));
-
             //Adder bulleten til gameworld og posisjonen er da samme som player
-            addBullet(bullet, playerX, playerY);
+            bullets.add(bullet);
+            bullet.addBullet(player.getX(),player.getY());
+            root.getChildren().add(bullet.getView());
+            //resetter pistolklokka
             pistolladerteller = 0;
         }
+
         if (isWPressed && isPistolLadet) {
             Bullet bullet2 = new Bullet();
-
             // Setter bullet velocity til 5 ganger så mye som enemy
             bullet2.setVelocity(new Point2D(Math.cos(Math.toRadians(enemy.getRotate()))*5,Math.sin(Math.toRadians(enemy.getRotate()))*5));
-
             //Adder bulleten til gameworld og posisjonen er da samme som enemy
-            addBullet2(bullet2, enemyX, enemyY);
+            bullets2.add(bullet2);
+            bullet2.addBullet(enemy.getX(),enemy.getY());
+            root.getChildren().add(bullet2.getView());
+            //resetter pistolklokka
             pistolladerteller = 0;
         }
 
@@ -186,155 +156,112 @@ public class TankMain extends Application {
         } else if ( !isAPressed && isDPressed) {
             enemy.rotateRight();
         }
-        //behandler kulekollisjon
+        //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(enemy)) {
                 root.getChildren().remove(bullets.get(i).getView());
                 bullets.remove(i);
-                if (enemyHP != 0) {
-                    enemyHP = enemyHP - 1;
+                if (enemy.getHp() != 0) {
+                    enemy.setHp(enemy.getHp() - 1);
                 } else {
-                    enemyHP = 5;
+                    enemy.setHp(5);
                     enemy.getView().setTranslateX(100);
                     enemy.getView().setTranslateY(500);
                 }
-            } //sjekker om kulene treffer veggene
-            else if(bullets.get(i).isColliding(wall1)) {
-                root.getChildren().remove(bullets.get(i).getView());
-            } else if(bullets.get(i).isColliding(wall2)) {
-                root.getChildren().remove(bullets.get(i).getView());
-            } else if(bullets.get(i).isColliding(wall3)) {
-                root.getChildren().remove(bullets.get(i).getView());
-            } else if(bullets.get(i).isColliding(wall4)) {
-                root.getChildren().remove(bullets.get(i).getView());
-            } else if (bullets.get(i).getView().getTranslateY() <= minY  || bullets.get(i).getView().getTranslateY() >= maxY) {
+            } //sjekker om kulene treffer utkant
+            else if (bullets.get(i).getView().getTranslateY() <= minY  || bullets.get(i).getView().getTranslateY() >= maxY) {
                 root.getChildren().remove(bullets.get(i).getView());
             } else if (bullets.get(i).getView().getTranslateX() <= minX  || bullets.get(i).getView().getTranslateX() >= maxX) {
                 root.getChildren().remove(bullets.get(i).getView());
+            } else {
+                for(int j = 0; j < walls.size(); j++) {
+                    if (bullets.get(i).isColliding(walls.get(j))){
+                        root.getChildren().remove(bullets.get(i).getView());
+                    }
+                }
             }
         }
-        //behandler kulekollisjon
+        //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets2.size(); i++){
             if(bullets2.get(i).isColliding(player)) {
                 root.getChildren().remove(bullets2.get(i).getView());
                 bullets2.remove(i);
-                if(playerHP != 0){
-                    playerHP = playerHP - 1;
+                if(player.getHp() != 0){
+                    player.setHp(player.getHp() - 1);
                 } else {
-                    playerHP = 5;
+                    player.setHp(5);
                     player.getView().setTranslateX(100);
                     player.getView().setTranslateY(100);
                 }
-            } //sjekker om kulene treffer veggene
-            else if(bullets2.get(i).isColliding(wall1)) {
-                root.getChildren().remove(bullets2.get(i).getView());
-            } else if(bullets2.get(i).isColliding(wall2)) {
-                root.getChildren().remove(bullets2.get(i).getView());
-            } else if(bullets2.get(i).isColliding(wall3)) {
-                root.getChildren().remove(bullets2.get(i).getView());
-            } else if(bullets2.get(i).isColliding(wall4)) {
-                root.getChildren().remove(bullets2.get(i).getView());
-            } else if (bullets2.get(i).getView().getTranslateY() <= minY  || bullets2.get(i).getView().getTranslateY() >= maxY) {
+            } //sjekker om kulene treffer utkant
+            else if (bullets2.get(i).getView().getTranslateY() <= minY  || bullets2.get(i).getView().getTranslateY() >= maxY) {
                 root.getChildren().remove(bullets2.get(i).getView());
             } else if (bullets2.get(i).getView().getTranslateX() <= minX  || bullets2.get(i).getView().getTranslateX() >= maxX) {
                 root.getChildren().remove(bullets2.get(i).getView());
+            } else {
+                for(int j = 0; j < walls.size(); j++) {
+                    if (bullets2.get(i).isColliding(walls.get(j))){
+                        root.getChildren().remove(bullets2.get(i).getView());
+                    }
+                }
             }
         }
-
-        //Hitbox for vegg1 for spiller 1
-
-        if(playerX >= 110 && playerX <= 111 && playerY >= 60 && playerY <= 200){
-            player.getView().setTranslateX(110);
+        //kollisjon med vegg spiller 1
+        for(int i = 0; i<walls.size(); i++) {
+            if (player.getX() >= walls.get(i).getMinX() - player.getWidth() && player.getX() <= walls.get(i).getMinX() - player.getWidth() + 1 && player.getY() >= walls.get(i).getMinY() - player.getWidth() && player.getY() <= walls.get(i).getMaxY()) {
+                player.getView().setTranslateX(walls.get(i).getMinX() - player.getWidth());
+            } else if (player.getX() >= walls.get(i).getMaxX() - 1 && player.getX() <= walls.get(i).getMaxX() && player.getY() >= walls.get(i).getMinY() - player.getWidth() && player.getY() <= walls.get(i).getMaxY()) {
+                player.getView().setTranslateX(walls.get(i).getMaxX());
+            } else if (player.getX() >= walls.get(i).getMinX() - player.getWidth() && player.getX() <= walls.get(i).getMaxX() && player.getY() >= walls.get(i).getMinY() - player.getWidth() && player.getY() <= walls.get(i).getMinY() - player.getWidth() + 1) {
+                player.getView().setTranslateY(walls.get(i).getMinY() - player.getWidth());
+            } else if (player.getX() >= walls.get(i).getMinX() - player.getWidth() && player.getX() <= walls.get(i).getMaxX() && player.getY() >= walls.get(i).getMaxY() - 1 && player.getY() <= walls.get(i).getMaxY()) {
+                player.getView().setTranslateY(walls.get(i).getMaxY());
+            }
         }
-        else if(playerX >= 175 && playerX <= 176 && playerY >= 60 && playerY <= 200){
-            player.getView().setTranslateX(176);
+        //kollisjon med vegg spiller 2
+        for(int i = 0; i<walls.size(); i++) {
+            if (enemy.getX() >= walls.get(i).getMinX() - enemy.getWidth() && enemy.getX() <= walls.get(i).getMinX() - enemy.getWidth() + 1 && enemy.getY() >= walls.get(i).getMinY() - enemy.getWidth() && enemy.getY() <= walls.get(i).getMaxY()) {
+                enemy.getView().setTranslateX(walls.get(i).getMinX() - enemy.getWidth());
+            } else if (enemy.getX() >= walls.get(i).getMaxX() - 1 && enemy.getX() <= walls.get(i).getMaxX() && enemy.getY() >= walls.get(i).getMinY() - enemy.getWidth() && enemy.getY() <= walls.get(i).getMaxY()) {
+                enemy.getView().setTranslateX(walls.get(i).getMaxX());
+            } else if (enemy.getX() >= walls.get(i).getMinX() - enemy.getWidth() && enemy.getX() <= walls.get(i).getMaxX() && enemy.getY() >= walls.get(i).getMinY() - enemy.getWidth() && enemy.getY() <= walls.get(i).getMinY() - enemy.getWidth() + 1) {
+                enemy.getView().setTranslateY(walls.get(i).getMinY() - enemy.getWidth());
+            } else if (enemy.getX() >= walls.get(i).getMinX() - enemy.getWidth() && enemy.getX() <= walls.get(i).getMaxX() && enemy.getY() >= walls.get(i).getMaxY() - 1 && enemy.getY() <= walls.get(i).getMaxY()) {
+                enemy.getView().setTranslateY(walls.get(i).getMaxY());
+            }
         }
-        else if(playerX >= 110 && playerX <= 176 && playerY >= 60 && playerY <= 61){
-            player.getView().setTranslateY(60);
-        }
-        else if(playerX >= 110 && playerX <= 176 && playerY >= 199 && playerY <= 200){
-            player.getView().setTranslateY(200);
-        }
-
-        //Hitbox for vegg1 for spiller 2
-
-        if(enemyX >= 110 && enemyX <= 111 && enemyY >= 60 && enemyY <= 200){
-            enemy.getView().setTranslateX(110);
-        }
-        else if(enemyX >= 175 && enemyX <= 176 && enemyY >= 60 && enemyY <= 200){
-            enemy.getView().setTranslateX(176);
-        }
-        else if(enemyX >= 110 && enemyX <= 176 && enemyY >= 60 && enemyY <= 61){
-            enemy.getView().setTranslateY(60);
-        }
-        else if(enemyX >= 110 && enemyX <= 176 && enemyY >= 199 && enemyY <= 200){
-            enemy.getView().setTranslateY(200);
-        }
-
-        //Hitbox for vegg2 for spiller 1
-
-        if(playerX >= 385 && playerX <= 386 && playerY >= 60 && playerY <= 200) {
-            player.getView().setTranslateX(385);
-        }
-        else if(playerX >= 450 && playerX <= 451 && playerY >= 60 && playerY <= 200) {
-            player.getView().setTranslateX(451);
-        }
-        else if(playerX >= 385 && playerX <= 451 && playerY >= 60 && playerY <= 61){
-            player.getView().setTranslateY(60);
-        }
-        else if(playerX >= 385 && playerX <= 451 && playerY >= 199 && playerY <= 200){
-            player.getView().setTranslateY(200);
-        }
-
-        //Hitbox for vegg2 for spiller 2
-
-        if(enemyX >= 385 && enemyX <= 386 && enemyY >= 60 && enemyY <= 200) {
-            enemy.getView().setTranslateX(385);
-        }
-        else if(enemyX >= 450 && enemyX <= 451 && enemyY >= 60 && enemyY <= 200) {
-            enemy.getView().setTranslateX(451);
-        }
-        else if(enemyX >= 385 && enemyX <= 451 && enemyY >= 60 && enemyY <= 61){
-            enemy.getView().setTranslateY(60);
-        }
-        else if(enemyX >= 385 && enemyX <= 451 && enemyY >= 199 && enemyY <= 200){
-            enemy.getView().setTranslateY(200);
-        }
-
-
         // går for langt til høyre eller venstre så kommer du ut på andre siden
-        if(playerX >= maxX) {
+        if(player.getX() >= maxX) {
             player.getView().setTranslateX(minX);
-        } else if (playerX <= minX) {
+        } else if (player.getX() <= minX) {
             player.getView().setTranslateX(maxX);
         }
         // går for langt opp eller ned så kommer du ut på andre siden
-        if(playerY >= maxY) {
+        if(player.getY() >= maxY) {
             player.getView().setTranslateY(minY);
-        } else if (playerY <= minY) {
+        } else if (player.getY() <= minY) {
             player.getView().setTranslateY(maxY);
         }
-
         // går for langt til høyre eller venstre så kommer du ut på andre siden
-        if(enemyX >= maxX) {
+        if(enemy.getX() >= maxX) {
             enemy.getView().setTranslateX(minX);
-        } else if (enemyX <= minX) {
+        } else if (enemy.getX() <= minX) {
             enemy.getView().setTranslateX(maxX);
         }
         // går for langt opp eller ned så kommer du ut på andre siden
-        if(enemyY >= maxY) {
+        if(enemy.getY() >= maxY) {
             enemy.getView().setTranslateY(minY);
-        } else if (enemyY <= minY) {
+        } else if (enemy.getY() <= minY) {
             enemy.getView().setTranslateY(maxY);
         }
+        //kulekollisjon med vegg
 
-        //oppdaterer shiten
-        bullets.forEach(GameObjects::update);
-        bullets2.forEach(GameObjects::update);
 
+        //oppdaterer posisjon
+        bullets.forEach(Bullet::update);
+        bullets2.forEach(Bullet::update);
         player.update();
         enemy.update();
-
     }
 
     public static void main(String[] args) {
