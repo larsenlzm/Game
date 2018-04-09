@@ -4,7 +4,7 @@ import javafx.scene.Node;
 public class GameObjects {
 
     private Node view;
-    private Point2D velocity = new Point2D(0,0);
+    private Point2D velocity;
 
     private boolean alive = true;
 

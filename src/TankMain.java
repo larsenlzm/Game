@@ -3,16 +3,11 @@ import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.scene.shape.Rectangle;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -50,26 +45,20 @@ public class TankMain extends Application {
         root = new Pane();
         root.setPrefSize(scenewidth,sceneheigth);
 
-        player = new Player("tank1.png", 5, 50,50);
+        player = new Player("tank1.png", 5, 50,50, root);
         player.setVelocity(new Point2D(1,0));
-        root.getChildren().add(player.getView()); //noen måte å få denne inn i addGameObjects?
 
-        enemy = new Player("tank2.png", 5, 50,500);
+        enemy = new Player("tank2.png", 5, 50,500, root);
         enemy.setVelocity(new Point2D(1,0));
-        root.getChildren().add(enemy.getView()); //noen måte å få denne inn i addGameObjects?
 
-        Wall vegg = new Wall(25,100,Color.ORANGE,150,100);
-        root.getChildren().add(vegg.getView());
+        Wall vegg = new Wall(25,100,Color.ORANGE,150,100, root);
         walls.add(vegg);
-        Wall vegg2 = new Wall(25,100,Color.ORANGE,425,100);
-        root.getChildren().add(vegg2.getView());
+        Wall vegg2 = new Wall(25,100,Color.ORANGE,425,100, root);
         walls.add(vegg2);
-        Wall vegg3 = new Wall(25,100,Color.ORANGE,150,375);
+        Wall vegg3 = new Wall(25,100,Color.ORANGE,150,375, root);
         walls.add(vegg3);
-        root.getChildren().add(vegg3.getView());
-        Wall vegg4 = new Wall(25,100,Color.ORANGE,425,375);
+        Wall vegg4 = new Wall(25,100,Color.ORANGE,425,375, root);
         walls.add(vegg4);
-        root.getChildren().add(vegg4.getView());
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -121,8 +110,7 @@ public class TankMain extends Application {
             bullet.setVelocity(new Point2D(Math.cos(Math.toRadians(player.getRotate()))*5,Math.sin(Math.toRadians(player.getRotate()))*5));
             //Adder bulleten til gameworld og posisjonen er da samme som player
             bullets.add(bullet);
-            bullet.addBullet(player.getX(),player.getY());
-            root.getChildren().add(bullet.getView());
+            bullet.addBullet(player.getX(),player.getY(),root);
             //resetter pistolklokka
             pistolladerteller = 0;
         }
@@ -133,8 +121,7 @@ public class TankMain extends Application {
             bullet2.setVelocity(new Point2D(Math.cos(Math.toRadians(enemy.getRotate()))*5,Math.sin(Math.toRadians(enemy.getRotate()))*5));
             //Adder bulleten til gameworld og posisjonen er da samme som enemy
             bullets2.add(bullet2);
-            bullet2.addBullet(enemy.getX(),enemy.getY());
-            root.getChildren().add(bullet2.getView());
+            bullet2.addBullet(enemy.getX(),enemy.getY(), root);
             //resetter pistolklokka
             pistolladerteller = 0;
         }
@@ -153,7 +140,7 @@ public class TankMain extends Application {
         //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(enemy)) {
-                root.getChildren().remove(bullets.get(i).getView());
+                bullets.get(i).RemoveBullet(root);
                 bullets.remove(i);
                 if (enemy.getHp() != 0) {
                     enemy.setHp(enemy.getHp() - 1);
@@ -162,15 +149,15 @@ public class TankMain extends Application {
                     enemy.getView().setTranslateX(100);
                     enemy.getView().setTranslateY(500);
                 }
-            } //sjekker om kulene treffer utkant
+            } //sjekker om kulene treffer utkant av kartet
             else if (bullets.get(i).getView().getTranslateY() <= minY  || bullets.get(i).getView().getTranslateY() >= maxY) {
-                root.getChildren().remove(bullets.get(i).getView());
+                bullets.get(i).RemoveBullet(root);
             } else if (bullets.get(i).getView().getTranslateX() <= minX  || bullets.get(i).getView().getTranslateX() >= maxX) {
-                root.getChildren().remove(bullets.get(i).getView());
+                bullets.get(i).RemoveBullet(root);
             } else {
                 for(int j = 0; j < walls.size(); j++) {
                     if (bullets.get(i).isColliding(walls.get(j))){
-                        root.getChildren().remove(bullets.get(i).getView());
+                        bullets.get(i).RemoveBullet(root);
                     }
                 }
             }
@@ -178,7 +165,7 @@ public class TankMain extends Application {
         //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets2.size(); i++){
             if(bullets2.get(i).isColliding(player)) {
-                root.getChildren().remove(bullets2.get(i).getView());
+                bullets2.get(i).RemoveBullet(root);
                 bullets2.remove(i);
                 if(player.getHp() != 0){
                     player.setHp(player.getHp() - 1);
@@ -187,20 +174,20 @@ public class TankMain extends Application {
                     player.getView().setTranslateX(100);
                     player.getView().setTranslateY(100);
                 }
-            } //sjekker om kulene treffer utkant
+            } //sjekker om kulene treffer utkant av kartet
             else if (bullets2.get(i).getView().getTranslateY() <= minY  || bullets2.get(i).getView().getTranslateY() >= maxY) {
-                root.getChildren().remove(bullets2.get(i).getView());
+                bullets2.get(i).RemoveBullet(root);
             } else if (bullets2.get(i).getView().getTranslateX() <= minX  || bullets2.get(i).getView().getTranslateX() >= maxX) {
-                root.getChildren().remove(bullets2.get(i).getView());
+                bullets2.get(i).RemoveBullet(root);
             } else {
                 for(int j = 0; j < walls.size(); j++) {
                     if (bullets2.get(i).isColliding(walls.get(j))){
-                        root.getChildren().remove(bullets2.get(i).getView());
+                        bullets2.get(i).RemoveBullet(root);
                     }
                 }
             }
         }
-        //kollisjon med vegg spiller 1
+        //kollisjon med veggene spiller 1
         for(int i = 0; i<walls.size(); i++) {
             if (player.getX() >= walls.get(i).getMinX() - player.getWidth() && player.getX() <= walls.get(i).getMinX() - player.getWidth() + 1 && player.getY() >= walls.get(i).getMinY() - player.getWidth() && player.getY() <= walls.get(i).getMaxY()) {
                 player.getView().setTranslateX(walls.get(i).getMinX() - player.getWidth());
@@ -212,7 +199,7 @@ public class TankMain extends Application {
                 player.getView().setTranslateY(walls.get(i).getMaxY());
             }
         }
-        //kollisjon med vegg spiller 2
+        //kollisjon med veggene spiller 2
         for(int i = 0; i<walls.size(); i++) {
             if (enemy.getX() >= walls.get(i).getMinX() - enemy.getWidth() && enemy.getX() <= walls.get(i).getMinX() - enemy.getWidth() + 1 && enemy.getY() >= walls.get(i).getMinY() - enemy.getWidth() && enemy.getY() <= walls.get(i).getMaxY()) {
                 enemy.getView().setTranslateX(walls.get(i).getMinX() - enemy.getWidth());
