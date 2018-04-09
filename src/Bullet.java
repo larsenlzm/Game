@@ -1,3 +1,4 @@
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.layout.Pane;
@@ -13,5 +14,6 @@ public class Bullet extends GameObjects {
     }
     public void RemoveBullet(Pane root) {
         root.getChildren().remove(getView());
+        setVelocity(new Point2D(0,0));
     }
 }

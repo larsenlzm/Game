@@ -22,12 +22,12 @@ public class TankMain extends Application {
     private Player player;
     private Player enemy;
 
-    double pistollader = 10; //skudd per antall frames
-    double pistolladerteller = pistollader;
-    double pistolladertellerDelta = 1;
+    private double lader = 10; //skudd per antall frames
+    private double laderTeller = lader;
+    private double laderTellerDelta = 1;
 
-    double scenewidth = 600;
-    double sceneheigth = 600;
+    private double scenewidth = 600;
+    private double sceneheigth = 600;
 
     public BitSet keyboardBitSet = new BitSet();
 
@@ -38,6 +38,17 @@ public class TankMain extends Application {
         scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
             keyboardBitSet.set(event.getCode().ordinal(), false);
         });
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+
+        stage.setScene(new Scene(createContent()));
+
+        addInputControls(stage.getScene());
+
+        stage.show();
+
     }
 
     private Parent createContent() {
@@ -72,17 +83,6 @@ public class TankMain extends Application {
         return root;
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-
-        stage.setScene(new Scene(createContent()));
-
-        addInputControls(stage.getScene());
-
-        stage.show();
-
-    }
-
     private void onUpdate() {
 
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());
@@ -97,12 +97,12 @@ public class TankMain extends Application {
         double maxY = sceneheigth -(player.getHeigth() / 2);
         double minY = 0 - (player.getHeigth() / 2);
 
-        pistolladerteller += pistolladertellerDelta;
-        if( pistolladerteller > pistollader) {
-            pistolladerteller = pistollader;
+        laderTeller += laderTellerDelta;
+        if( laderTeller > lader) {
+            laderTeller = lader;
         }
 
-        boolean isPistolLadet = pistolladerteller >= pistollader;
+        boolean isPistolLadet = laderTeller >= lader;
 
         if (isUpPressed && isPistolLadet) {
             Bullet bullet = new Bullet();
@@ -112,7 +112,7 @@ public class TankMain extends Application {
             bullets.add(bullet);
             bullet.addBullet(player.getX(),player.getY(),root);
             //resetter pistolklokka
-            pistolladerteller = 0;
+            laderTeller = 0;
         }
 
         if (isWPressed && isPistolLadet) {
@@ -123,7 +123,7 @@ public class TankMain extends Application {
             bullets2.add(bullet2);
             bullet2.addBullet(enemy.getX(),enemy.getY(), root);
             //resetter pistolklokka
-            pistolladerteller = 0;
+            laderTeller = 0;
         }
 
         if (isLeftPressed && !isRightPressed) {
@@ -152,12 +152,15 @@ public class TankMain extends Application {
             } //sjekker om kulene treffer utkant av kartet
             else if (bullets.get(i).getView().getTranslateY() <= minY  || bullets.get(i).getView().getTranslateY() >= maxY) {
                 bullets.get(i).RemoveBullet(root);
+                bullets.remove(i);
             } else if (bullets.get(i).getView().getTranslateX() <= minX  || bullets.get(i).getView().getTranslateX() >= maxX) {
                 bullets.get(i).RemoveBullet(root);
+                bullets.remove(i);
             } else {
                 for(int j = 0; j < walls.size(); j++) {
                     if (bullets.get(i).isColliding(walls.get(j))){
                         bullets.get(i).RemoveBullet(root);
+                        bullets.remove(i);
                     }
                 }
             }
@@ -177,12 +180,15 @@ public class TankMain extends Application {
             } //sjekker om kulene treffer utkant av kartet
             else if (bullets2.get(i).getView().getTranslateY() <= minY  || bullets2.get(i).getView().getTranslateY() >= maxY) {
                 bullets2.get(i).RemoveBullet(root);
+                bullets2.remove(i);
             } else if (bullets2.get(i).getView().getTranslateX() <= minX  || bullets2.get(i).getView().getTranslateX() >= maxX) {
                 bullets2.get(i).RemoveBullet(root);
+                bullets2.remove(i);
             } else {
                 for(int j = 0; j < walls.size(); j++) {
                     if (bullets2.get(i).isColliding(walls.get(j))){
                         bullets2.get(i).RemoveBullet(root);
+                        bullets2.remove(i);
                     }
                 }
             }

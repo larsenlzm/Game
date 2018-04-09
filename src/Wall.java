@@ -3,10 +3,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Pane;
 
 public class Wall extends GameObjects {
-    public Wall(double w, double h, Color c, double x, double y, Pane root) {
-        super(new Rectangle(w,h,c));
+    public Wall(double width, double heigth, Color color, double x, double y, Pane pane) {
+        super(new Rectangle(width,heigth,color));
         getView().setTranslateX(x);
         getView().setTranslateY(y);
-        root.getChildren().add(getView());
+        pane.getChildren().add(getView());
     }
 }
