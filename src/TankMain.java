@@ -1,12 +1,16 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -15,6 +19,12 @@ import java.util.List;
 public class TankMain extends Application {
 
     private Pane root;
+    private Pane overLayer;
+    private Label hpLabel;
+    private Label hpLabel2;
+    private Label score;
+    private Label finishLabel;
+
 
     private List<Bullet> bullets = new ArrayList<>();
     private List<Bullet> bullets2 = new ArrayList<>();
@@ -43,6 +53,10 @@ public class TankMain extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        Parent root = FXMLLoader.load(getClass().getResource("fuxml.fxml"));
+
+        Scene scene = new Scene(root, scenewidth, sceneheigth);
+
         stage.setScene(new Scene(createContent()));
 
         addInputControls(stage.getScene());
@@ -54,22 +68,45 @@ public class TankMain extends Application {
     private Parent createContent() {
 
         root = new Pane();
+        overLayer = new Pane();
+        root.getChildren().add(overLayer);
+
         root.setPrefSize(scenewidth,sceneheigth);
 
-        player = new Player("tank1.png", 5, 50,50, root);
+        player = new Player("tank1.png", 10,5, 50,50, root);
         player.setVelocity(new Point2D(1,0));
 
-        enemy = new Player("tank2.png", 5, 50,500, root);
+        enemy = new Player("tank2.png", 10,5, 50,500, root);
         enemy.setVelocity(new Point2D(1,0));
 
-        Wall vegg = new Wall(25,100,Color.ORANGE,150,100, root);
+        Wall vegg = new Wall(25,100,Color.ORANGE,125,100, root);
         walls.add(vegg);
-        Wall vegg2 = new Wall(25,100,Color.ORANGE,425,100, root);
+        Wall vegg2 = new Wall(25,100,Color.ORANGE,450,100, root);
         walls.add(vegg2);
-        Wall vegg3 = new Wall(25,100,Color.ORANGE,150,375, root);
+        Wall vegg3 = new Wall(25,100,Color.ORANGE,125,375, root);
         walls.add(vegg3);
-        Wall vegg4 = new Wall(25,100,Color.ORANGE,425,375, root);
+        Wall vegg4 = new Wall(25,100,Color.ORANGE,450,375, root);
         walls.add(vegg4);
+        Wall vegg5 = new Wall(75,25,Color.ORANGE,150,100, root);
+        walls.add(vegg5);
+        Wall vegg6 = new Wall(75,25,Color.ORANGE,375,100, root);
+        walls.add(vegg6);
+        Wall vegg7 = new Wall(75,25,Color.ORANGE,150,450, root);
+        walls.add(vegg7);
+        Wall vegg8 = new Wall(75,25,Color.ORANGE,375,450, root);
+        walls.add(vegg8);
+
+        hpLabel = new Label();
+        hpLabel.setTextFill(Color.RED);
+        overLayer.getChildren().add(hpLabel);
+
+        hpLabel2 = new Label();
+        hpLabel2.setTextFill(Color.RED);
+        overLayer.getChildren().add(hpLabel2);
+
+        finishLabel = new Label();
+        finishLabel.setTextFill(Color.RED);
+        overLayer.getChildren().add(finishLabel);
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -142,18 +179,24 @@ public class TankMain extends Application {
             if(bullets.get(i).isColliding(enemy)) {
                 bullets.get(i).RemoveBullet(root);
                 bullets.remove(i);
-                if (enemy.getHp() != 0) {
+                if (enemy.getHp() != 1) {
                     enemy.setHp(enemy.getHp() - 1);
-                } else {
-                    enemy.setHp(5);
+                } else if(enemy.getLifePoints() != 1){
+                    enemy.setHp(10);
                     enemy.getView().setTranslateX(100);
                     enemy.getView().setTranslateY(500);
+                    enemy.setLifePoints(enemy.getLifePoints() - 1);
+                } else {
+                    root.getChildren().remove(enemy.getView());
+                    enemy.setHp(enemy.getHp() - 1);
+                    enemy.setLifePoints(enemy.getLifePoints() - 1);
+                    finishLabel.setText("PLAYER 1 WON!");
                 }
             } //sjekker om kulene treffer utkant av kartet
-            else if (bullets.get(i).getView().getTranslateY() <= minY  || bullets.get(i).getView().getTranslateY() >= maxY) {
+            else if (bullets.get(i).getView().getTranslateY() <= 0  || bullets.get(i).getView().getTranslateY() >= sceneheigth) {
                 bullets.get(i).RemoveBullet(root);
                 bullets.remove(i);
-            } else if (bullets.get(i).getView().getTranslateX() <= minX  || bullets.get(i).getView().getTranslateX() >= maxX) {
+            } else if (bullets.get(i).getView().getTranslateX() <= 0  || bullets.get(i).getView().getTranslateX() >= scenewidth) {
                 bullets.get(i).RemoveBullet(root);
                 bullets.remove(i);
             } else {
@@ -170,12 +213,16 @@ public class TankMain extends Application {
             if(bullets2.get(i).isColliding(player)) {
                 bullets2.get(i).RemoveBullet(root);
                 bullets2.remove(i);
-                if(player.getHp() != 0){
+                if(player.getHp() != 1){
                     player.setHp(player.getHp() - 1);
-                } else {
+                } else if(player.getLifePoints() != 1) {
                     player.setHp(5);
                     player.getView().setTranslateX(100);
                     player.getView().setTranslateY(100);
+                    player.setLifePoints(player.getLifePoints() - 1);
+                } else {
+                    root.getChildren().remove(player.getView());
+                    finishLabel.setText("PLAYER 2 WON!");
                 }
             } //sjekker om kulene treffer utkant av kartet
             else if (bullets2.get(i).getView().getTranslateY() <= minY  || bullets2.get(i).getView().getTranslateY() >= maxY) {
@@ -219,29 +266,38 @@ public class TankMain extends Application {
         }
         // går for langt til høyre eller venstre så kommer du ut på andre siden
         if(player.getX() >= maxX) {
-            player.getView().setTranslateX(minX);
-        } else if (player.getX() <= minX) {
             player.getView().setTranslateX(maxX);
+        } else if (player.getX() <= minX) {
+            player.getView().setTranslateX(minX);
         }
         // går for langt opp eller ned så kommer du ut på andre siden
         if(player.getY() >= maxY) {
-            player.getView().setTranslateY(minY);
-        } else if (player.getY() <= minY) {
             player.getView().setTranslateY(maxY);
+        } else if (player.getY() <= minY) {
+            player.getView().setTranslateY(minY);
         }
         // går for langt til høyre eller venstre så kommer du ut på andre siden
         if(enemy.getX() >= maxX) {
-            enemy.getView().setTranslateX(minX);
-        } else if (enemy.getX() <= minX) {
             enemy.getView().setTranslateX(maxX);
+        } else if (enemy.getX() <= minX) {
+            enemy.getView().setTranslateX(minX);
         }
         // går for langt opp eller ned så kommer du ut på andre siden
         if(enemy.getY() >= maxY) {
-            enemy.getView().setTranslateY(minY);
-        } else if (enemy.getY() <= minY) {
             enemy.getView().setTranslateY(maxY);
+        } else if (enemy.getY() <= minY) {
+            enemy.getView().setTranslateY(minY);
         }
-        //kulekollisjon med vegg
+
+        hpLabel.setText("PLAYER 1 HP: " + player.getHp() + "\nPLAYER 1 LIVES: " + player.getLifePoints());
+        hpLabel.setTranslateX(10);
+        hpLabel.setTranslateY(10);
+        hpLabel2.setText("PLAYER 2 HP: " + enemy.getHp() + "\nPLAYER 2 LIVES: " + enemy.getLifePoints());
+        hpLabel2.setTranslateX(scenewidth - hpLabel2.getBoundsInParent().getWidth()-10);
+        hpLabel2.setTranslateY(10);
+        finishLabel.setTranslateX(scenewidth/2 - finishLabel.getWidth()/2);
+        finishLabel.setTranslateY(sceneheigth/2 - finishLabel.getHeight()/2);
+        finishLabel.setFont(new Font(40));
 
 
         //oppdaterer posisjon
