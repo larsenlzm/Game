@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -19,10 +20,14 @@ public class TankMain extends Application {
 
     private Pane root;
     private Pane overLayer;
+    private Pane pauseLayer;
     private Label hpLabel;
     private Label hpLabel2;
     private Label score;
     private Label finishLabel;
+    private Button resume;
+    private Button save;
+    private Button load;
 
     private AnimationTimer timer;
 
@@ -72,6 +77,7 @@ public class TankMain extends Application {
 
         root = new Pane();
         overLayer = new Pane();
+        pauseLayer = new Pane();
 
         root.setPrefSize(scenewidth,sceneheigth);
 
@@ -102,21 +108,36 @@ public class TankMain extends Application {
         walls.add(vegg9);
 
         root.getChildren().add(overLayer);
+        root.getChildren().add(pauseLayer);
 
         hpLabel = new Label();
-        hpLabel.setTextFill(Color.RED);
+        hpLabel.setTextFill(Color.BLACK);
         overLayer.getChildren().add(hpLabel);
 
         hpLabel2 = new Label();
-        hpLabel2.setTextFill(Color.RED);
+        hpLabel2.setTextFill(Color.BLACK);
         overLayer.getChildren().add(hpLabel2);
 
         finishLabel = new Label();
-        finishLabel.setTextFill(Color.RED);
+        finishLabel.setTextFill(Color.BLACK);
         overLayer.getChildren().add(finishLabel);
 
+        resume = new Button("RESUME");
+        resume.setTextFill(Color.BLACK);
+        pauseLayer.getChildren().add(resume);
+
+        save = new Button("SAVE");
+        save.setTextFill(Color.BLACK);
+        pauseLayer.getChildren().add(save);
+
+        load = new Button("LOAD");
+        resume.setTextFill(Color.BLACK);
+        pauseLayer.getChildren().add(load);
+
+        pauseLayer.setVisible(false);
+
         score = new Label();
-        score.setTextFill(Color.RED);
+        score.setTextFill(Color.BLACK);
         overLayer.getChildren().add(score);
 
         timer = new AnimationTimer() {
@@ -160,6 +181,17 @@ public class TankMain extends Application {
         if (isSpacePressed){
             timer.stop();
             //gi muligheter får å resume, save, load, exit
+            pauseLayer.setVisible(true);
+            resume.setOnAction(e -> {
+                timer.start();
+                pauseLayer.setVisible(false);
+            });
+            save.setOnAction(e -> {
+                System.out.println("SAVING");
+            });
+            load.setOnAction(e -> {
+                System.out.println("LOADING SAVE");
+            });
         }
 
         if (isPeriodPressed && isPistolLadet) {
@@ -275,7 +307,6 @@ public class TankMain extends Application {
                     player.setHp(player.getHp() - 1);
                     player.setLifePoints(player.getLifePoints() - 1);
                     finishLabel.setText("PLAYER 2 WON!");
-
                 }
             } //sjekker om kulene treffer utkant av kartet
             else if (bullets2.get(i).getView().getTranslateY() <= 0  || bullets2.get(i).getView().getTranslateY() >= sceneheigth+25) {
@@ -358,6 +389,15 @@ public class TankMain extends Application {
         score.setTranslateX(scenewidth/2 - score.getWidth()/2);
         score.setTranslateY(10);
         score.setFont(new Font(20));
+
+        resume.setTranslateX(scenewidth/2 - resume.getWidth()/2);
+        resume.setTranslateY(125);
+
+        save.setTranslateX(scenewidth/2 -save.getWidth()/2);
+        save.setTranslateY(125+resume.getHeight()+10);
+
+        load.setTranslateX(scenewidth/2 -load.getWidth()/2);
+        load.setTranslateY(125+(resume.getHeight()+10)*2);
 
         //oppdaterer posisjon
         bullets.forEach(Bullet::update);
