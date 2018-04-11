@@ -14,6 +14,5 @@ public class Bullet extends GameObjects {
     }
     public void RemoveBullet(Pane root) {
         root.getChildren().remove(getView());
-        setVelocity(new Point2D(0,0));
     }
 }

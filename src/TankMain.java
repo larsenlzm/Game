@@ -9,7 +9,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ public class TankMain extends Application {
     private Label score;
     private Label finishLabel;
 
+    private AnimationTimer timer;
 
     private List<Bullet> bullets = new ArrayList<>();
     private List<Bullet> bullets2 = new ArrayList<>();
@@ -32,9 +32,13 @@ public class TankMain extends Application {
     private Player player;
     private Player enemy;
 
+    private boolean isPaused = true;
+
     private double lader = 10; //skudd per antall frames
     private double laderTeller = lader;
     private double laderTellerDelta = 1;
+    private int scoreP = 0;
+    private int scoreE = 0;
 
     private double scenewidth = 600;
     private double sceneheigth = 600;
@@ -53,31 +57,30 @@ public class TankMain extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("fuxml.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("fuxml.fxml"));
 
-        Scene scene = new Scene(root, scenewidth, sceneheigth);
+        //Scene scene = new Scene(root, scenewidth, sceneheigth);
 
         stage.setScene(new Scene(createContent()));
 
         addInputControls(stage.getScene());
 
         stage.show();
-
     }
 
     private Parent createContent() {
 
         root = new Pane();
         overLayer = new Pane();
-        root.getChildren().add(overLayer);
 
         root.setPrefSize(scenewidth,sceneheigth);
 
-        player = new Player("tank1.png", 10,5, 50,50, root);
-        player.setVelocity(new Point2D(1,0));
+        player = new Player("tank1.png", 10,3, 50,50, root);
+        player.setVelocity(new Point2D(0,0));
 
-        enemy = new Player("tank2.png", 10,5, 50,500, root);
-        enemy.setVelocity(new Point2D(1,0));
+        enemy = new Player("tank2.png", 10,3, 500,500, root);
+        enemy.setVelocity(new Point2D(0,0));
+        enemy.getView().setRotate(180);
 
         Wall vegg = new Wall(25,100,Color.ORANGE,125,100, root);
         walls.add(vegg);
@@ -95,6 +98,10 @@ public class TankMain extends Application {
         walls.add(vegg7);
         Wall vegg8 = new Wall(75,25,Color.ORANGE,375,450, root);
         walls.add(vegg8);
+        Wall vegg9 = new Wall(25,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root);
+        walls.add(vegg9);
+
+        root.getChildren().add(overLayer);
 
         hpLabel = new Label();
         hpLabel.setTextFill(Color.RED);
@@ -108,7 +115,11 @@ public class TankMain extends Application {
         finishLabel.setTextFill(Color.RED);
         overLayer.getChildren().add(finishLabel);
 
-        AnimationTimer timer = new AnimationTimer() {
+        score = new Label();
+        score.setTextFill(Color.RED);
+        overLayer.getChildren().add(score);
+
+        timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 onUpdate();
@@ -122,12 +133,17 @@ public class TankMain extends Application {
 
     private void onUpdate() {
 
+        boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
+        boolean isSPressed = keyboardBitSet.get(KeyCode.S.ordinal());
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());
         boolean isDPressed = keyboardBitSet.get(KeyCode.D.ordinal());
-        boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
+        boolean isVPressed = keyboardBitSet.get(KeyCode.V.ordinal());
+        boolean isUpPressed = keyboardBitSet.get(KeyCode.UP.ordinal());
+        boolean isDownPressed = keyboardBitSet.get(KeyCode.DOWN.ordinal());
         boolean isLeftPressed = keyboardBitSet.get(KeyCode.LEFT.ordinal());
         boolean isRightPressed = keyboardBitSet.get(KeyCode.RIGHT.ordinal());
-        boolean isUpPressed = keyboardBitSet.get(KeyCode.UP.ordinal());
+        boolean isPeriodPressed = keyboardBitSet.get(KeyCode.PERIOD.ordinal());
+        boolean isSpacePressed = keyboardBitSet.get(KeyCode.SPACE.ordinal());
 
         double maxX = scenewidth - (player.getWidth() / 2);
         double minX = 0 - (player.getWidth() / 2);
@@ -138,10 +154,15 @@ public class TankMain extends Application {
         if( laderTeller > lader) {
             laderTeller = lader;
         }
-
         boolean isPistolLadet = laderTeller >= lader;
 
-        if (isUpPressed && isPistolLadet) {
+        //Pause
+        if (isSpacePressed){
+            timer.stop();
+            //gi muligheter får å resume, save, load, exit
+        }
+
+        if (isPeriodPressed && isPistolLadet) {
             Bullet bullet = new Bullet();
             // Setter bullet velocity til 5 ganger så mye som player
             bullet.setVelocity(new Point2D(Math.cos(Math.toRadians(player.getRotate()))*5,Math.sin(Math.toRadians(player.getRotate()))*5));
@@ -152,7 +173,7 @@ public class TankMain extends Application {
             laderTeller = 0;
         }
 
-        if (isWPressed && isPistolLadet) {
+        if (isVPressed && isPistolLadet) {
             Bullet bullet2 = new Bullet();
             // Setter bullet velocity til 5 ganger så mye som enemy
             bullet2.setVelocity(new Point2D(Math.cos(Math.toRadians(enemy.getRotate()))*5,Math.sin(Math.toRadians(enemy.getRotate()))*5));
@@ -174,6 +195,27 @@ public class TankMain extends Application {
         } else if ( !isAPressed && isDPressed) {
             enemy.rotateRight();
         }
+        if(isWPressed){
+            enemy.setVelocity(new Point2D(Math.cos(Math.toRadians(enemy.getRotate())), Math.sin(Math.toRadians(enemy.getRotate()))));
+        }else{
+            enemy.setVelocity(new Point2D(0,0));
+        }
+
+        if(isUpPressed){
+            player.setVelocity(new Point2D(Math.cos(Math.toRadians(player.getView().getRotate())), Math.sin(Math.toRadians(player.getView().getRotate()))));
+        } else  if(isDownPressed){
+            player.setVelocity(new Point2D(-Math.cos(Math.toRadians(player.getView().getRotate())), -Math.sin(Math.toRadians(player.getView().getRotate()))));
+        }else{
+            player.setVelocity(new Point2D(0,0));
+        }
+
+        if(isWPressed){
+            enemy.setVelocity(new Point2D(Math.cos(Math.toRadians(enemy.getRotate())), Math.sin(Math.toRadians(enemy.getRotate()))));
+        } else if(isSPressed){
+            enemy.setVelocity(new Point2D(-Math.cos(Math.toRadians(enemy.getView().getRotate())), -Math.sin(Math.toRadians(enemy.getView().getRotate()))));
+        }else{
+            enemy.setVelocity(new Point2D(0,0));
+        }
         //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(enemy)) {
@@ -183,20 +225,24 @@ public class TankMain extends Application {
                     enemy.setHp(enemy.getHp() - 1);
                 } else if(enemy.getLifePoints() != 1){
                     enemy.setHp(10);
-                    enemy.getView().setTranslateX(100);
+                    enemy.getView().setTranslateX(500);// flytter spiller2 til spawn
                     enemy.getView().setTranslateY(500);
+                    player.getView().setTranslateX(50);//flytter spiller til spawn
+                    player.getView().setTranslateY(50);
                     enemy.setLifePoints(enemy.getLifePoints() - 1);
+                    scoreP++;
                 } else {
+                    scoreP++;
                     root.getChildren().remove(enemy.getView());
                     enemy.setHp(enemy.getHp() - 1);
                     enemy.setLifePoints(enemy.getLifePoints() - 1);
                     finishLabel.setText("PLAYER 1 WON!");
                 }
             } //sjekker om kulene treffer utkant av kartet
-            else if (bullets.get(i).getView().getTranslateY() <= 0  || bullets.get(i).getView().getTranslateY() >= sceneheigth) {
+            else if (bullets.get(i).getView().getTranslateY() <= 0  || bullets.get(i).getView().getTranslateY() >= sceneheigth+25) {
                 bullets.get(i).RemoveBullet(root);
                 bullets.remove(i);
-            } else if (bullets.get(i).getView().getTranslateX() <= 0  || bullets.get(i).getView().getTranslateX() >= scenewidth) {
+            } else if (bullets.get(i).getView().getTranslateX() <= 0  || bullets.get(i).getView().getTranslateX() >= scenewidth+25) {
                 bullets.get(i).RemoveBullet(root);
                 bullets.remove(i);
             } else {
@@ -216,19 +262,26 @@ public class TankMain extends Application {
                 if(player.getHp() != 1){
                     player.setHp(player.getHp() - 1);
                 } else if(player.getLifePoints() != 1) {
-                    player.setHp(5);
-                    player.getView().setTranslateX(100);
-                    player.getView().setTranslateY(100);
+                    player.setHp(10);
+                    player.getView().setTranslateX(50); //flytter spiller tilbake til spawn
+                    player.getView().setTranslateY(50);
+                    enemy.getView().setTranslateX(500); //flytter spiller2 tilbake til spawn
+                    enemy.getView().setTranslateY(500);
                     player.setLifePoints(player.getLifePoints() - 1);
+                    scoreE++;
                 } else {
+                    scoreE++;
                     root.getChildren().remove(player.getView());
+                    player.setHp(player.getHp() - 1);
+                    player.setLifePoints(player.getLifePoints() - 1);
                     finishLabel.setText("PLAYER 2 WON!");
+
                 }
             } //sjekker om kulene treffer utkant av kartet
-            else if (bullets2.get(i).getView().getTranslateY() <= minY  || bullets2.get(i).getView().getTranslateY() >= maxY) {
+            else if (bullets2.get(i).getView().getTranslateY() <= 0  || bullets2.get(i).getView().getTranslateY() >= sceneheigth+25) {
                 bullets2.get(i).RemoveBullet(root);
                 bullets2.remove(i);
-            } else if (bullets2.get(i).getView().getTranslateX() <= minX  || bullets2.get(i).getView().getTranslateX() >= maxX) {
+            } else if (bullets2.get(i).getView().getTranslateX() <= 0  || bullets2.get(i).getView().getTranslateX() >= scenewidth+25) {
                 bullets2.get(i).RemoveBullet(root);
                 bullets2.remove(i);
             } else {
@@ -289,16 +342,22 @@ public class TankMain extends Application {
             enemy.getView().setTranslateY(minY);
         }
 
-        hpLabel.setText("PLAYER 1 HP: " + player.getHp() + "\nPLAYER 1 LIVES: " + player.getLifePoints());
+        hpLabel.setText("PLAYER 1 HP: " + player.getHp());
         hpLabel.setTranslateX(10);
         hpLabel.setTranslateY(10);
-        hpLabel2.setText("PLAYER 2 HP: " + enemy.getHp() + "\nPLAYER 2 LIVES: " + enemy.getLifePoints());
+
+        hpLabel2.setText("PLAYER 2 HP: " + enemy.getHp());
         hpLabel2.setTranslateX(scenewidth - hpLabel2.getBoundsInParent().getWidth()-10);
         hpLabel2.setTranslateY(10);
+
         finishLabel.setTranslateX(scenewidth/2 - finishLabel.getWidth()/2);
-        finishLabel.setTranslateY(sceneheigth/2 - finishLabel.getHeight()/2);
+        finishLabel.setTranslateY(sceneheigth/2 - 75);
         finishLabel.setFont(new Font(40));
 
+        score.setText(scoreP + " : " + scoreE);
+        score.setTranslateX(scenewidth/2 - score.getWidth()/2);
+        score.setTranslateY(10);
+        score.setFont(new Font(20));
 
         //oppdaterer posisjon
         bullets.forEach(Bullet::update);
