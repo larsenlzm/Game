@@ -30,6 +30,7 @@ public class TankMain extends Application {
     private Button resume;
     private Button save;
     private Button load;
+    private Button restart;
 
     private AnimationTimer timer;
 
@@ -87,6 +88,7 @@ public class TankMain extends Application {
 
         //Scene scene = new Scene(root, scenewidth, sceneheigth);
 
+        stage.setTitle("Tank  v.1");
         stage.setScene(new Scene(createContent()));
 
         addInputControls(stage.getScene());
@@ -156,8 +158,12 @@ public class TankMain extends Application {
         pauseLayer.getChildren().add(save);
 
         load = new Button("LOAD");
-        resume.setTextFill(Color.BLACK);
+        load.setTextFill(Color.BLACK);
         pauseLayer.getChildren().add(load);
+
+        restart = new Button("RESTART");
+        restart.setTextFill(Color.BLACK);
+        pauseLayer.getChildren().add(restart);
 
         pauseLayer.setVisible(false);
 
@@ -208,10 +214,29 @@ public class TankMain extends Application {
                 pauseLayer.setVisible(false);
             });
             save.setOnAction(e -> {
-                System.out.println("SAVING");
+                Save save = new Save(scoreP,scoreE);
+                try {
+                    resourceManager.save(save,"1.save");
+                    System.out.println("SAVING");
+                } catch (Exception ex){
+                    System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
+                }
             });
             load.setOnAction(e -> {
-                System.out.println("LOADING SAVE");
+                try {
+                    Save save = (Save) resourceManager.load("1.save");
+                    System.out.println("LOADING SAVE");
+                    scoreP = save.getScoreP();
+                    scoreE = save.getScoreE();
+                    newRound();
+                } catch (Exception ex){
+                    System.out.println("KAN IKKE LOADE!: " + ex.getMessage());
+                }
+            });
+            restart.setOnAction(e -> {
+                scoreP = 0;
+                scoreE = 0;
+                newRound();
             });
         }
         //skyting
@@ -407,6 +432,9 @@ public class TankMain extends Application {
 
         load.setTranslateX(scenewidth/2 -load.getWidth()/2);
         load.setTranslateY(125+(resume.getHeight()+10)*2);
+
+        restart.setTranslateX(scenewidth/2 -restart.getWidth()/2);
+        restart.setTranslateY(125+(resume.getHeight()+10)*3);
 
         //oppdaterer posisjon
         bullets.forEach(Bullet::update);
