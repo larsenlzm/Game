@@ -21,10 +21,12 @@ public class TankMain extends Application {
     private Pane root;
     private Pane overLayer;
     private Pane pauseLayer;
+
     private Label hpLabel;
     private Label hpLabel2;
     private Label score;
     private Label finishLabel;
+
     private Button resume;
     private Button save;
     private Button load;
@@ -34,6 +36,7 @@ public class TankMain extends Application {
     private List<Bullet> bullets = new ArrayList<>();
     private List<Bullet> bullets2 = new ArrayList<>();
     private List<Wall> walls = new ArrayList<>();
+
     private Player player;
     private Player enemy;
 
@@ -42,6 +45,7 @@ public class TankMain extends Application {
     private double lader = 10; //skudd per antall frames
     private double laderTeller = lader;
     private double laderTellerDelta = 1;
+
     private int scoreP = 0;
     private int scoreE = 0;
 
@@ -57,6 +61,23 @@ public class TankMain extends Application {
         scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
             keyboardBitSet.set(event.getCode().ordinal(), false);
         });
+    }
+
+    public void newRound(){
+        player.getView().setTranslateX(50); //flytter spiller tilbake til spawn
+        player.getView().setTranslateY(50);
+        enemy.getView().setTranslateX(500); //flytter spiller2 tilbake til spawn
+        enemy.getView().setTranslateY(500);
+        player.getView().setRotate(0);
+        enemy.getView().setRotate(180);
+        for (int i = 0; i < bullets2.size(); i++){
+            bullets2.get(i).RemoveBullet(root);
+        }
+        for (int i = 0; i < bullets.size(); i++){
+            bullets.get(i).RemoveBullet(root);
+        }
+        bullets.clear();
+        bullets2.clear();
     }
 
     @Override
@@ -122,6 +143,10 @@ public class TankMain extends Application {
         finishLabel.setTextFill(Color.BLACK);
         overLayer.getChildren().add(finishLabel);
 
+        score = new Label();
+        score.setTextFill(Color.BLACK);
+        overLayer.getChildren().add(score);
+
         resume = new Button("RESUME");
         resume.setTextFill(Color.BLACK);
         pauseLayer.getChildren().add(resume);
@@ -135,10 +160,6 @@ public class TankMain extends Application {
         pauseLayer.getChildren().add(load);
 
         pauseLayer.setVisible(false);
-
-        score = new Label();
-        score.setTextFill(Color.BLACK);
-        overLayer.getChildren().add(score);
 
         timer = new AnimationTimer() {
             @Override
@@ -193,25 +214,19 @@ public class TankMain extends Application {
                 System.out.println("LOADING SAVE");
             });
         }
-
+        //skyting
         if (isPeriodPressed && isPistolLadet) {
-            Bullet bullet = new Bullet();
-            // Setter bullet velocity til 5 ganger så mye som player
-            bullet.setVelocity(new Point2D(Math.cos(Math.toRadians(player.getRotate()))*5,Math.sin(Math.toRadians(player.getRotate()))*5));
+            Bullet bullet = new Bullet(5,5,5,Color.RED,player.getX(),player.getY(), root,player);
             //Adder bulleten til gameworld og posisjonen er da samme som player
             bullets.add(bullet);
-            bullet.addBullet(player.getX(),player.getY(),root);
             //resetter pistolklokka
             laderTeller = 0;
         }
-
+        //skyting
         if (isVPressed && isPistolLadet) {
-            Bullet bullet2 = new Bullet();
-            // Setter bullet velocity til 5 ganger så mye som enemy
-            bullet2.setVelocity(new Point2D(Math.cos(Math.toRadians(enemy.getRotate()))*5,Math.sin(Math.toRadians(enemy.getRotate()))*5));
-            //Adder bulleten til gameworld og posisjonen er da samme som enemy
+            Bullet bullet2 = new Bullet(5,5,5,Color.RED,enemy.getX(),enemy.getY(), root, enemy);
+            //Adder bulleten til gameworld
             bullets2.add(bullet2);
-            bullet2.addBullet(enemy.getX(),enemy.getY(), root);
             //resetter pistolklokka
             laderTeller = 0;
         }
@@ -257,10 +272,7 @@ public class TankMain extends Application {
                     enemy.setHp(enemy.getHp() - 1);
                 } else if(enemy.getLifePoints() != 1){
                     enemy.setHp(10);
-                    enemy.getView().setTranslateX(500);// flytter spiller2 til spawn
-                    enemy.getView().setTranslateY(500);
-                    player.getView().setTranslateX(50);//flytter spiller til spawn
-                    player.getView().setTranslateY(50);
+                    newRound();
                     enemy.setLifePoints(enemy.getLifePoints() - 1);
                     scoreP++;
                 } else {
@@ -295,10 +307,7 @@ public class TankMain extends Application {
                     player.setHp(player.getHp() - 1);
                 } else if(player.getLifePoints() != 1) {
                     player.setHp(10);
-                    player.getView().setTranslateX(50); //flytter spiller tilbake til spawn
-                    player.getView().setTranslateY(50);
-                    enemy.getView().setTranslateX(500); //flytter spiller2 tilbake til spawn
-                    enemy.getView().setTranslateY(500);
+                    newRound();
                     player.setLifePoints(player.getLifePoints() - 1);
                     scoreE++;
                 } else {
