@@ -12,6 +12,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -239,7 +242,7 @@ public class TankMain extends Application {
                 newRound();
             });
         }
-        //skyting
+        //skyting player2
         if (isPeriodPressed && isPistolLadet) {
             Bullet bullet = new Bullet(5,5,5,Color.RED,player.getX(),player.getY(), root,player);
             //Adder bulleten til gameworld og posisjonen er da samme som player
@@ -247,7 +250,7 @@ public class TankMain extends Application {
             //resetter pistolklokka
             laderTeller = 0;
         }
-        //skyting
+        //skyting player1
         if (isVPressed && isPistolLadet) {
             Bullet bullet2 = new Bullet(5,5,5,Color.RED,enemy.getX(),enemy.getY(), root, enemy);
             //Adder bulleten til gameworld

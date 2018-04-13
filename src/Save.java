@@ -7,7 +7,7 @@ public class Save implements java.io.Serializable {
 
     Save(int scoreP, int scoreE){
         this.scoreP = scoreP;
-        this.scoreE = scoreP;
+        this.scoreE = scoreE;
     }
 
     public int getScoreP(){
