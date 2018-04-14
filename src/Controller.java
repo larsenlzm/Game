@@ -217,52 +217,52 @@ public class Controller {
         }
         //skyting player2
         if (isPeriodPressed && isPistolLadet) {
-            Bullet bullet = new Bullet(5,5,5,Color.RED,player.getX(),player.getY(), root,player);
+            Bullet bullet2 = new Bullet(5,5,5,Color.RED,enemy.getX(),enemy.getY(), root,enemy);
             //Adder bulleten til gameworld og posisjonen er da samme som player
-            bullets.add(bullet);
+            bullets2.add(bullet2);
             //resetter pistolklokka
             laderTeller = 0;
         }
         //skyting player1
         if (isVPressed && isPistolLadet) {
-            Bullet bullet2 = new Bullet(5,5,5,Color.RED,enemy.getX(),enemy.getY(), root, enemy);
+            Bullet bullet = new Bullet(5,5,5,Color.RED,player.getX(),player.getY(), root, player);
             //Adder bulleten til gameworld
-            bullets2.add(bullet2);
+            bullets.add(bullet);
             //resetter pistolklokka
             laderTeller = 0;
         }
 
         if (isLeftPressed && !isRightPressed) {
-            player.rotateLeft();
+            enemy.rotateLeft();
         } else if ( !isLeftPressed && isRightPressed) {
-            player.rotateRight();
+            enemy.rotateRight();
         }
 
         if ( isAPressed && !isDPressed) {
-            enemy.rotateLeft();
+            player.rotateLeft();
         } else if ( !isAPressed && isDPressed) {
-            enemy.rotateRight();
+            player.rotateRight();
         }
         if(isWPressed){
-            enemy.setVelocity(new Point2D(Math.cos(Math.toRadians(enemy.getRotate())), Math.sin(Math.toRadians(enemy.getRotate()))));
-        }else{
-            enemy.setVelocity(new Point2D(0,0));
-        }
-
-        if(isUpPressed){
-            player.setVelocity(new Point2D(Math.cos(Math.toRadians(player.getView().getRotate())), Math.sin(Math.toRadians(player.getView().getRotate()))));
-        } else  if(isDownPressed){
-            player.setVelocity(new Point2D(-Math.cos(Math.toRadians(player.getView().getRotate())), -Math.sin(Math.toRadians(player.getView().getRotate()))));
+            player.setVelocity(new Point2D(Math.cos(Math.toRadians(player.getRotate())), Math.sin(Math.toRadians(player.getRotate()))));
         }else{
             player.setVelocity(new Point2D(0,0));
         }
 
-        if(isWPressed){
-            enemy.setVelocity(new Point2D(Math.cos(Math.toRadians(enemy.getRotate())), Math.sin(Math.toRadians(enemy.getRotate()))));
-        } else if(isSPressed){
+        if(isUpPressed){
+            enemy.setVelocity(new Point2D(Math.cos(Math.toRadians(enemy.getView().getRotate())), Math.sin(Math.toRadians(enemy.getView().getRotate()))));
+        } else  if(isDownPressed){
             enemy.setVelocity(new Point2D(-Math.cos(Math.toRadians(enemy.getView().getRotate())), -Math.sin(Math.toRadians(enemy.getView().getRotate()))));
         }else{
             enemy.setVelocity(new Point2D(0,0));
+        }
+
+        if(isWPressed){
+            player.setVelocity(new Point2D(Math.cos(Math.toRadians(player.getRotate())), Math.sin(Math.toRadians(player.getRotate()))));
+        } else if(isSPressed){
+            player.setVelocity(new Point2D(-Math.cos(Math.toRadians(player.getView().getRotate())), -Math.sin(Math.toRadians(player.getView().getRotate()))));
+        }else{
+            player.setVelocity(new Point2D(0,0));
         }
         //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets.size(); i++){
