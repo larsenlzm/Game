@@ -123,10 +123,6 @@ public class Controller {
 
         resumeplz = new Button("RESUME PLEASE");
         overLayer.getChildren().add(resumeplz);
-        resumeplz.setOnAction(e -> {
-            timer.start();
-            System.out.println("plz");
-        });
 
         return root;
     }
@@ -154,6 +150,7 @@ public class Controller {
     public void resumeGame() {
         System.out.println("Resuming game ...");
         stage.setScene(game);
+        timer.start();
     }
     public Button loadButton;
     public void loadGame() {
@@ -183,9 +180,6 @@ public class Controller {
         stage.close();
     }
     private void onUpdate() {
-
-        System.out.println("JEG KJØRER NÅ!");
-
         boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
         boolean isSPressed = keyboardBitSet.get(KeyCode.S.ordinal());
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());
@@ -196,7 +190,6 @@ public class Controller {
         boolean isLeftPressed = keyboardBitSet.get(KeyCode.LEFT.ordinal());
         boolean isRightPressed = keyboardBitSet.get(KeyCode.RIGHT.ordinal());
         boolean isPeriodPressed = keyboardBitSet.get(KeyCode.PERIOD.ordinal());
-        boolean isSpacePressed = keyboardBitSet.get(KeyCode.SPACE.ordinal());
 
         double maxX = scenewidth - (player.getWidth() / 2);
         double minX = 0 - (player.getWidth() / 2);
@@ -208,13 +201,12 @@ public class Controller {
             laderTeller = lader;
         }
         boolean isPistolLadet = laderTeller >= lader;
-
         //Pause
-        if (isSpacePressed){
+        resumeplz.setOnAction(e -> {
             stopContent();
             lobby = exitButton.getScene();
             stage.setScene(lobby);
-        }
+        });
         //skyting player2
         if (isPeriodPressed && isPistolLadet) {
             Bullet bullet2 = new Bullet(5,5,5,Color.RED,enemy.getX(),enemy.getY(), root,enemy);
