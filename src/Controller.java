@@ -22,6 +22,7 @@ public class Controller {
 
     private Pane root, overLayer;
     private Label hpLabel, hpLabel2, score, finishLabel;
+    private Button resumeplz;
     private AnimationTimer timer;
 
     private List<Bullet> bullets = new ArrayList<>();
@@ -120,6 +121,13 @@ public class Controller {
         score.setTextFill(Color.BLACK);
         overLayer.getChildren().add(score);
 
+        resumeplz = new Button("RESUME PLEASE");
+        overLayer.getChildren().add(resumeplz);
+        resumeplz.setOnAction(e -> {
+            timer.start();
+            System.out.println("plz");
+        });
+
         return root;
     }
     public void stopContent() {
@@ -175,6 +183,8 @@ public class Controller {
         stage.close();
     }
     private void onUpdate() {
+
+        System.out.println("JEG KJØRER NÅ!");
 
         boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
         boolean isSPressed = keyboardBitSet.get(KeyCode.S.ordinal());
