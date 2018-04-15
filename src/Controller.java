@@ -1,5 +1,4 @@
 import javafx.animation.AnimationTimer;
-import javafx.fxml.*;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,7 +21,6 @@ public class Controller {
 
     private Pane root, overLayer;
     private Label hpLabel, hpLabel2, score, finishLabel;
-    private Button resumeplz;
     private AnimationTimer timer;
 
     private List<Bullet> bullets = new ArrayList<>();
@@ -52,6 +50,7 @@ public class Controller {
             keyboardBitSet.set(event.getCode().ordinal(), false);
         });
     }
+
     public void newRound(){
         player.getView().setTranslateX(50); //flytter spiller tilbake til spawn
         player.getView().setTranslateY(50);
@@ -121,9 +120,6 @@ public class Controller {
         score.setTextFill(Color.BLACK);
         overLayer.getChildren().add(score);
 
-        resumeplz = new Button("RESUME PLEASE");
-        overLayer.getChildren().add(resumeplz);
-
         return root;
     }
     public void stopContent() {
@@ -145,12 +141,18 @@ public class Controller {
             }
         };
         resumeContent();
+        keyboardBitSet.set(0,100,false);
     }
     public Button resumeButton;
     public void resumeGame() {
-        System.out.println("Resuming game ...");
-        stage.setScene(game);
-        timer.start();
+        try {
+            stage.setScene(game);
+            resumeContent();
+            keyboardBitSet.set(0,100,false);
+            System.out.println("Resuming game ...");
+        } catch(RuntimeException e){
+            System.out.println("Cant resume, you sure you have anything to resume??");
+        }
     }
     public Button loadButton;
     public void loadGame() {
@@ -181,8 +183,8 @@ public class Controller {
     }
     private void onUpdate() {
         boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
-        boolean isSPressed = keyboardBitSet.get(KeyCode.S.ordinal());
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());
+        boolean isSPressed = keyboardBitSet.get(KeyCode.S.ordinal());
         boolean isDPressed = keyboardBitSet.get(KeyCode.D.ordinal());
         boolean isVPressed = keyboardBitSet.get(KeyCode.V.ordinal());
         boolean isUpPressed = keyboardBitSet.get(KeyCode.UP.ordinal());
@@ -190,6 +192,8 @@ public class Controller {
         boolean isLeftPressed = keyboardBitSet.get(KeyCode.LEFT.ordinal());
         boolean isRightPressed = keyboardBitSet.get(KeyCode.RIGHT.ordinal());
         boolean isPeriodPressed = keyboardBitSet.get(KeyCode.PERIOD.ordinal());
+        boolean isSpacePressed = keyboardBitSet.get(KeyCode.SPACE.ordinal());
+        boolean isEscPressed = keyboardBitSet.get(KeyCode.ESCAPE.ordinal());
 
         double maxX = scenewidth - (player.getWidth() / 2);
         double minX = 0 - (player.getWidth() / 2);
@@ -202,11 +206,13 @@ public class Controller {
         }
         boolean isPistolLadet = laderTeller >= lader;
         //Pause
-        resumeplz.setOnAction(e -> {
-            stopContent();
-            lobby = exitButton.getScene();
-            stage.setScene(lobby);
-        });
+
+        if(isSpacePressed || isEscPressed){
+                stopContent();
+                lobby = exitButton.getScene();
+                stage.setScene(lobby);
+        }
+
         //skyting player2
         if (isPeriodPressed && isPistolLadet) {
             Bullet bullet2 = new Bullet(5,5,5,Color.RED,enemy.getX(),enemy.getY(), root,enemy);
