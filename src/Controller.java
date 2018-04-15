@@ -4,8 +4,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -18,7 +20,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import java.net.*;
 import java.io.*;
 
@@ -48,6 +49,11 @@ public class Controller {
     private double scenewidth = 600;
     private double sceneheigth = 600;
 
+    public Button saveButton, startButton, resumeButton, loadButton, exitButton, back, saveSave;
+    public TextField saveText;
+    public Label errorLabel;
+    public AnchorPane main, saveP, errorP;
+
     private BitSet keyboardBitSet = new BitSet();
 
     public void addInputControls(Scene scene) {
@@ -58,7 +64,13 @@ public class Controller {
             keyboardBitSet.set(event.getCode().ordinal(), false);
         });
     }
-
+    public void error(String error){
+        errorLabel.setText("Error!!! \n" + error);
+        errorP.setDisable(false);
+        errorP.setVisible(true);
+        main.setDisable(true);
+        saveP.setDisable(true);
+    }
     public void newRound(){
         player.getView().setTranslateX(50); //flytter spiller tilbake til spawn
         player.getView().setTranslateY(50);
@@ -84,10 +96,10 @@ public class Controller {
 
         root.setPrefSize(scenewidth,sceneheigth);
 
-        player = new Player("tank1.png", 10,3, 50,50, root);
+        player = new Player("res/tank1.png", 10,3, 50,50, root);
         player.setVelocity(new Point2D(0,0));
 
-        enemy = new Player("tank2.png", 10,3, 500,500, root);
+        enemy = new Player("res/tank2.png", 10,3, 500,500, root);
         enemy.setVelocity(new Point2D(0,0));
         enemy.getView().setRotate(180);
 
@@ -136,8 +148,9 @@ public class Controller {
     public void resumeContent() {
         timer.start();
     }
-    public Button startButton;
     public void startGame() {
+        scoreE = 0;
+        scoreP = 0;
         stage = (Stage) startButton.getScene().getWindow();
         game = new Scene(createContent());
         stage.setScene(game);
@@ -151,7 +164,6 @@ public class Controller {
         resumeContent();
         keyboardBitSet.set(0,100,false);
     }
-    public Button resumeButton;
     public void resumeGame() {
         try {
             stage.setScene(game);
@@ -159,37 +171,85 @@ public class Controller {
             keyboardBitSet.set(0,100,false);
             System.out.println("Resuming game ...");
         } catch(RuntimeException e){
+            error("Nothing to resume");
             System.out.println("Cant resume, you sure you have anything to resume??");
         }
     }
-    public Button loadButton;
     public void loadGame() {
         try {
-            Save save = (Save) resourceManager.load("1.save");
+            Save save = (Save) resourceManager.load("asd.save");
             System.out.println("Loading game ...");
+            stage = (Stage) startButton.getScene().getWindow();
+            game = new Scene(createContent());
+            stage.setScene(game);
+            addInputControls(game);
+            timer = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    onUpdate();
+                }
+            };
+            resumeContent();
+            keyboardBitSet.set(0,100,false);
             scoreP = save.getScoreP();
             scoreE = save.getScoreE();
-            newRound();
         } catch (Exception ex){
-            if(ex.getMessage() != null)
+            if(ex.getMessage() != null) {
                 System.out.println("KAN IKKE LOADE!: " + ex.getMessage());
+            }
         }
     }
-    public Button saveButton;
     public void saveGame() {
-        Save save = new Save(scoreP,scoreE);
-        try {
-            resourceManager.save(save,"1.save");
-            System.out.println("Saving game ...");
-        } catch (Exception ex){
-            System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
+
+        saveText.setText("");
+        main.setDisable(true);
+        main.setVisible(false);
+        saveP.setDisable(false);
+        saveP.setVisible(true);
+    }
+    public void saveSave(){
+        if(!saveText.getText().trim().isEmpty()){
+            System.out.println(saveText.getCharacters());
+            Save save = new Save(scoreP,scoreE);
+            try {
+                resourceManager.save(save,/*saveText.getText() + ".save"*/ "asd.save"); // MIDLERTIDIG
+                System.out.println("Saving game ...");
+            } catch (Exception ex){
+                System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
+            }
+            saveP.setDisable(true);
+            saveP.setVisible(false);
+            main.setDisable(false);
+            main.setVisible(true);
+        } else {
+            error("No name entered");
+            System.out.println("Skriv inn et save navn");
         }
     }
-    public Button exitButton;
     public void exitGame() {
+        stage = (Stage) startButton.getScene().getWindow();
         stage.close();
     }
-
+    public void goBack() {
+        if(errorP.isVisible() && main.isVisible()){
+            errorP.setDisable(true);
+            errorP.setVisible(false);
+            main.setDisable(false);
+            main.setVisible(true);
+        } else if(errorP.isVisible() && saveP.isVisible()){
+            errorP.setDisable(true);
+            errorP.setVisible(false);
+            saveP.setDisable(false);
+            saveP.setVisible(true);
+        } else {
+            errorP.setDisable(true);
+            errorP.setVisible(false);
+            saveP.setDisable(true);
+            saveP.setVisible(false);
+            main.setDisable(false);
+            main.setVisible(true);
+        }
+    }
     //Midlertidig kode for sound
     public void getSound(String fname) {
         Clip clip = null;
@@ -212,7 +272,6 @@ public class Controller {
             e.printStackTrace();
         }
     }
-
     private void onUpdate() {
         boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());
@@ -297,7 +356,7 @@ public class Controller {
         //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(enemy)) {
-                getSound("sound.wav");
+                getSound("res/sound.wav");
                 bullets.get(i).RemoveBullet(root);
                 bullets.remove(i);
                 if (enemy.getHp() != 1) {
@@ -333,7 +392,7 @@ public class Controller {
         //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets2.size(); i++){
             if(bullets2.get(i).isColliding(player)) {
-                getSound("sound.wav");
+                getSound("res/sound.wav");
                 bullets2.get(i).RemoveBullet(root);
                 bullets2.remove(i);
                 if(player.getHp() != 1){
