@@ -14,6 +14,14 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import java.net.*;
+import java.io.*;
 
 public class Controller {
 
@@ -179,6 +187,30 @@ public class Controller {
     public void exitGame() {
         stage.close();
     }
+
+    //Midlertidig kode for sound
+    public void getSound(String fname) {
+        Clip clip = null;
+
+        try {
+            URL url = this.getClass().getClassLoader().getResource(fname);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.setFramePosition(0);
+            clip.start();;
+        }
+        catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void onUpdate() {
         boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
         boolean isSPressed = keyboardBitSet.get(KeyCode.S.ordinal());
@@ -259,6 +291,7 @@ public class Controller {
         //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(enemy)) {
+                getSound("sound.wav");
                 bullets.get(i).RemoveBullet(root);
                 bullets.remove(i);
                 if (enemy.getHp() != 1) {
@@ -294,6 +327,7 @@ public class Controller {
         //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets2.size(); i++){
             if(bullets2.get(i).isColliding(player)) {
+                getSound("sound.wav");
                 bullets2.get(i).RemoveBullet(root);
                 bullets2.remove(i);
                 if(player.getHp() != 1){
