@@ -9,7 +9,7 @@ public class TankMain extends Application {
     @Override
     public void start(Stage mainStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("fuxml.fxml"));
-        Scene scene = new Scene(root, 600, 600);
+        Scene scene = new Scene(root);
         mainStage.setTitle("TankSpillet");
         mainStage.setScene(scene);
         mainStage.show();

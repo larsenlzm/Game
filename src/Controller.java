@@ -255,7 +255,7 @@ public class Controller {
         }
     }
     //Midlertidig kode for sound
-    public void getSound(String fname) {
+    private void getSound(String fname) {
 
         try {
             URL url = this.getClass().getClassLoader().getResource(fname);

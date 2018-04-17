@@ -8,34 +8,22 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
-   <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="85.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="426.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="10.0" prefWidth="88.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints maxHeight="191.0" minHeight="1.0" prefHeight="128.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="478.0" minHeight="10.0" prefHeight="393.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="188.0" minHeight="0.0" prefHeight="76.0" vgrow="SOMETIMES" />
-  </rowConstraints>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="600.0" nodeOrientation="INHERIT" pickOnBounds="true" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
+      <ImageView fitHeight="720.0" fitWidth="1280.0" nodeOrientation="INHERIT" pickOnBounds="true" smooth="false" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
          <image>
-            <Image url="@res/bg.jpg" />
+            <Image url="@res/navn.png" />
          </image></ImageView>
-      <AnchorPane fx:id="main" layoutX="96.0" layoutY="40.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <AnchorPane fx:id="main" prefHeight="720.0" prefWidth="1280.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <VBox alignment="CENTER" prefHeight="287.0" prefWidth="426.0">
+            <VBox alignment="BOTTOM_CENTER" cache="true" layoutX="340.0" layoutY="60.0" prefHeight="600.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="startButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startGame" prefHeight="50.0" prefWidth="250.0" text="START NEW GAME" textAlignment="CENTER" textOverrun="CLIP">
+                  <Button fx:id="startButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startGame" prefHeight="50.0" prefWidth="250.0" text="START NEW GAME" textAlignment="CENTER" textOverrun="CLIP">
                      <font>
                         <Font name="8BIT WONDER Nominal" size="15.0" />
                      </font>
@@ -78,32 +66,49 @@
                </children>
             </VBox>
          </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </AnchorPane>
-      <AnchorPane fx:id="saveP" disable="true" layoutX="96.0" layoutY="138.0" prefHeight="200.0" prefWidth="200.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <AnchorPane fx:id="saveP" disable="true" prefHeight="720.0" prefWidth="1280.0" visible="false">
          <children>
-            <Button fx:id="back" alignment="CENTER" layoutX="168.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="90.0" text="BACK" textAlignment="CENTER">
-               <font>
-                  <Font name="8BIT WONDER Nominal" size="15.0" />
-               </font>
-            </Button>
-            <TextField fx:id="saveText" alignment="CENTER" layoutX="69.0" layoutY="197.0" prefHeight="50.0" prefWidth="288.0" promptText="SAVE NAME">
-               <font>
-                  <Font name="8BIT WONDER Nominal" size="15.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets></TextField>
-            <Button fx:id="saveSave" alignment="CENTER" layoutX="168.0" layoutY="290.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveSave" prefHeight="50.0" prefWidth="90.0" text="SAVE" textAlignment="CENTER">
-               <font>
-                  <Font name="8BIT WONDER Nominal" size="15.0" />
-               </font>
-            </Button>
+            <VBox alignment="CENTER" layoutX="392.0" layoutY="309.0" prefHeight="200.0" prefWidth="497.0">
+               <children>
+                  <Button fx:id="back" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="90.0" text="BACK" textAlignment="CENTER">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <TextField fx:id="saveText" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="288.0" promptText="SAVE NAME">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Button fx:id="saveSave" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveSave" prefHeight="50.0" prefWidth="90.0" text="SAVE" textAlignment="CENTER">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="errorP" disable="true" layoutX="96.0" layoutY="138.0" onKeyPressed="#goBack" onMouseClicked="#goBack" prefHeight="200.0" prefWidth="200.0" visible="false" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
+      <AnchorPane fx:id="errorP" disable="true" layoutX="-6.0" onKeyPressed="#goBack" onMouseClicked="#goBack" prefHeight="727.0" prefWidth="1292.0" visible="false" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
          <children>
-            <Pane opacity="0.47" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: black;" />
-            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="TOP" layoutX="122.0" layoutY="231.0" lineSpacing="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="139.0" prefWidth="356.0" style="-fx-background-color: WHITE;" text="ERROR" textAlignment="CENTER">
+            <Pane nodeOrientation="LEFT_TO_RIGHT" opacity="0.47" prefHeight="720.0" prefWidth="1292.0" style="-fx-background-color: black;" />
+            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="449.0" layoutY="277.0" lineSpacing="10.0" prefHeight="167.0" prefWidth="395.0" style="-fx-background-color: WHITE;" text="ERROR" textAlignment="CENTER">
                <font>
                   <Font name="8BIT WONDER Nominal" size="15.0" />
                </font>
@@ -114,4 +119,4 @@
          </children>
       </AnchorPane>
    </children>
-</GridPane>
+</AnchorPane>
