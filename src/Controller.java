@@ -121,7 +121,7 @@ public class Controller {
         Walls.add(vegg8);
         Wall vegg9 = new Wall(25,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root);
         Walls.add(vegg9);
-
+// random
         root.getChildren().add(overLayer);
 
         hpLabel = new Label();
