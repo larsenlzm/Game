@@ -10,6 +10,7 @@ public class TankMain extends Application {
     public void start(Stage mainStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("fuxml.fxml"));
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("Style.css");
         mainStage.setTitle("TankSpillet");
         mainStage.setScene(scene);
         mainStage.show();
