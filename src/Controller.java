@@ -39,6 +39,8 @@ public class Controller {
     private Player player;
     private Player enemy;
 
+    private Clip ooh;
+
     private double lader = 10; //skudd per antall frames
     private double laderTeller = lader;
     private double laderTellerDelta = 1;
@@ -139,6 +141,8 @@ public class Controller {
         score = new Label();
         score.setTextFill(Color.BLACK);
         overLayer.getChildren().add(score);
+
+        getSound("res/sound.wav");
 
         return root;
     }
@@ -252,15 +256,13 @@ public class Controller {
     }
     //Midlertidig kode for sound
     public void getSound(String fname) {
-        Clip clip = null;
 
         try {
             URL url = this.getClass().getClassLoader().getResource(fname);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-            clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.setFramePosition(0);
-            clip.start();;
+            ooh = AudioSystem.getClip();
+            ooh.open(audioIn);
+            ooh.setFramePosition(0);
         }
         catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
@@ -356,7 +358,7 @@ public class Controller {
         //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(enemy)) {
-                getSound("res/sound.wav");
+                ooh.start();
                 bullets.get(i).RemoveBullet(root);
                 bullets.remove(i);
                 if (enemy.getHp() != 1) {
@@ -392,7 +394,7 @@ public class Controller {
         //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets2.size(); i++){
             if(bullets2.get(i).isColliding(player)) {
-                getSound("res/sound.wav");
+                ooh.start();
                 bullets2.get(i).RemoveBullet(root);
                 bullets2.remove(i);
                 if(player.getHp() != 1){
