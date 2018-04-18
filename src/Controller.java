@@ -48,6 +48,7 @@ public class Controller {
     private int scoreP = 0;
     private int scoreE = 0;
 
+
     private double scenewidth = 600;
     private double sceneheigth = 600;
 
@@ -96,7 +97,6 @@ public class Controller {
         root = new Pane();
         overLayer = new Pane();
 
-        root.setPrefSize(scenewidth,sceneheigth);
 
         player = new Player("res/tank1.png", 10,3, 50,50, root);
         player.setVelocity(new Point2D(0,0));
@@ -105,7 +105,7 @@ public class Controller {
         enemy.setVelocity(new Point2D(0,0));
         enemy.getView().setRotate(180);
 
-        Wall vegg = new Wall(25,100,Color.ORANGE,125,100, root);
+        Wall vegg = new Wall(25,150,Color.ORANGE,125,100, root);
         Walls.add(vegg);
         Wall vegg2 = new Wall(25,100,Color.ORANGE,450,100, root);
         Walls.add(vegg2);
