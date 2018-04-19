@@ -109,7 +109,7 @@ public class Controller {
         enemy.setVelocity(new Point2D(0,0));
         enemy.getView().setRotate(180);
 
-        Wall vegg = new Wall(25,150,Color.ORANGE,125,100, root);
+        Wall vegg = new Wall(25,100,Color.ORANGE,125,100, root);
         Walls.add(vegg);
         Wall vegg2 = new Wall(25,100,Color.ORANGE,450,100, root);
         Walls.add(vegg2);
