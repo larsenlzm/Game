@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -48,14 +49,15 @@ public class Controller {
     private int scoreP = 0;
     private int scoreE = 0;
 
+    private File saveFile;
 
     private double scenewidth = 600;
     private double sceneheigth = 600;
 
     public Button saveButton, startButton, resumeButton, loadButton, exitButton, back, saveSave;
     public TextField saveText;
-    public Label errorLabel;
-    public AnchorPane main, saveP, errorP;
+    public Label errorLabel, loadLabel;
+    public AnchorPane main, saveP, errorP, loadP;
 
     private BitSet keyboardBitSet = new BitSet();
 
@@ -73,6 +75,7 @@ public class Controller {
         errorP.setVisible(true);
         main.setDisable(true);
         saveP.setDisable(true);
+        loadP.setDisable(true);
     }
     public void newRound(){
         player.getView().setTranslateX(50); //flytter spiller tilbake til spawn
@@ -97,6 +100,7 @@ public class Controller {
         root = new Pane();
         overLayer = new Pane();
 
+        root.setPrefSize(scenewidth,sceneheigth);
 
         player = new Player("res/tank1.png", 10,3, 50,50, root);
         player.setVelocity(new Point2D(0,0));
@@ -178,26 +182,45 @@ public class Controller {
         }
     }
     public void loadGame() {
-        try {
-            Save save = (Save) resourceManager.load("asd.save");
-            System.out.println("Loading game ...");
-            stage = (Stage) startButton.getScene().getWindow();
-            game = new Scene(createContent());
-            stage.setScene(game);
-            addInputControls(game);
-            timer = new AnimationTimer() {
-                @Override
-                public void handle(long now) {
-                    onUpdate();
+        main.setDisable(true);
+        main.setVisible(false);
+        loadP.setDisable(false);
+        loadP.setVisible(true);
+    }
+    public void loader(){
+        System.out.println("getting file");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load .save file");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Saves", "*.save");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        saveFile = fileChooser.showOpenDialog(stage);
+        loadLabel.setText(saveFile.getName());
+    }
+    public void loadLoad(){
+        if(saveFile != null) {
+            try {
+                Save save = (Save) resourceManager.load(saveFile.getName());
+                System.out.println("Loading game ...");
+                stage = (Stage) startButton.getScene().getWindow();
+                game = new Scene(createContent());
+                stage.setScene(game);
+                addInputControls(game);
+                timer = new AnimationTimer() {
+                    @Override
+                    public void handle(long now) {
+                        onUpdate();
+                    }
+                };
+                resumeContent();
+                keyboardBitSet.set(0, 100, false);
+                scoreP = save.getScoreP();
+                scoreE = save.getScoreE();
+            } catch (Exception ex) {
+                if (ex.getMessage() != null) {
+                    System.out.println("KAN IKKE LOADE!: " + ex.getMessage());
+                    error("cant load file");
                 }
-            };
-            resumeContent();
-            keyboardBitSet.set(0,100,false);
-            scoreP = save.getScoreP();
-            scoreE = save.getScoreE();
-        } catch (Exception ex){
-            if(ex.getMessage() != null) {
-                System.out.println("KAN IKKE LOADE!: " + ex.getMessage());
             }
         }
     }
@@ -214,7 +237,7 @@ public class Controller {
             System.out.println(saveText.getCharacters());
             Save save = new Save(scoreP,scoreE);
             try {
-                resourceManager.save(save,/*saveText.getText() + ".save"*/ "asd.save"); // MIDLERTIDIG
+                resourceManager.save(save,saveText.getText() + ".save"); // MIDLERTIDIG
                 System.out.println("Saving game ...");
             } catch (Exception ex){
                 System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
@@ -225,7 +248,7 @@ public class Controller {
             main.setVisible(true);
         } else {
             error("No name entered");
-            System.out.println("Skriv inn et save navn");
+            System.out.println("Skriv inn et navn");
         }
     }
     public void exitGame() {
@@ -243,9 +266,16 @@ public class Controller {
             errorP.setVisible(false);
             saveP.setDisable(false);
             saveP.setVisible(true);
+        } else if(errorP.isVisible() && loadP.isVisible()){
+            errorP.setDisable(true);
+            errorP.setVisible(false);
+            loadP.setDisable(false);
+            loadP.setVisible(true);
         } else {
             errorP.setDisable(true);
             errorP.setVisible(false);
+            loadP.setDisable(true);
+            loadP.setVisible(false);
             saveP.setDisable(true);
             saveP.setVisible(false);
             main.setDisable(false);
@@ -303,6 +333,8 @@ public class Controller {
                 stopContent();
                 lobby = exitButton.getScene();
                 stage.setScene(lobby);
+                goBack();
+                loadLabel.setText("");
         }
 
         //skyting player2

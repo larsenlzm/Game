@@ -13,13 +13,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
       <ImageView fitHeight="720.0" fitWidth="1280.0" nodeOrientation="INHERIT" pickOnBounds="true" smooth="false" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
          <image>
             <Image url="@res/navn.png" />
          </image></ImageView>
-      <AnchorPane fx:id="main" prefHeight="720.0" prefWidth="1280.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <AnchorPane fx:id="main" prefHeight="720.0" prefWidth="1280.0">
          <children>
             <VBox alignment="BOTTOM_CENTER" cache="true" layoutX="340.0" layoutY="60.0" prefHeight="600.0" prefWidth="600.0">
                <children>
@@ -94,6 +94,49 @@
                      </VBox.margin>
                   </TextField>
                   <Button fx:id="saveSave" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveSave" prefHeight="50.0" prefWidth="90.0" text="SAVE" textAlignment="CENTER">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="loadP" disable="true" prefHeight="720.0" prefWidth="1280.0" visible="false">
+         <children>
+            <VBox alignment="CENTER" layoutX="392.0" layoutY="309.0" prefHeight="200.0" prefWidth="497.0">
+               <children>
+                  <Button fx:id="back2" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="90.0" text="BACK" textAlignment="CENTER">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="load" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loader" prefHeight="50.0" prefWidth="200.0" text="Choose file" textAlignment="CENTER">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Label fx:id="loadLabel" alignment="CENTER" prefWidth="400.0" underline="true">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <Button fx:id="loadLoad" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loadLoad" prefHeight="50.0" prefWidth="90.0" text="LOAD" textAlignment="CENTER">
                      <font>
                         <Font name="8BIT WONDER Nominal" size="15.0" />
                      </font>
