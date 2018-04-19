@@ -14,13 +14,13 @@ public class TankMain extends Application {
         Scene scene = new Scene(root);
 
 
-        //Kode for fullskjerm
+        /*Kode for fullskjerm
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         mainStage.setX(primaryScreenBounds.getMinX());
         mainStage.setY(primaryScreenBounds.getMinY());
         mainStage.setWidth(primaryScreenBounds.getWidth());
         mainStage.setHeight(primaryScreenBounds.getHeight());
-        //
+        */
 
         scene.getStylesheets().add("Style.css");
         mainStage.setTitle("TankSpillet");
