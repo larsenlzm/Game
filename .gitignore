@@ -1,4 +1,4 @@
 workspace.xml
-src/saves
-out
+/src/saves
+/out
 .idea

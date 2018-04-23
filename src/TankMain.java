@@ -13,7 +13,6 @@ public class TankMain extends Application {
     public void start(Stage mainStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("fuxml.fxml"));
         Scene scene = new Scene(root);
-        Font.loadFont(TankMain.class.getResource("res/8bit.ttf").toExternalForm(), 10);
         /* Kode for fullskjerm
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         mainStage.setX(primaryScreenBounds.getMinX());

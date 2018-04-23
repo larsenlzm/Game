@@ -6,8 +6,6 @@ public class GameObjects {
     private Node view;
     private Point2D velocity;
 
-    private boolean alive = true;
-
     public GameObjects(Node view) {
         this.view = view;
     }
@@ -27,18 +25,6 @@ public class GameObjects {
 
     public Node getView() {
         return view;
-    }
-
-    public boolean isAlive() {
-        return alive;
-    }
-
-    public boolean isDead() {
-        return !alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
     }
 
     public double getRotate() {

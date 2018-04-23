@@ -61,46 +61,12 @@ public class Controller {
 
     private BitSet keyboardBitSet = new BitSet();
 
-    public void addInputControls(Scene scene) {
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            keyboardBitSet.set(event.getCode().ordinal(), true);
-        });
-        scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
-            keyboardBitSet.set(event.getCode().ordinal(), false);
-        });
-    }
-    public void error(String error){
-        errorLabel.setText("Error!!! \n" + error);
-        errorP.setDisable(false);
-        errorP.setVisible(true);
-        main.setDisable(true);
-        saveP.setDisable(true);
-        loadP.setDisable(true);
-    }
-    public void newRound(){
-        player.getView().setTranslateX(50); //flytter spiller tilbake til spawn
-        player.getView().setTranslateY(50);
-        enemy.getView().setTranslateX(500); //flytter spiller2 tilbake til spawn
-        enemy.getView().setTranslateY(500);
-        player.getView().setRotate(0);
-        enemy.getView().setRotate(180);
-        for (Bullet b : bullets){
-            b.RemoveBullet(root);
-        }
-        for (Bullet b : bullets2){
-            b.RemoveBullet(root);
-        }
-        bullets.clear();
-        bullets2.clear();
-        enemy.setHp(10);
-        player.setHp(10);
-    }
-    public Parent createContent() {
+    private Parent createContent() {
 
         root = new Pane();
         overLayer = new Pane();
 
-        root.setPrefSize(scenewidth,sceneheigth);
+        root.setPrefSize(1280,720);
 
         player = new Player("res/tank1.png", 10,3, 50,50, root);
         player.setVelocity(new Point2D(0,0));
@@ -148,10 +114,44 @@ public class Controller {
 
         return root;
     }
-    public void stopContent() {
+    private void addInputControls(Scene scene) {
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            keyboardBitSet.set(event.getCode().ordinal(), true);
+        });
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+            keyboardBitSet.set(event.getCode().ordinal(), false);
+        });
+    }
+    private void error(String error){
+        errorLabel.setText("Error!!! \n" + error);
+        errorP.setDisable(false);
+        errorP.setVisible(true);
+        main.setDisable(true);
+        saveP.setDisable(true);
+        loadP.setDisable(true);
+    }
+    private void newRound(){
+        player.getView().setTranslateX(50); //flytter spiller tilbake til spawn
+        player.getView().setTranslateY(50);
+        enemy.getView().setTranslateX(500); //flytter spiller2 tilbake til spawn
+        enemy.getView().setTranslateY(500);
+        player.getView().setRotate(0);
+        enemy.getView().setRotate(180);
+        for (Bullet b : bullets){
+            b.RemoveBullet(root);
+        }
+        for (Bullet b : bullets2){
+            b.RemoveBullet(root);
+        }
+        bullets.clear();
+        bullets2.clear();
+        enemy.setHp(10);
+        player.setHp(10);
+    }
+    private void stopContent() {
         timer.stop();
     }
-    public void resumeContent() {
+    private void resumeContent() {
         timer.start();
     }
     public void startGame() {
@@ -216,12 +216,15 @@ public class Controller {
                 keyboardBitSet.set(0, 100, false);
                 scoreP = save.getScoreP();
                 scoreE = save.getScoreE();
+                saveFile = null;
             } catch (Exception ex) {
                 if (ex.getMessage() != null) {
                     System.out.println("KAN IKKE LOADE!: " + ex.getMessage());
                     error("cant load file");
                 }
             }
+        } else {
+            error("cant load file, no file chosen");
         }
     }
     public void saveGame() {
@@ -282,8 +285,7 @@ public class Controller {
             main.setVisible(true);
         }
     }
-    //Midlertidig kode for sound
-    private void getSound(String fname) {
+    private void getSound(String fname) { //Midlertidig kode for sound
 
         try {
             URL url = this.getClass().getClassLoader().getResource(fname);
@@ -394,7 +396,7 @@ public class Controller {
                 bullets.remove(i);
                 if (enemy.getHp() != 1) {
                     enemy.setHp(enemy.getHp() - 1);
-                } else if(enemy.getLifePoints() != 1){
+                } else if(scoreE < 3){
                     enemy.setHp(10);
                     newRound();
                     enemy.setLifePoints(enemy.getLifePoints() - 1);
@@ -402,6 +404,7 @@ public class Controller {
                 } else {
                     scoreP++;
                     root.getChildren().remove(enemy.getView());
+                    stopContent();
                     enemy.setHp(enemy.getHp() - 1);
                     enemy.setLifePoints(enemy.getLifePoints() - 1);
                     finishLabel.setText("PLAYER 1 WON!");
@@ -430,13 +433,14 @@ public class Controller {
                 bullets2.remove(i);
                 if(player.getHp() != 1){
                     player.setHp(player.getHp() - 1);
-                } else if(player.getLifePoints() != 1) {
+                } else if(scoreP < 3) {
                     newRound();
                     player.setLifePoints(player.getLifePoints() - 1);
                     scoreE++;
                 } else {
                     scoreE++;
                     root.getChildren().remove(player.getView());
+                    stopContent();
                     player.setHp(player.getHp() - 1);
                     player.setLifePoints(player.getLifePoints() - 1);
                     finishLabel.setText("PLAYER 2 WON!");
