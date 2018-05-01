@@ -311,11 +311,11 @@ public class Controller {
         boolean isSPressed = keyboardBitSet.get(KeyCode.S.ordinal());
         boolean isDPressed = keyboardBitSet.get(KeyCode.D.ordinal());
         boolean isVPressed = keyboardBitSet.get(KeyCode.V.ordinal());
-        boolean isUpPressed = keyboardBitSet.get(KeyCode.I.ordinal());
-        boolean isDownPressed = keyboardBitSet.get(KeyCode.K.ordinal());
-        boolean isLeftPressed = keyboardBitSet.get(KeyCode.J.ordinal());
-        boolean isRightPressed = keyboardBitSet.get(KeyCode.L.ordinal());
-        boolean isPeriodPressed = keyboardBitSet.get(KeyCode.B.ordinal());
+        boolean isUpPressed = keyboardBitSet.get(KeyCode.UP.ordinal());
+        boolean isDownPressed = keyboardBitSet.get(KeyCode.DOWN.ordinal());
+        boolean isLeftPressed = keyboardBitSet.get(KeyCode.LEFT.ordinal());
+        boolean isRightPressed = keyboardBitSet.get(KeyCode.RIGHT.ordinal());
+        boolean isPeriodPressed = keyboardBitSet.get(KeyCode.M.ordinal());
         boolean isSpacePressed = keyboardBitSet.get(KeyCode.SPACE.ordinal());
         boolean isEscPressed = keyboardBitSet.get(KeyCode.ESCAPE.ordinal());
 
