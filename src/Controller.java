@@ -315,7 +315,7 @@ public class Controller {
         boolean isDownPressed = keyboardBitSet.get(KeyCode.DOWN.ordinal());
         boolean isLeftPressed = keyboardBitSet.get(KeyCode.LEFT.ordinal());
         boolean isRightPressed = keyboardBitSet.get(KeyCode.RIGHT.ordinal());
-        boolean isPeriodPressed = keyboardBitSet.get(KeyCode.M.ordinal());
+        boolean isMPressed = keyboardBitSet.get(KeyCode.M.ordinal());
         boolean isSpacePressed = keyboardBitSet.get(KeyCode.SPACE.ordinal());
         boolean isEscPressed = keyboardBitSet.get(KeyCode.ESCAPE.ordinal());
 
@@ -340,7 +340,7 @@ public class Controller {
         }
 
         //skyting player2
-        if (isPeriodPressed && isPistolLadet) {
+        if (isMPressed && isPistolLadet) {
             Bullet bullet2 = new Bullet(5,5,5,Color.RED,enemy.getX(),enemy.getY(), root,enemy);
             //Adder bulleten til gameworld og posisjonen er da samme som player
             bullets2.add(bullet2);
