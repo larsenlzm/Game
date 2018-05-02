@@ -69,10 +69,10 @@ public class Controller {
         root.setPrefSize(scenewidth,sceneheigth);
 
         player = new Player("res/tank1.png", 10,3, 50,50, root);
-        player.setVelocity(new Point2D(0,0));
+        player.setVelocity(0,0);
 
         enemy = new Player("res/tank2.png", 10,3, 500,500, root);
-        enemy.setVelocity(new Point2D(0,0));
+        enemy.setVelocity(0,0);
         enemy.getView().setRotate(180);
 
         Wall vegg = new Wall(25,100,Color.ORANGE,125,100, root);   //Oppe venstre vertikal
@@ -368,25 +368,25 @@ public class Controller {
             player.rotateRight();
         }
         if(isWPressed){
-            player.setVelocity(new Point2D(Math.cos(Math.toRadians(player.getRotate())), Math.sin(Math.toRadians(player.getRotate()))));
+            player.setVelocity(Math.cos(Math.toRadians(player.getRotate())), Math.sin(Math.toRadians(player.getRotate())));
         }else{
-            player.setVelocity(new Point2D(0,0));
+            player.setVelocity(0,0);
         }
 
         if(isUpPressed){
-            enemy.setVelocity(new Point2D(Math.cos(Math.toRadians(enemy.getView().getRotate())), Math.sin(Math.toRadians(enemy.getView().getRotate()))));
+            enemy.setVelocity(Math.cos(Math.toRadians(enemy.getView().getRotate())), Math.sin(Math.toRadians(enemy.getView().getRotate())));
         } else  if(isDownPressed){
-            enemy.setVelocity(new Point2D(-Math.cos(Math.toRadians(enemy.getView().getRotate())), -Math.sin(Math.toRadians(enemy.getView().getRotate()))));
+            enemy.setVelocity(-Math.cos(Math.toRadians(enemy.getView().getRotate())), -Math.sin(Math.toRadians(enemy.getView().getRotate())));
         }else{
-            enemy.setVelocity(new Point2D(0,0));
+            enemy.setVelocity(0,0);
         }
 
         if(isWPressed){
-            player.setVelocity(new Point2D(Math.cos(Math.toRadians(player.getRotate())), Math.sin(Math.toRadians(player.getRotate()))));
+            player.setVelocity(Math.cos(Math.toRadians(player.getRotate())), Math.sin(Math.toRadians(player.getRotate())));
         } else if(isSPressed){
-            player.setVelocity(new Point2D(-Math.cos(Math.toRadians(player.getView().getRotate())), -Math.sin(Math.toRadians(player.getView().getRotate()))));
+            player.setVelocity(-Math.cos(Math.toRadians(player.getView().getRotate())), -Math.sin(Math.toRadians(player.getView().getRotate())));
         }else{
-            player.setVelocity(new Point2D(0,0));
+            player.setVelocity(0,0);
         }
         //behandler kulekollisjon med person og utkant
         for (int i = 0; i < bullets.size(); i++){

@@ -15,8 +15,8 @@ public class GameObjects {
         view.setTranslateY(view.getTranslateY() + velocity.getY());
     }
 
-    public void setVelocity(Point2D velocity) {
-        this.velocity = velocity;
+    public void setVelocity(double x, double y) {
+        velocity = new Point2D(x,y);
     }
 
     public Point2D getVelocity() {
