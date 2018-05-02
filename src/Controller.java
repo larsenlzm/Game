@@ -367,11 +367,6 @@ public class Controller {
         } else if ( !isAPressed && isDPressed) {
             player.rotateRight();
         }
-        if(isWPressed){
-            player.setVelocity(Math.cos(Math.toRadians(player.getRotate())), Math.sin(Math.toRadians(player.getRotate())));
-        }else{
-            player.setVelocity(0,0);
-        }
 
         if(isUpPressed){
             enemy.setVelocity(Math.cos(Math.toRadians(enemy.getView().getRotate())), Math.sin(Math.toRadians(enemy.getView().getRotate())));
