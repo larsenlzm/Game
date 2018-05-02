@@ -51,8 +51,8 @@ public class Controller {
 
     private File saveFile;
 
-    private double scenewidth = 600;
-    private double sceneheigth = 600;
+    private double scenewidth = 1280;
+    private double sceneheigth = 720;
 
     public Button saveButton, startButton, resumeButton, loadButton, exitButton, back, saveSave;
     public TextField saveText;
@@ -66,7 +66,7 @@ public class Controller {
         root = new Pane();
         overLayer = new Pane();
 
-        root.setPrefSize(1280,720);
+        root.setPrefSize(scenewidth,sceneheigth);
 
         player = new Player("res/tank1.png", 10,3, 50,50, root);
         player.setVelocity(0,0);
@@ -75,21 +75,21 @@ public class Controller {
         enemy.setVelocity(0,0);
         enemy.getView().setRotate(180);
 
-        Wall vegg = new Wall(25,100,Color.ORANGE,125,100, root);
+        Wall vegg = new Wall(25,100,Color.ORANGE,125,100, root);   //Oppe venstre vertikal
         Walls.add(vegg);
-        Wall vegg2 = new Wall(25,100,Color.ORANGE,450,100, root);
+        Wall vegg2 = new Wall(75,25,Color.ORANGE,150,100, root);   //Oppe venstre horisontal
         Walls.add(vegg2);
-        Wall vegg3 = new Wall(25,100,Color.ORANGE,125,375, root);
+        Wall vegg3 = new Wall(25,100,Color.ORANGE,1165,100, root); //Oppe høyre vertikal
         Walls.add(vegg3);
-        Wall vegg4 = new Wall(25,100,Color.ORANGE,450,375, root);
+        Wall vegg4 = new Wall(75,25,Color.ORANGE,1090,620, root);  //Nede høyre horisontal
         Walls.add(vegg4);
-        Wall vegg5 = new Wall(75,25,Color.ORANGE,150,100, root);
+        Wall vegg5 = new Wall(25,100,Color.ORANGE,115,545, root);  //Nede venstre vertikal
         Walls.add(vegg5);
-        Wall vegg6 = new Wall(75,25,Color.ORANGE,375,100, root);
+        Wall vegg6 = new Wall(75,25,Color.ORANGE,140,620, root);   //Nede venstre horisontal
         Walls.add(vegg6);
-        Wall vegg7 = new Wall(75,25,Color.ORANGE,150,450, root);
+        Wall vegg7 = new Wall(25,100,Color.ORANGE,1165,545, root); //Nede høyre vertikal
         Walls.add(vegg7);
-        Wall vegg8 = new Wall(75,25,Color.ORANGE,375,450, root);
+        Wall vegg8 = new Wall(75,25,Color.ORANGE,1090,100, root);  //Oppe høyre horisontal
         Walls.add(vegg8);
         Wall vegg9 = new Wall(25,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root);
         Walls.add(vegg9);
