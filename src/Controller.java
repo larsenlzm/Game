@@ -70,10 +70,12 @@ public class Controller {
 
         player = new Player("res/tank1.png", 10,3, 50,50, root);
         player.setVelocity(0,0);
+        player.setSpeedMultiplier(3);
 
         enemy = new Player("res/tank2.png", 10,3, 500,500, root);
         enemy.setVelocity(0,0);
         enemy.getView().setRotate(180);
+        enemy.setSpeedMultiplier(3);
 
         Wall vegg = new Wall(25,100,Color.ORANGE,125,100, root);   //Oppe venstre vertikal
         Walls.add(vegg);
@@ -369,17 +371,17 @@ public class Controller {
         }
 
         if(isUpPressed){
-            enemy.setVelocity(Math.cos(Math.toRadians(enemy.getView().getRotate())), Math.sin(Math.toRadians(enemy.getView().getRotate())));
+            enemy.setVelocity(Math.cos(Math.toRadians(enemy.getView().getRotate()))*enemy.getSpeedMultiplier(), Math.sin(Math.toRadians(enemy.getView().getRotate()))*enemy.getSpeedMultiplier());
         } else  if(isDownPressed){
-            enemy.setVelocity(-Math.cos(Math.toRadians(enemy.getView().getRotate())), -Math.sin(Math.toRadians(enemy.getView().getRotate())));
+            enemy.setVelocity(-Math.cos(Math.toRadians(enemy.getView().getRotate()))*enemy.getSpeedMultiplier(), -Math.sin(Math.toRadians(enemy.getView().getRotate()))*enemy.getSpeedMultiplier());
         }else{
             enemy.setVelocity(0,0);
         }
 
         if(isWPressed){
-            player.setVelocity(Math.cos(Math.toRadians(player.getRotate())), Math.sin(Math.toRadians(player.getRotate())));
+            player.setVelocity(Math.cos(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier(), Math.sin(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier());
         } else if(isSPressed){
-            player.setVelocity(-Math.cos(Math.toRadians(player.getView().getRotate())), -Math.sin(Math.toRadians(player.getView().getRotate())));
+            player.setVelocity(-Math.cos(Math.toRadians(player.getView().getRotate()))*player.getSpeedMultiplier(), -Math.sin(Math.toRadians(player.getView().getRotate()))*player.getSpeedMultiplier());
         }else{
             player.setVelocity(0,0);
         }
@@ -458,25 +460,25 @@ public class Controller {
         }
         //kollisjon med veggene spiller 1
         for(Wall i : Walls) {
-            if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMinX() - player.getWidth() + 1 && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
+            if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMinX() - player.getWidth() + 5 && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateX(i.getMinX() - player.getWidth());
-            } else if (player.getX() >= i.getMaxX() - 1 && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
+            } else if (player.getX() >= i.getMaxX() - 5 && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateX(i.getMaxX());
-            } else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMinY() - player.getWidth() + 1) {
+            } else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMinY() - player.getWidth() + 5) {
                 player.getView().setTranslateY(i.getMinY() - player.getWidth());
-            } else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMaxY() - 1 && player.getY() <= i.getMaxY()) {
+            } else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMaxY() - 5 && player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateY(i.getMaxY());
             }
         }
         //kollisjon med veggene spiller 2
         for(Wall i : Walls) {
-            if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMinX() - enemy.getWidth() + 1 && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMaxY()) {
+            if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMinX() - enemy.getWidth() + 5 && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMaxY()) {
                 enemy.getView().setTranslateX(i.getMinX() - enemy.getWidth());
-            } else if (enemy.getX() >= i.getMaxX() - 1 && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMaxY()) {
+            } else if (enemy.getX() >= i.getMaxX() - 5 && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMaxY()) {
                 enemy.getView().setTranslateX(i.getMaxX());
-            } else if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMinY() - enemy.getWidth() + 1) {
+            } else if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMinY() - enemy.getWidth() + 5) {
                 enemy.getView().setTranslateY(i.getMinY() - enemy.getWidth());
-            } else if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMaxY() - 1 && enemy.getY() <= i.getMaxY()) {
+            } else if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMaxY() - 5 && enemy.getY() <= i.getMaxY()) {
                 enemy.getView().setTranslateY(i.getMaxY());
             }
         }
