@@ -10,7 +10,7 @@ public class Bullet extends GameObjects {
         getView().setTranslateX(x);
         getView().setTranslateY(y);
         root.getChildren().add(getView());
-        setVelocity(new Point2D(Math.cos(Math.toRadians(player.getRotate()))*5,Math.sin(Math.toRadians(player.getRotate()))*5));
+        setVelocity(Math.cos(Math.toRadians(player.getRotate()))*5,Math.sin(Math.toRadians(player.getRotate()))*5);
     }
     public void RemoveBullet(Pane root) {
         root.getChildren().remove(getView());
