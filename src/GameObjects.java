@@ -32,11 +32,11 @@ public class GameObjects {
     }
 
     public void rotateRight() {
-        view.setRotate(view.getRotate() + 1);
+        view.setRotate(view.getRotate() + 3);
     }
 
     public void rotateLeft() {
-        view.setRotate(view.getRotate() - 1);
+        view.setRotate(view.getRotate() - 3);
     }
 
     public boolean isColliding(GameObjects other) {

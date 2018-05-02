@@ -72,7 +72,7 @@ public class Controller {
         player.setVelocity(0,0);
         player.setSpeedMultiplier(3);
 
-        enemy = new Player("res/tank2.png", 10,3, 500,500, root);
+        enemy = new Player("res/tank2.png", 10,3, 1210,650, root);
         enemy.setVelocity(0,0);
         enemy.getView().setRotate(180);
         enemy.setSpeedMultiplier(3);
