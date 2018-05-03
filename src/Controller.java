@@ -95,19 +95,19 @@ public class Controller {
 
         //bane2
         maps.add(new Level());
-        maps.get(1).addWalls(new Wall(50,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
 
         //bane3
         maps.add(new Level());
-        maps.get(2).addWalls(new Wall(75,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(2).addWalls(new Wall(75,75,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
 
         //bane4
         maps.add(new Level());
-        maps.get(3).addWalls(new Wall(100,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(3).addWalls(new Wall(100,100,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
 
         //bane5
         maps.add(new Level());
-        maps.get(4).addWalls(new Wall(125,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(4).addWalls(new Wall(125,125,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
 
         root.getChildren().add(overLayer);
 
@@ -162,12 +162,14 @@ public class Controller {
         bullets2.clear();
         enemy.setHp(10);
         player.setHp(10);
-        for(Wall i : maps.get(currentLevel).getWalls()) {
-            i.removePane();
-        }
-        currentLevel = currentLevel + 1;
-        for(Wall i : maps.get(currentLevel).getWalls()) {
-            i.addPane();
+        if(currentLevel+1<maps.size()) {
+            for (Wall i : maps.get(currentLevel).getWalls()) {
+                i.removePane();
+            }
+            currentLevel = currentLevel + 1;
+            for (Wall i : maps.get(currentLevel).getWalls()) {
+                i.addPane();
+            }
         }
     }
     private void stopContent() {
@@ -413,7 +415,7 @@ public class Controller {
                 bullets.remove(i);
                 if (enemy.getHp() != 1) {
                     enemy.setHp(enemy.getHp() - 1);
-                } else if(scoreE < 3){
+                } else if(scoreP < 2){
                     enemy.setHp(10);
                     newRound();
                     enemy.setLifePoints(enemy.getLifePoints() - 1);
@@ -450,7 +452,7 @@ public class Controller {
                 bullets2.remove(i);
                 if(player.getHp() != 1){
                     player.setHp(player.getHp() - 1);
-                } else if(scoreP < 3) {
+                } else if(scoreE < 2) {
                     newRound();
                     player.setLifePoints(player.getLifePoints() - 1);
                     scoreE++;
