@@ -1,15 +1,5 @@
-@font-face {
-	-fx-font-family: "8BIT WONDER Nominal";
-    	src: url("src/res/8bit.TTF");
-}
-
 .root {
     	-fx-background-color: white;
-}
-
-.text {
-    	-fx-font-family: "8BIT WONDER Nominal";
-   	-fx-font-size: 15;
 }
 
 .button {

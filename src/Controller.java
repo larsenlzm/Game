@@ -78,34 +78,36 @@ public class Controller {
         enemy.getView().setRotate(180);
         enemy.setSpeedMultiplier(3);
 
-        Level map1 = new Level();
-        maps.add(map1);
-        Wall vegg = new Wall(25,100,Color.ORANGE,125,100, root);   //Oppe venstre vertikal
-        maps.get(0).addWalls(vegg);
-        Wall vegg2 = new Wall(75,25,Color.ORANGE,150,100, root);   //Oppe venstre horisontal
-        maps.get(0).addWalls(vegg2);
-        Wall vegg3 = new Wall(25,100,Color.ORANGE,1165,100, root); //Oppe høyre vertikal
-        maps.get(0).addWalls(vegg3);
-        Wall vegg4 = new Wall(75,25,Color.ORANGE,1090,620, root);  //Nede høyre horisontal
-        maps.get(0).addWalls(vegg4);
-        Wall vegg5 = new Wall(25,100,Color.ORANGE,115,545, root);  //Nede venstre vertikal
-        maps.get(0).addWalls(vegg5);
-        Wall vegg6 = new Wall(75,25,Color.ORANGE,140,620, root);   //Nede venstre horisontal
-        maps.get(0).addWalls(vegg6);
-        Wall vegg7 = new Wall(25,100,Color.ORANGE,1165,545, root); //Nede høyre vertikal
-        maps.get(0).addWalls(vegg7);
-        Wall vegg8 = new Wall(75,25,Color.ORANGE,1090,100, root);  //Oppe høyre horisontal
-        maps.get(0).addWalls(vegg8);
-        Wall vegg9 = new Wall(25,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root);
-        maps.get(0).addWalls(vegg9);
+        // bane1
+        maps.add(new Level());
+        maps.get(0).addWalls(new Wall(25,100,Color.ORANGE,125,100, root)); //Oppe venstre vertikal
+        maps.get(0).addWalls(new Wall(75,25,Color.ORANGE,150,100, root));//Oppe venstre horisontal
+        maps.get(0).addWalls(new Wall(25,100,Color.ORANGE,1165,100, root));//Oppe høyre vertikal
+        maps.get(0).addWalls(new Wall(75,25,Color.ORANGE,1090,620, root));//Nede høyre horisontal
+        maps.get(0).addWalls(new Wall(25,100,Color.ORANGE,115,545, root));//Nede venstre vertikal
+        maps.get(0).addWalls(new Wall(75,25,Color.ORANGE,140,620, root));//Nede venstre horisontal
+        maps.get(0).addWalls(new Wall(25,100,Color.ORANGE,1165,545, root));//Nede høyre vertikal
+        maps.get(0).addWalls(new Wall(75,25,Color.ORANGE,1090,100, root)); //Oppe høyre horisontal
+        maps.get(0).addWalls(new Wall(25,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        for(Wall i : maps.get(0).getWalls()){
+            i.addPane();
+        }
 
-        /* Level map2 = new Level();
-        maps.add(map2);
-        Wall vegg92 = new Wall(25,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root);
-        maps.get(1).addWalls(vegg92);
-        for(Wall i : maps.get(currentLevel-1).getWalls()){
-            i.removePane();
-        } */
+        //bane2
+        maps.add(new Level());
+        maps.get(1).addWalls(new Wall(50,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+
+        //bane3
+        maps.add(new Level());
+        maps.get(2).addWalls(new Wall(75,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+
+        //bane4
+        maps.add(new Level());
+        maps.get(3).addWalls(new Wall(100,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+
+        //bane5
+        maps.add(new Level());
+        maps.get(4).addWalls(new Wall(125,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
 
         root.getChildren().add(overLayer);
 
@@ -146,8 +148,8 @@ public class Controller {
     private void newRound(){
         player.getView().setTranslateX(50); //flytter spiller tilbake til spawn
         player.getView().setTranslateY(50);
-        enemy.getView().setTranslateX(500); //flytter spiller2 tilbake til spawn
-        enemy.getView().setTranslateY(500);
+        enemy.getView().setTranslateX(1210); //flytter spiller2 tilbake til spawn
+        enemy.getView().setTranslateY(650);
         player.getView().setRotate(0);
         enemy.getView().setRotate(180);
         for (Bullet b : bullets){
@@ -160,6 +162,13 @@ public class Controller {
         bullets2.clear();
         enemy.setHp(10);
         player.setHp(10);
+        for(Wall i : maps.get(currentLevel).getWalls()) {
+            i.removePane();
+        }
+        currentLevel = currentLevel + 1;
+        for(Wall i : maps.get(currentLevel).getWalls()) {
+            i.addPane();
+        }
     }
     private void stopContent() {
         timer.stop();
@@ -334,8 +343,8 @@ public class Controller {
 
         double maxX = scenewidth - (player.getWidth() / 2);
         double minX = 0 - (player.getWidth() / 2);
-        double maxY = sceneheigth -(player.getHeigth() / 2);
-        double minY = 0 - (player.getHeigth() / 2);
+        double maxY = sceneheigth - (player.getWidth() / 2);
+        double minY = 45;
 
         laderTeller += laderTellerDelta;
         if( laderTeller > lader) {
@@ -425,7 +434,7 @@ public class Controller {
                 bullets.get(i).RemoveBullet(root);
                 bullets.remove(i);
             } else {
-                for(Wall j : maps.get(1).getWalls()) {
+                for(Wall j : maps.get(currentLevel).getWalls()) {
                     if (bullets.get(i).isColliding(j)){
                         bullets.get(i).RemoveBullet(root);
                         bullets.remove(i);
@@ -461,7 +470,7 @@ public class Controller {
                 bullets2.get(i).RemoveBullet(root);
                 bullets2.remove(i);
             } else {
-                for(Wall w : maps.get(1).getWalls()) {
+                for(Wall w : maps.get(currentLevel).getWalls()) {
                     if (bullets2.get(i).isColliding(w)){
                         bullets2.get(i).RemoveBullet(root);
                         bullets2.remove(i);
@@ -470,7 +479,7 @@ public class Controller {
             }
         }
         //kollisjon med veggene spiller 1
-        for(Wall i : maps.get(1).getWalls()) {
+        for(Wall i : maps.get(currentLevel).getWalls()) {
             if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMinX() - player.getWidth() + 5 && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateX(i.getMinX() - player.getWidth());
             } else if (player.getX() >= i.getMaxX() - 5 && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
@@ -482,7 +491,7 @@ public class Controller {
             }
         }
         //kollisjon med veggene spiller 2
-        for(Wall i : maps.get(1).getWalls()) {
+        for(Wall i : maps.get(currentLevel).getWalls()) {
             if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMinX() - enemy.getWidth() + 5 && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMaxY()) {
                 enemy.getView().setTranslateX(i.getMinX() - enemy.getWidth());
             } else if (enemy.getX() >= i.getMaxX() - 5 && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMaxY()) {
