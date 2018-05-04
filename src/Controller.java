@@ -130,11 +130,11 @@ public class Controller {
         return root;
     }
     private void addInputControls(Scene scene) {
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            keyboardBitSet.set(event.getCode().ordinal(), true);
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            keyboardBitSet.set(e.getCode().ordinal(), true);
         });
-        scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
-            keyboardBitSet.set(event.getCode().ordinal(), false);
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, e -> {
+            keyboardBitSet.set(e.getCode().ordinal(), false);
         });
     }
     private void error(String error){
@@ -482,13 +482,20 @@ public class Controller {
         }
         //kollisjon med veggene spiller 1
         for(Wall i : maps.get(currentLevel).getWalls()) {
+            //spiller kommer fra venstre
             if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMinX() - player.getWidth() + 5 && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateX(i.getMinX() - player.getWidth());
-            } else if (player.getX() >= i.getMaxX() - 5 && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
+            }
+            //spiller kommer fra høyre
+            else if (player.getX() >= i.getMaxX() - 5 && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateX(i.getMaxX());
-            } else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMinY() - player.getWidth() + 5) {
+            }
+            //spiller kommer fra toppen
+            else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMinY() - player.getWidth() + 5) {
                 player.getView().setTranslateY(i.getMinY() - player.getWidth());
-            } else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMaxY() - 5 && player.getY() <= i.getMaxY()) {
+            }
+            //spiller kommer fra bunnen
+            else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMaxY() - 5 && player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateY(i.getMaxY());
             }
         }
