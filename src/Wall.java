@@ -1,13 +1,17 @@
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Pane;
+import java.awt.*;
 
 public class Wall extends GameObjects {
 
     private Pane pane;
+    private Rectangle squareboi;
+    private Image wallsprite;
 
-    public Wall(double width, double heigth, Color color, double x, double y, Pane pane) {
-        super(new Rectangle(width,heigth,color));
+    Wall(String sprite, double x, double y, Pane pane) {
+        super(new ImageView(sprite));
         getView().setTranslateX(x);
         getView().setTranslateY(y);
         this.pane = pane;

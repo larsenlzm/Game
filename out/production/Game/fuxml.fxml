@@ -148,6 +148,11 @@
             </VBox>
          </children>
       </AnchorPane>
+      <AnchorPane disable="true" prefHeight="727.0" prefWidth="1292.0" visible="false">
+         <children>
+            <Pane fx:id="root" layoutX="346.0" layoutY="64.0" prefHeight="600.0" prefWidth="600.0" />
+         </children>
+      </AnchorPane>
       <AnchorPane fx:id="errorP" disable="true" layoutX="-6.0" onKeyPressed="#goBack" onMouseClicked="#goBack" prefHeight="727.0" prefWidth="1292.0" visible="false" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
          <children>
             <Pane nodeOrientation="LEFT_TO_RIGHT" opacity="0.47" prefHeight="720.0" prefWidth="1292.0" style="-fx-background-color: black;" />
@@ -159,11 +164,6 @@
                   <Insets />
                </opaqueInsets>
             </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane disable="true" prefHeight="727.0" prefWidth="1292.0" visible="false">
-         <children>
-            <Pane fx:id="root" layoutX="346.0" layoutY="64.0" prefHeight="600.0" prefWidth="600.0" />
          </children>
       </AnchorPane>
    </children>

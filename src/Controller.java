@@ -10,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -41,6 +42,8 @@ public class Controller {
     private Player enemy;
 
     private Clip ooh;
+
+    private Rectangle rect = new Rectangle(50,50);
 
     private double lader = 10; //skudd per antall frames
     private double laderTeller = lader;
@@ -80,61 +83,73 @@ public class Controller {
 
         // bane1
         maps.add(new Level());
-        maps.get(0).addWalls(new Wall(25,100,Color.ORANGE,125,100, root)); //Oppe venstre vertikal
-        maps.get(0).addWalls(new Wall(75,25,Color.ORANGE,150,100, root));//Oppe venstre horisontal
-        maps.get(0).addWalls(new Wall(25,100,Color.ORANGE,1165,100, root));//Oppe høyre vertikal
-        maps.get(0).addWalls(new Wall(75,25,Color.ORANGE,1090,620, root));//Nede høyre horisontal
-        maps.get(0).addWalls(new Wall(25,100,Color.ORANGE,115,545, root));//Nede venstre vertikal
-        maps.get(0).addWalls(new Wall(75,25,Color.ORANGE,140,620, root));//Nede venstre horisontal
-        maps.get(0).addWalls(new Wall(25,100,Color.ORANGE,1165,545, root));//Nede høyre vertikal
-        maps.get(0).addWalls(new Wall(75,25,Color.ORANGE,1090,100, root)); //Oppe høyre horisontal
-        maps.get(0).addWalls(new Wall(25,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,100, root)); //oppe til venstre
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,150, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,200, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",200,100, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",250,100, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,100, root)); // oppe til høyre
+        maps.get(0).addWalls(new Wall("res/wall1.png",1050,100, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1000,100, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,150, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,200, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,550, root)); // nede til venstre
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,500, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,450, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",200,550, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",250,550, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,550, root));//nede til høyre
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,500, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,450, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1050,550, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1000,550, root));
+        maps.get(0).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root)); //midten
         for(Wall i : maps.get(0).getWalls()){
             i.addPane();
         }
 
         //bane2
         maps.add(new Level());
-        maps.get(1).addWalls(new Wall(50,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,1165,545, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,1070,58, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,590,200, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,330,340, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,130,560, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,790,640, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,920,280, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,135,100, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,640,75, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,540,575, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,960,460, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,737,360, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,123,321, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,907,580, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,400,160, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,330,630, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,490,430, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,400,160, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,1125,345, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,830,125, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,730,495, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,360,505, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,240,184, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,340,59, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,1170,168, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,980,170, root));
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,210,420, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",1165,545, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",1070,58, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",590,200, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",330,340, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",130,560, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",790,640, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",920,280, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",135,100, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",640,75, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",540,575, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",960,460, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",737,360, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",123,321, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",907,580, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",400,160, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",330,630, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",490,430, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",400,160, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",1125,345, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",830,125, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",730,495, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",360,505, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",240,184, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",340,59, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",1170,168, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",980,170, root));
+        maps.get(1).addWalls(new Wall("res/wall1.png",210,420, root));
 
         //bane3
         maps.add(new Level());
-        maps.get(2).addWalls(new Wall(75,75,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
 
         //bane4
         maps.add(new Level());
-        maps.get(3).addWalls(new Wall(100,100,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(3).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
 
         //bane5
         maps.add(new Level());
-        maps.get(4).addWalls(new Wall(125,125,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(4).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
 
         root.getChildren().add(overLayer);
 
@@ -528,13 +543,20 @@ public class Controller {
         }
         //kollisjon med veggene spiller 2
         for(Wall i : maps.get(currentLevel).getWalls()) {
+            //spiller kommer fra venstre
             if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMinX() - enemy.getWidth() + 5 && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMaxY()) {
                 enemy.getView().setTranslateX(i.getMinX() - enemy.getWidth());
-            } else if (enemy.getX() >= i.getMaxX() - 5 && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMaxY()) {
+            }
+            //spiller kommer fra høyre
+            else if (enemy.getX() >= i.getMaxX() - 5 && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMaxY()) {
                 enemy.getView().setTranslateX(i.getMaxX());
-            } else if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMinY() - enemy.getWidth() + 5) {
+            }
+            //spiller fra toppen
+            else if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMinY() - enemy.getWidth() + 5) {
                 enemy.getView().setTranslateY(i.getMinY() - enemy.getWidth());
-            } else if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMaxY() - 5 && enemy.getY() <= i.getMaxY()) {
+            }
+            //spiller fra bunnen
+            else if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMaxY() - 5 && enemy.getY() <= i.getMaxY()) {
                 enemy.getView().setTranslateY(i.getMaxY());
             }
         }
