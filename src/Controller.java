@@ -95,7 +95,34 @@ public class Controller {
 
         //bane2
         maps.add(new Level());
-        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(1).addWalls(new Wall(50,25,Color.ORANGE,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,1165,545, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,1070,58, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,590,200, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,330,340, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,130,560, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,790,640, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,920,280, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,135,100, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,640,75, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,540,575, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,960,460, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,737,360, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,123,321, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,907,580, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,400,160, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,330,630, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,490,430, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,400,160, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,1125,345, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,830,125, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,730,495, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,360,505, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,240,184, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,340,59, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,1170,168, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,980,170, root));
+        maps.get(1).addWalls(new Wall(50,50,Color.ORANGE,210,420, root));
 
         //bane3
         maps.add(new Level());
