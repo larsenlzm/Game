@@ -141,7 +141,38 @@ public class Controller {
 
         //bane3
         maps.add(new Level());
-        maps.get(2).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1230,550, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1180,550, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,550, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,500, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,450, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,400, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,350, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,0, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,50, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,100, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",0,300, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",50,300, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",100,300, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",150,300, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",100,250, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",100,200, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",100,150, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",400,670, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",400,620, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",400,570, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",700,0, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",700,50, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",700,100, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",500,400, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",550,400, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",600,400, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",650,400, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",700,400, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",600,450, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",600,500, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",600,350, root));
+        maps.get(2).addWalls(new Wall("res/wall1.png",600,300, root));
 
         //bane4
         maps.add(new Level());
