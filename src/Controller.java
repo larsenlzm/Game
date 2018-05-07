@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -30,7 +31,7 @@ public class Controller {
     private Stage stage;
     private Scene game, lobby;
 
-    private Pane root, overLayer;
+    private Pane overLayer;
     private Label hpLabel, hpLabel2, score, finishLabel;
     private AnimationTimer timer;
 
@@ -49,9 +50,9 @@ public class Controller {
     private double laderTeller = lader;
     private double laderTellerDelta = 1;
 
-    private int scoreP = 0;
-    private int scoreE = 0;
-    private int currentLevel = 0;
+    private int scoreP;
+    private int scoreE;
+    private int currentLevel;
 
     private File saveFile;
 
@@ -61,128 +62,144 @@ public class Controller {
     public Button saveButton, startButton, resumeButton, loadButton, exitButton, back, saveSave;
     public TextField saveText;
     public Label errorLabel, loadLabel;
-    public AnchorPane main, saveP, errorP, loadP;
+    public Pane gameRoot;
+    public AnchorPane main, saveP, errorP, loadP, mainPane;
+    public ImageView background;
 
     private BitSet keyboardBitSet = new BitSet();
 
-    private Parent createContent() {
+    private void switchPane(Pane from,Pane to){
+        from.setDisable(true);
+        from.setVisible(false);
+        to.setDisable(false);
+        to.setVisible(true);
+    }
+    private Parent createContent(int P, int E, int L) {
 
-        root = new Pane();
+        stage = (Stage) mainPane.getScene().getWindow();
+        lobby = mainPane.getScene();
+
+        scoreE = E;
+        scoreP = P;
+        currentLevel = L;
+
+        deleteImages();
+
         overLayer = new Pane();
 
-        root.setPrefSize(scenewidth,sceneheigth);
+        gameRoot.setPrefSize(scenewidth,sceneheigth);
 
-        player = new Player("res/tank1.png", 10,3, 50,50, root);
+        player = new Player("res/tank1.png", 10,3, 50,50, gameRoot);
         player.setVelocity(0,0);
         player.setSpeedMultiplier(3);
 
-        enemy = new Player("res/tank2.png", 10,3, 1210,650, root);
+        enemy = new Player("res/tank2.png", 10,3, 1210,650, gameRoot);
         enemy.setVelocity(0,0);
         enemy.getView().setRotate(180);
         enemy.setSpeedMultiplier(3);
 
         // bane1
-        maps.add(new Level());
-        maps.get(0).addWalls(new Wall("res/wall1.png",150,100, root)); //oppe til venstre
-        maps.get(0).addWalls(new Wall("res/wall1.png",150,150, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",150,200, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",200,100, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",250,100, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",1100,100, root)); // oppe til høyre
-        maps.get(0).addWalls(new Wall("res/wall1.png",1050,100, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",1000,100, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",1100,150, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",1100,200, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",150,550, root)); // nede til venstre
-        maps.get(0).addWalls(new Wall("res/wall1.png",150,500, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",150,450, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",200,550, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",250,550, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",1100,550, root));//nede til høyre
-        maps.get(0).addWalls(new Wall("res/wall1.png",1100,500, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",1100,450, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",1050,550, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",1000,550, root));
-        maps.get(0).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root)); //midten
-        for(Wall i : maps.get(0).getWalls()){
+        maps.add(new Level(50,650,1210,50));
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,100, gameRoot)); //oppe til venstre
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,150, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,200, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",200,100, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",250,100, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,100, gameRoot)); // oppe til høyre
+        maps.get(0).addWalls(new Wall("res/wall1.png",1050,100, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1000,100, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,150, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,200, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,550, gameRoot)); // nede til venstre
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,500, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",150,450, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",200,550, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",250,550, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,550, gameRoot));//nede til høyre
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,500, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1100,450, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1050,550, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",1000,550, gameRoot));
+        maps.get(0).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot)); //midten
+        for(Wall i : maps.get(currentLevel).getWalls()){
             i.addPane();
         }
 
         //bane2
-        maps.add(new Level());
-        maps.get(1).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",1165,545, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",1070,58, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",590,200, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",330,340, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",130,560, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",790,640, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",920,280, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",135,100, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",640,75, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",540,575, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",960,460, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",737,360, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",123,321, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",907,580, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",400,160, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",330,630, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",490,430, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",400,160, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",1125,345, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",830,125, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",730,495, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",360,505, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",240,184, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",340,59, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",1170,168, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",980,170, root));
-        maps.get(1).addWalls(new Wall("res/wall1.png",210,420, root));
+        maps.add(new Level(50,650,1210,50));
+        maps.get(1).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",1165,545, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",1070,58, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",590,200, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",330,340, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",130,560, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",790,640, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",920,280, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",135,100, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",640,75, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",540,575, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",960,460, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",737,360, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",123,321, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",907,580, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",400,160, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",330,630, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",490,430, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",400,160, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",1125,345, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",830,125, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",730,495, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",360,505, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",240,184, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",340,59, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",1170,168, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",980,170, gameRoot));
+        maps.get(1).addWalls(new Wall("res/wall1.png",210,420, gameRoot));
 
         //bane3
-        maps.add(new Level());
-        maps.get(2).addWalls(new Wall("res/wall1.png",1230,550, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",1180,550, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",1130,550, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",1130,500, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",1130,450, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",1130,400, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",1130,350, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",1130,0, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",1130,50, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",1130,100, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",0,300, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",50,300, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",100,300, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",150,300, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",100,250, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",100,200, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",100,150, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",400,670, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",400,620, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",400,570, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",700,0, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",700,50, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",700,100, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",500,400, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",550,400, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",600,400, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",650,400, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",700,400, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",600,450, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",600,500, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",600,350, root));
-        maps.get(2).addWalls(new Wall("res/wall1.png",600,300, root));
+        maps.add(new Level(50 ,50,1210,650));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1230,550, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1180,550, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,550, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,500, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,450, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,400, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,350, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,0, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,50, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",1130,100, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",0,300, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",50,300, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",100,300, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",150,300, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",100,250, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",100,200, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",100,150, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",400,670, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",400,620, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",400,570, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",700,0, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",700,50, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",700,100, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",500,400, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",550,400, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",600,400, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",650,400, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",700,400, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",600,450, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",600,500, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",600,350, gameRoot));
+        maps.get(2).addWalls(new Wall("res/wall1.png",600,300, gameRoot));
 
         //bane4
-        maps.add(new Level());
-        maps.get(3).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.add(new Level(50,650,1210,50));
+        maps.get(3).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot));
 
         //bane5
-        maps.add(new Level());
-        maps.get(4).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, root));
+        maps.add(new Level(50,650,1210,50));
+        maps.get(4).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot));
 
-        root.getChildren().add(overLayer);
+        gameRoot.getChildren().add(overLayer);
 
         hpLabel = new Label();
         hpLabel.setTextFill(Color.BLACK);
@@ -200,7 +217,7 @@ public class Controller {
         score.setTextFill(Color.BLACK);
         overLayer.getChildren().add(score);
 
-        return root;
+        return gameRoot;
     }
     private void addInputControls(Scene scene) {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
@@ -224,29 +241,14 @@ public class Controller {
         //Er satt når objektene blir laget
 
         //Spawn for andre bane
-        if(currentLevel == 0) {
-            player.getView().setTranslateX(50);
-            player.getView().setTranslateY(650);
-            enemy.getView().setTranslateX(1210);
-            enemy.getView().setTranslateY(50);
-        }
-
-        //Spawn for tredje bane
-        if(currentLevel == 1) {
-            player.getView().setTranslateX(50);
-            player.getView().setTranslateY(50);
-            enemy.getView().setTranslateX(1210);
-            enemy.getView().setTranslateY(650);
-        }
-
 
         player.getView().setRotate(0);
         enemy.getView().setRotate(180);
         for (Bullet b : bullets){
-            b.RemoveBullet(root);
+            b.RemoveBullet(gameRoot);
         }
         for (Bullet b : bullets2){
-            b.RemoveBullet(root);
+            b.RemoveBullet(gameRoot);
         }
         bullets.clear();
         bullets2.clear();
@@ -261,6 +263,10 @@ public class Controller {
                 i.addPane();
             }
         }
+        player.getView().setTranslateX(maps.get(currentLevel).getSpawnPX());
+        player.getView().setTranslateY(maps.get(currentLevel).getSpawnPY());
+        enemy.getView().setTranslateX(maps.get(currentLevel).getSpawnEX());
+        enemy.getView().setTranslateY(maps.get(currentLevel).getSpawnEY());
     }
     private void stopContent() {
         timer.stop();
@@ -268,13 +274,13 @@ public class Controller {
     private void resumeContent() {
         timer.start();
     }
+    private void deleteImages() {
+        gameRoot.getChildren().clear();
+    }
     public void startGame() {
-        scoreE = 0;
-        scoreP = 0;
-        stage = (Stage) startButton.getScene().getWindow();
-        game = new Scene(createContent());
-        stage.setScene(game);
-        addInputControls(game);
+        createContent(0,0,0);
+        addInputControls(lobby);
+        switchPane(main,gameRoot);
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -286,7 +292,7 @@ public class Controller {
     }
     public void resumeGame() {
         try {
-            stage.setScene(game);
+            switchPane(main,gameRoot);
             resumeContent();
             keyboardBitSet.set(0,100,false);
             System.out.println("Resuming game ...");
@@ -296,10 +302,7 @@ public class Controller {
         }
     }
     public void loadGame() {
-        main.setDisable(true);
-        main.setVisible(false);
-        loadP.setDisable(false);
-        loadP.setVisible(true);
+        switchPane(main,loadP);
     }
     public void loader(){
         System.out.println("getting file");
@@ -316,10 +319,12 @@ public class Controller {
             try {
                 Save save = (Save) resourceManager.load(saveFile.getName());
                 System.out.println("Loading game ...");
-                stage = (Stage) startButton.getScene().getWindow();
-                game = new Scene(createContent());
-                stage.setScene(game);
-                addInputControls(game);
+                scoreP = save.getScoreP();
+                scoreE = save.getScoreE();
+                currentLevel = save.getCurrentMap();
+                createContent(scoreP,scoreE,currentLevel);
+                addInputControls(lobby);
+                switchPane(loadP,gameRoot);
                 timer = new AnimationTimer() {
                     @Override
                     public void handle(long now) {
@@ -328,8 +333,6 @@ public class Controller {
                 };
                 resumeContent();
                 keyboardBitSet.set(0, 100, false);
-                scoreP = save.getScoreP();
-                scoreE = save.getScoreE();
                 saveFile = null;
             } catch (Exception ex) {
                 if (ex.getMessage() != null) {
@@ -344,50 +347,36 @@ public class Controller {
     public void saveGame() {
 
         saveText.setText("");
-        main.setDisable(true);
-        main.setVisible(false);
-        saveP.setDisable(false);
-        saveP.setVisible(true);
+        switchPane(main,saveP);
     }
     public void saveSave(){
         if(!saveText.getText().trim().isEmpty()){
             System.out.println(saveText.getCharacters());
-            Save save = new Save(scoreP,scoreE);
+            Save save = new Save(scoreP,scoreE,currentLevel);
             try {
                 resourceManager.save(save,saveText.getText() + ".save"); // MIDLERTIDIG
                 System.out.println("Saving game ...");
             } catch (Exception ex){
                 System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
             }
-            saveP.setDisable(true);
-            saveP.setVisible(false);
-            main.setDisable(false);
-            main.setVisible(true);
+            switchPane(saveP,main);
         } else {
             error("No name entered");
             System.out.println("Skriv inn et navn");
         }
     }
     public void exitGame() {
-        stage = (Stage) startButton.getScene().getWindow();
         stage.close();
     }
     public void goBack() {
         if(errorP.isVisible() && main.isVisible()){
-            errorP.setDisable(true);
-            errorP.setVisible(false);
-            main.setDisable(false);
-            main.setVisible(true);
+            switchPane(errorP,main);
         } else if(errorP.isVisible() && saveP.isVisible()){
-            errorP.setDisable(true);
-            errorP.setVisible(false);
-            saveP.setDisable(false);
-            saveP.setVisible(true);
+            switchPane(errorP,saveP);
         } else if(errorP.isVisible() && loadP.isVisible()){
-            errorP.setDisable(true);
-            errorP.setVisible(false);
-            loadP.setDisable(false);
-            loadP.setVisible(true);
+            switchPane(errorP,loadP);
+        } else if(errorP.isVisible() && gameRoot.isVisible()){
+            switchPane(errorP,gameRoot);
         } else {
             errorP.setDisable(true);
             errorP.setVisible(false);
@@ -395,6 +384,8 @@ public class Controller {
             loadP.setVisible(false);
             saveP.setDisable(true);
             saveP.setVisible(false);
+            gameRoot.setDisable(true);
+            gameRoot.setVisible(false);
             main.setDisable(false);
             main.setVisible(true);
         }
@@ -447,7 +438,6 @@ public class Controller {
 
         if(isSpacePressed || isEscPressed){
                 stopContent();
-                lobby = exitButton.getScene();
                 stage.setScene(lobby);
                 goBack();
                 loadLabel.setText("");
@@ -455,7 +445,7 @@ public class Controller {
 
         //skyting player2
         if (isMPressed && isPistolLadet) {
-            Bullet bullet2 = new Bullet(5,5,5,Color.RED,enemy.getX(),enemy.getY(), root,enemy);
+            Bullet bullet2 = new Bullet(5,5,5,Color.RED,enemy.getX(),enemy.getY(), gameRoot,enemy);
             //Adder bulleten til gameworld og posisjonen er da samme som player
             bullets2.add(bullet2);
             //resetter pistolklokka
@@ -463,7 +453,7 @@ public class Controller {
         }
         //skyting player1
         if (isVPressed && isPistolLadet) {
-            Bullet bullet = new Bullet(5,5,5,Color.RED,player.getX(),player.getY(), root, player);
+            Bullet bullet = new Bullet(5,5,5,Color.RED,player.getX(),player.getY(), gameRoot, player);
             //Adder bulleten til gameworld
             bullets.add(bullet);
             //resetter pistolklokka
@@ -501,7 +491,7 @@ public class Controller {
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(enemy)) {
                 getSound("res/sound.wav");
-                bullets.get(i).RemoveBullet(root);
+                bullets.get(i).RemoveBullet(gameRoot);
                 bullets.remove(i);
                 if (enemy.getHp() != 1) {
                     enemy.setHp(enemy.getHp() - 1);
@@ -512,7 +502,7 @@ public class Controller {
                     scoreP++;
                 } else {
                     scoreP++;
-                    root.getChildren().remove(enemy.getView());
+                    gameRoot.getChildren().remove(enemy.getView());
                     stopContent();
                     enemy.setHp(enemy.getHp() - 1);
                     enemy.setLifePoints(enemy.getLifePoints() - 1);
@@ -520,15 +510,15 @@ public class Controller {
                 }
             } //sjekker om kulene treffer utkant av kartet
             else if (bullets.get(i).getView().getTranslateY() <= 0  || bullets.get(i).getView().getTranslateY() >= sceneheigth+25) {
-                bullets.get(i).RemoveBullet(root);
+                bullets.get(i).RemoveBullet(gameRoot);
                 bullets.remove(i);
             } else if (bullets.get(i).getView().getTranslateX() <= 0  || bullets.get(i).getView().getTranslateX() >= scenewidth+25) {
-                bullets.get(i).RemoveBullet(root);
+                bullets.get(i).RemoveBullet(gameRoot);
                 bullets.remove(i);
             } else {
                 for(Wall j : maps.get(currentLevel).getWalls()) {
                     if (bullets.get(i).isColliding(j)){
-                        bullets.get(i).RemoveBullet(root);
+                        bullets.get(i).RemoveBullet(gameRoot);
                         bullets.remove(i);
                     }
                 }
@@ -538,7 +528,7 @@ public class Controller {
         for (int i = 0; i < bullets2.size(); i++){
             if(bullets2.get(i).isColliding(player)) {
                 getSound("res/sound.wav");
-                bullets2.get(i).RemoveBullet(root);
+                bullets2.get(i).RemoveBullet(gameRoot);
                 bullets2.remove(i);
                 if(player.getHp() != 1){
                     player.setHp(player.getHp() - 1);
@@ -548,7 +538,7 @@ public class Controller {
                     scoreE++;
                 } else {
                     scoreE++;
-                    root.getChildren().remove(player.getView());
+                    gameRoot.getChildren().remove(player.getView());
                     stopContent();
                     player.setHp(player.getHp() - 1);
                     player.setLifePoints(player.getLifePoints() - 1);
@@ -556,15 +546,15 @@ public class Controller {
                 }
             } //sjekker om kulene treffer utkant av kartet
             else if (bullets2.get(i).getView().getTranslateY() <= 0  || bullets2.get(i).getView().getTranslateY() >= sceneheigth+25) {
-                bullets2.get(i).RemoveBullet(root);
+                bullets2.get(i).RemoveBullet(gameRoot);
                 bullets2.remove(i);
             } else if (bullets2.get(i).getView().getTranslateX() <= 0  || bullets2.get(i).getView().getTranslateX() >= scenewidth+25) {
-                bullets2.get(i).RemoveBullet(root);
+                bullets2.get(i).RemoveBullet(gameRoot);
                 bullets2.remove(i);
             } else {
                 for(Wall w : maps.get(currentLevel).getWalls()) {
                     if (bullets2.get(i).isColliding(w)){
-                        bullets2.get(i).RemoveBullet(root);
+                        bullets2.get(i).RemoveBullet(gameRoot);
                         bullets2.remove(i);
                     }
                 }

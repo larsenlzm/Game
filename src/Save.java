@@ -4,10 +4,12 @@ public class Save implements java.io.Serializable {
 
     private int scoreP;
     private int scoreE;
+    private int currentMap;
 
-    Save(int scoreP, int scoreE){
+    Save(int scoreP, int scoreE, int currentMap){
         this.scoreP = scoreP;
         this.scoreE = scoreE;
+        this.currentMap = currentMap;
     }
 
     public int getScoreP(){
@@ -15,5 +17,8 @@ public class Save implements java.io.Serializable {
     }
     public int getScoreE(){
         return scoreE;
+    }
+    public int getCurrentMap(){
+        return currentMap;
     }
 }
