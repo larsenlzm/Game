@@ -219,10 +219,27 @@ public class Controller {
         loadP.setDisable(true);
     }
     private void newRound(){
-        player.getView().setTranslateX(50); //flytter spiller tilbake til spawn
-        player.getView().setTranslateY(50);
-        enemy.getView().setTranslateX(1210); //flytter spiller2 tilbake til spawn
-        enemy.getView().setTranslateY(650);
+
+        //Spawn for første bane
+        //Er satt når objektene blir laget
+
+        //Spawn for andre bane
+        if(currentLevel == 0) {
+            player.getView().setTranslateX(50);
+            player.getView().setTranslateY(650);
+            enemy.getView().setTranslateX(1210);
+            enemy.getView().setTranslateY(50);
+        }
+
+        //Spawn for tredje bane
+        if(currentLevel == 1) {
+            player.getView().setTranslateX(50);
+            player.getView().setTranslateY(50);
+            enemy.getView().setTranslateX(1210);
+            enemy.getView().setTranslateY(650);
+        }
+
+
         player.getView().setRotate(0);
         enemy.getView().setRotate(180);
         for (Bullet b : bullets){
