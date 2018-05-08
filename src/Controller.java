@@ -193,7 +193,73 @@ public class Controller {
 
         //bane4
         maps.add(new Level(50,650,1210,50));
-        maps.get(3).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",100,530, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",100,580, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",100,630, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",200,300, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",200,350, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",200,400, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",100,70, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",100,120, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",100,170, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",300,70, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",300,120, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",300,170, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",400,300, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",400,350, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",400,400, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",300,530, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",300,580, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",300,630, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",500,70, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",500,120, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",500,170, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",600,300, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",600,350, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",600,400, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",500,530, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",500,580, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",500,630, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",700,70, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",700,120, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",700,170, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",800,300, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",800,350, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",800,400, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",700,530, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",700,580, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",700,630, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",900,70, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",900,120, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",900,170, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",1000,300, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",1000,350, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",1000,400, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",900,530, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",900,580, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",900,630, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",1100,70, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",1100,120, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",1100,170, gameRoot));
+
+        maps.get(3).addWalls(new Wall("res/wall1.png",1100,530, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",1100,580, gameRoot));
+        maps.get(3).addWalls(new Wall("res/wall1.png",1100,630, gameRoot));
 
         //bane5
         maps.add(new Level(50,650,1210,50));
