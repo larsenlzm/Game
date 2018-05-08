@@ -121,9 +121,6 @@ public class Controller {
         maps.get(0).addWalls(new Wall("res/wall1.png",1050,550, gameRoot));
         maps.get(0).addWalls(new Wall("res/wall1.png",1000,550, gameRoot));
         maps.get(0).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot)); //midten
-        for(Wall i : maps.get(currentLevel).getWalls()){
-            i.addPane();
-        }
 
         //bane2
         maps.add(new Level(50,650,1210,50));
@@ -198,6 +195,10 @@ public class Controller {
         //bane5
         maps.add(new Level(50,650,1210,50));
         maps.get(4).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot));
+
+        for(Wall i : maps.get(currentLevel).getWalls()){
+            i.addPane();
+        }
 
         gameRoot.getChildren().add(overLayer);
 
