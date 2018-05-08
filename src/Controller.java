@@ -1,5 +1,4 @@
 import javafx.animation.AnimationTimer;
-import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -43,8 +42,6 @@ public class Controller {
     private Player enemy;
 
     private Clip ooh;
-
-    private Rectangle rect = new Rectangle(50,50);
 
     private double lader = 10; //skudd per antall frames
     private double laderTeller = lader;
@@ -302,12 +299,6 @@ public class Controller {
         loadP.setDisable(true);
     }
     private void newRound(){
-
-        //Spawn for første bane
-        //Er satt når objektene blir laget
-
-        //Spawn for andre bane
-
         player.getView().setRotate(0);
         enemy.getView().setRotate(180);
         for (Bullet b : bullets){
