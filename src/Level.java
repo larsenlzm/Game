@@ -8,14 +8,14 @@ public class Level {
     private double spawnPY;
     private double spawnEX;
     private double spawnEY;
-    private String mapBG;
+    private String mapBg;
 
-    public Level(double spawnPX, double spawnPY,double spawnEX, double spawnEY){
+    public Level(double spawnPX, double spawnPY,double spawnEX, double spawnEY, String mapBg){
         this.spawnPX = spawnPX;
         this.spawnPY = spawnPY;
         this.spawnEX = spawnEX;
         this.spawnEY = spawnEY;
-
+        this.mapBg = mapBg;
     }
 
     public void addWalls(Wall wall){
@@ -38,5 +38,8 @@ public class Level {
     }
     public double getSpawnEY() {
         return spawnEY;
+    }
+    public String getMapBg() {
+        return mapBg;
     }
 }

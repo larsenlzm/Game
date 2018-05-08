@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -28,7 +29,7 @@ import java.io.*;
 public class Controller {
 
     private Stage stage;
-    private Scene game, lobby;
+    private Scene lobby;
 
     private Pane overLayer;
     private Label hpLabel, hpLabel2, score, finishLabel;
@@ -76,8 +77,8 @@ public class Controller {
         stage = (Stage) mainPane.getScene().getWindow();
         lobby = mainPane.getScene();
 
-        scoreE = E;
         scoreP = P;
+        scoreE = E;
         currentLevel = L;
 
         deleteImages();
@@ -96,7 +97,7 @@ public class Controller {
         enemy.setSpeedMultiplier(3);
 
         // bane1
-        maps.add(new Level(50,650,1210,50));
+        maps.add(new Level(50,650,1210,50, "res/spillbg1.png"));
         maps.get(0).addWalls(new Wall("res/wall1.png",150,100, gameRoot)); //oppe til venstre
         maps.get(0).addWalls(new Wall("res/wall1.png",150,150, gameRoot));
         maps.get(0).addWalls(new Wall("res/wall1.png",150,200, gameRoot));
@@ -120,7 +121,7 @@ public class Controller {
         maps.get(0).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot)); //midten
 
         //bane2
-        maps.add(new Level(50,650,1210,50));
+        maps.add(new Level(50,650,1210,50,"res/spillbg2.png"));
         maps.get(1).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot));
         maps.get(1).addWalls(new Wall("res/wall1.png",1165,545, gameRoot));
         maps.get(1).addWalls(new Wall("res/wall1.png",1070,58, gameRoot));
@@ -151,7 +152,7 @@ public class Controller {
         maps.get(1).addWalls(new Wall("res/wall1.png",210,420, gameRoot));
 
         //bane3
-        maps.add(new Level(50 ,50,1210,650));
+        maps.add(new Level(50 ,50,1210,650,"res/spillbg1.png"));
         maps.get(2).addWalls(new Wall("res/wall1.png",1230,550, gameRoot));
         maps.get(2).addWalls(new Wall("res/wall1.png",1180,550, gameRoot));
         maps.get(2).addWalls(new Wall("res/wall1.png",1130,550, gameRoot));
@@ -186,82 +187,67 @@ public class Controller {
         maps.get(2).addWalls(new Wall("res/wall1.png",600,300, gameRoot));
 
         //bane4
-        maps.add(new Level(50,650,1210,50));
+        maps.add(new Level(50,650,1210,50,"res/spillbg2.png"));
         maps.get(3).addWalls(new Wall("res/wall1.png",100,530, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",100,580, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",100,630, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",200,300, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",200,350, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",200,400, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",100,70, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",100,120, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",100,170, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",300,70, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",300,120, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",300,170, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",400,300, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",400,350, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",400,400, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",300,530, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",300,580, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",300,630, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",500,70, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",500,120, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",500,170, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",600,300, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",600,350, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",600,400, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",500,530, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",500,580, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",500,630, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",700,70, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",700,120, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",700,170, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",800,300, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",800,350, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",800,400, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",700,530, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",700,580, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",700,630, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",900,70, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",900,120, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",900,170, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",1000,300, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",1000,350, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",1000,400, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",900,530, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",900,580, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",900,630, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",1100,70, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",1100,120, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",1100,170, gameRoot));
-
         maps.get(3).addWalls(new Wall("res/wall1.png",1100,530, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",1100,580, gameRoot));
         maps.get(3).addWalls(new Wall("res/wall1.png",1100,630, gameRoot));
 
         //bane5
-        maps.add(new Level(50,650,1210,50));
+        maps.add(new Level(50,650,1210,50,"res/spillbg1.png"));
         maps.get(4).addWalls(new Wall("res/wall1.png",scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot));
 
         for(Wall i : maps.get(currentLevel).getWalls()){
             i.addPane();
         }
+        background.setImage(new Image(maps.get(currentLevel).getMapBg()));
 
         gameRoot.getChildren().add(overLayer);
 
@@ -321,6 +307,7 @@ public class Controller {
                 i.addPane();
             }
         }
+        background.setImage(new Image(maps.get(currentLevel).getMapBg()));
         player.getView().setTranslateX(maps.get(currentLevel).getSpawnPX());
         player.getView().setTranslateY(maps.get(currentLevel).getSpawnPY());
         enemy.getView().setTranslateX(maps.get(currentLevel).getSpawnEX());
@@ -351,12 +338,33 @@ public class Controller {
     public void resumeGame() {
         try {
             switchPane(main,gameRoot);
+            background.setImage(new Image(maps.get(currentLevel).getMapBg()));
             resumeContent();
             keyboardBitSet.set(0,100,false);
             System.out.println("Resuming game ...");
         } catch(RuntimeException e){
             error("Nothing to resume");
             System.out.println("Cant resume, you sure you have anything to resume??");
+        }
+    }
+    public void saveGame() {
+        saveText.setText("");
+        switchPane(main,saveP);
+    }
+    public void saveSave(){
+        if(!saveText.getText().trim().isEmpty()){
+            System.out.println(saveText.getCharacters());
+            Save save = new Save(scoreP,scoreE,currentLevel);
+            try {
+                resourceManager.save(save,saveText.getText() + ".save"); // MIDLERTIDIG
+                System.out.println("Saving game ...");
+            } catch (Exception ex){
+                System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
+            }
+            switchPane(saveP,main);
+        } else {
+            error("No name entered");
+            System.out.println("Skriv inn et navn");
         }
     }
     public void loadGame() {
@@ -392,6 +400,7 @@ public class Controller {
                 resumeContent();
                 keyboardBitSet.set(0, 100, false);
                 saveFile = null;
+                loadLabel.setText("");
             } catch (Exception ex) {
                 if (ex.getMessage() != null) {
                     System.out.println("KAN IKKE LOADE!: " + ex.getMessage());
@@ -400,27 +409,6 @@ public class Controller {
             }
         } else {
             error("cant load file, no file chosen");
-        }
-    }
-    public void saveGame() {
-
-        saveText.setText("");
-        switchPane(main,saveP);
-    }
-    public void saveSave(){
-        if(!saveText.getText().trim().isEmpty()){
-            System.out.println(saveText.getCharacters());
-            Save save = new Save(scoreP,scoreE,currentLevel);
-            try {
-                resourceManager.save(save,saveText.getText() + ".save"); // MIDLERTIDIG
-                System.out.println("Saving game ...");
-            } catch (Exception ex){
-                System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
-            }
-            switchPane(saveP,main);
-        } else {
-            error("No name entered");
-            System.out.println("Skriv inn et navn");
         }
     }
     public void exitGame() {
@@ -496,9 +484,8 @@ public class Controller {
 
         if(isSpacePressed || isEscPressed){
                 stopContent();
-                stage.setScene(lobby);
+                background.setImage(new Image("res/navn.png"));
                 goBack();
-                loadLabel.setText("");
         }
 
         //skyting player2
@@ -567,7 +554,7 @@ public class Controller {
                     finishLabel.setText("PLAYER 1 WON!");
                 }
             } //sjekker om kulene treffer utkant av kartet
-            else if (bullets.get(i).getView().getTranslateY() <= 0  || bullets.get(i).getView().getTranslateY() >= sceneheigth+25) {
+            else if (bullets.get(i).getView().getTranslateY() <= minY  || bullets.get(i).getView().getTranslateY() >= sceneheigth+25) {
                 bullets.get(i).RemoveBullet(gameRoot);
                 bullets.remove(i);
             } else if (bullets.get(i).getView().getTranslateX() <= 0  || bullets.get(i).getView().getTranslateX() >= scenewidth+25) {
@@ -603,7 +590,7 @@ public class Controller {
                     finishLabel.setText("PLAYER 2 WON!");
                 }
             } //sjekker om kulene treffer utkant av kartet
-            else if (bullets2.get(i).getView().getTranslateY() <= 0  || bullets2.get(i).getView().getTranslateY() >= sceneheigth+25) {
+            else if (bullets2.get(i).getView().getTranslateY() <= minY   || bullets2.get(i).getView().getTranslateY() >= sceneheigth+25) {
                 bullets2.get(i).RemoveBullet(gameRoot);
                 bullets2.remove(i);
             } else if (bullets2.get(i).getView().getTranslateX() <= 0  || bullets2.get(i).getView().getTranslateX() >= scenewidth+25) {
