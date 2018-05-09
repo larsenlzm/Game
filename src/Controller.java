@@ -59,9 +59,9 @@ public class Controller {
 
     public Button saveButton, startButton, resumeButton, loadButton, exitButton, back, saveSave;
     public TextField saveText;
-    public Label errorLabel, loadLabel;
+    public Label errorLabel, loadLabel, victoryLabelWinner, victoryLabelScore;
     public Pane gameRoot;
-    public AnchorPane main, saveP, errorP, loadP, mainPane, gamePaused;
+    public AnchorPane main, saveP, errorP, loadP, mainPane, gamePaused, victoryP;
     public ImageView background;
 
     private BitSet keyboardBitSet = new BitSet();
@@ -518,6 +518,8 @@ public class Controller {
         goBack();
         gamePaused.setVisible(false);
         gamePaused.setDisable(true);
+        victoryP.setVisible(false);
+        victoryP.setDisable(true);
         background.setImage(new Image("res/navn.png"));
     }
     private void getSound(String fname) { //Midlertidig kode for sound
@@ -636,7 +638,10 @@ public class Controller {
                     stopContent();
                     enemy.setHp(enemy.getHp() - 1);
                     enemy.setLifePoints(enemy.getLifePoints() - 1);
-                    finishLabel.setText("PLAYER 1 WON!");
+                    victoryLabelScore.setText(scoreP + " : " + scoreE);
+                    victoryLabelWinner.setText("PLAYER 1 WON!");
+                    victoryP.setVisible(true);
+                    victoryP.setDisable(false);
                 }
             } //sjekker om kulene treffer utkant av kartet
             else if (bullets.get(i).getView().getTranslateY() <= minY  || bullets.get(i).getView().getTranslateY() >= sceneheigth+25) {
@@ -672,7 +677,10 @@ public class Controller {
                     stopContent();
                     player.setHp(player.getHp() - 1);
                     player.setLifePoints(player.getLifePoints() - 1);
-                    finishLabel.setText("PLAYER 2 WON!");
+                    victoryLabelScore.setText(scoreE + " : " + scoreP);
+                    victoryLabelWinner.setText("PLAYER 2 WON!");
+                    victoryP.setVisible(true);
+                    victoryP.setDisable(false);
                 }
             } //sjekker om kulene treffer utkant av kartet
             else if (bullets2.get(i).getView().getTranslateY() <= minY   || bullets2.get(i).getView().getTranslateY() >= sceneheigth+25) {
