@@ -683,9 +683,7 @@ public class Controller {
         //kollisjon med veggene spiller 1
         collisionWalls(player);
         collisionWalls(enemy);
-
-        System.out.println(enemy.getScore() + " " + player.getScore());
-
+        //kollisjon med kanten av banen
         boundsPlayer(player);
         boundsPlayer(enemy);
 
