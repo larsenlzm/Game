@@ -1,8 +1,8 @@
 import javafx.animation.AnimationTimer;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,9 +10,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.util.ArrayList;
@@ -30,8 +27,6 @@ public class Controller {
 
     private Stage stage;
 
-    private Pane overLayer;
-    private Label hpLabel, hpLabel2, score;
     private AnimationTimer timer;
 
     private List<Bullet> bullets = new ArrayList<>();
@@ -56,40 +51,25 @@ public class Controller {
 
     public Button saveButton, startButton, resumeButton, loadButton, exitButton, back, saveSave;
     public TextField saveText;
-    public Label errorLabel, loadLabel, victoryLabelWinner, victoryLabelScore;
-    public Pane gameRoot;
-    public AnchorPane main, saveP, errorP, loadP, mainPane, gamePaused, victoryP;
+    public Label errorLabel, loadLabel, victoryLabelWinner, victoryLabelScore, currentScore;
+    public Pane gameP;
+    public AnchorPane main, saveP, errorP, loadP, mainPane, gamePaused, victoryP, gameRoot;
     public ImageView background;
+    public ProgressBar playerHp, enemyHp;
 
     private BitSet keyboardBitSet = new BitSet();
 
-    private void switchPane(Pane from,Pane to){
-        from.setDisable(true);
-        from.setVisible(false);
-        to.setDisable(false);
-        to.setVisible(true);
-    }
     private void createContent(int P, int E, int L) {
 
         stage = (Stage) mainPane.getScene().getWindow();
 
-        String sprite1 = "res/wall1.png";
-        String sprite2 = "res/wall1.png";
-        String sprite3 = "res/wall1.png";
-        String sprite4 = "res/wall1.png";
-        String sprite5 = "res/wall1.png";
-
         deleteImages();
 
-        overLayer = new Pane();
-
-        gameRoot.setPrefSize(scenewidth,sceneheigth);
-
-        player = new Player("res/tankBlue.png", 10,3, 50,50, gameRoot);
+        player = new Player("res/tankBlue.png", 10,3, 50,50, gameP);
         player.setVelocity(0,0);
         player.setSpeedMultiplier(3);
 
-        enemy = new Player("res/tankRed.png", 10,3, 1210,650, gameRoot);
+        enemy = new Player("res/tankRed.png", 10,3, 1210,650, gameP);
         enemy.setVelocity(0,0);
         enemy.getView().setRotate(180);
         enemy.setSpeedMultiplier(3);
@@ -98,243 +78,249 @@ public class Controller {
         enemy.setScore(E);
         currentLevel = L;
 
+        String spriteWall = "res/wall1.png";
+        String spriteWall2 = "res/wall1.png";
+        String spriteWall3 = "res/wall1.png";
+        String spriteWall4 = "res/wall1.png";
+        String spriteWall5 = "res/wall1.png";
+        String spriteBg1 = "res/spillbg1.png";
+        String spriteBg2 = "res/spillbg2.png";
+        String spriteBg3 = "res/spillbg1.png";
+        String spriteBg4 = "res/spillbg2.png";
+        String spriteBg5 = "res/spillbg1.png";
+
         // bane1
-        maps.add(new Level(50,650,1210,50, "res/spillbg1.png"));
-        maps.get(0).addWalls(new Wall(sprite1,150,100, gameRoot)); //oppe til venstre
-        maps.get(0).addWalls(new Wall(sprite1,150,150, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,150,200, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,200,100, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,250,100, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,1100,100, gameRoot)); // oppe til høyre
-        maps.get(0).addWalls(new Wall(sprite1,1050,100, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,1000,100, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,1100,150, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,1100,200, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,150,550, gameRoot)); // nede til venstre
-        maps.get(0).addWalls(new Wall(sprite1,150,500, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,150,450, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,200,550, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,250,550, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,1100,550, gameRoot));//nede til høyre
-        maps.get(0).addWalls(new Wall(sprite1,1100,500, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,1100,450, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,1050,550, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,1000,550, gameRoot));
-        maps.get(0).addWalls(new Wall(sprite1,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot)); //midten
+        maps.add(new Level(50,650,1210,50, spriteBg1));
+        maps.get(0).addWalls(new Wall(spriteWall,150,100, gameP)); //oppe til venstre
+        maps.get(0).addWalls(new Wall(spriteWall,150,150, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,150,200, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,200,100, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,250,100, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,1100,100, gameP)); // oppe til høyre
+        maps.get(0).addWalls(new Wall(spriteWall,1050,100, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,1000,100, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,1100,150, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,1100,200, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,150,550, gameP)); // nede til venstre
+        maps.get(0).addWalls(new Wall(spriteWall,150,500, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,150,450, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,200,550, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,250,550, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,1100,550, gameP));//nede til høyre
+        maps.get(0).addWalls(new Wall(spriteWall,1100,500, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,1100,450, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,1050,550, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,1000,550, gameP));
+        maps.get(0).addWalls(new Wall(spriteWall,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameP)); //midten
 
         //bane2
-        maps.add(new Level(50,650,1210,50,"res/spillbg2.png"));
-        maps.get(1).addWalls(new Wall(sprite2,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,1165,545, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,1070,58, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,590,200, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,330,340, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,130,560, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,790,640, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,920,280, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,135,100, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,640,75, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,540,575, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,960,460, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,737,360, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,123,321, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,907,580, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,400,160, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,330,630, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,490,430, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,400,160, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,1125,345, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,830,125, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,730,495, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,360,505, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,240,184, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,340,59, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,1170,168, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,980,170, gameRoot));
-        maps.get(1).addWalls(new Wall(sprite2,210,420, gameRoot));
+        maps.add(new Level(50,650,1210,50,spriteBg2));
+        maps.get(1).addWalls(new Wall(spriteWall2,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,1165,545, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,1070,58, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,590,200, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,330,340, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,130,560, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,790,640, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,920,280, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,135,100, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,640,75, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,540,575, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,960,460, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,737,360, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,123,321, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,907,580, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,400,160, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,330,630, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,490,430, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,400,160, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,1125,345, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,830,125, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,730,495, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,360,505, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,240,184, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,340,59, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,1170,168, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,980,170, gameP));
+        maps.get(1).addWalls(new Wall(spriteWall2,210,420, gameP));
 
         //bane3
-        maps.add(new Level(50 ,50,1210,650,"res/spillbg1.png"));
-        maps.get(2).addWalls(new Wall(sprite3,1230,550, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,1180,550, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,1130,550, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,1130,500, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,1130,450, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,1130,400, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,1130,350, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,1130,40, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,1130,90, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,1130,140, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,0,300, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,50,300, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,100,300, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,150,300, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,100,250, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,100,200, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,100,150, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,400,670, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,400,620, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,400,570, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,700,40, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,700,90, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,700,140, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,500,400, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,550,400, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,600,400, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,650,400, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,700,400, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,600,450, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,600,500, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,600,350, gameRoot));
-        maps.get(2).addWalls(new Wall(sprite3,600,300, gameRoot));
+        maps.add(new Level(50 ,50,1210,650,spriteBg3));
+        maps.get(2).addWalls(new Wall(spriteWall3,1230,550, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,1180,550, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,1130,550, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,1130,500, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,1130,450, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,1130,400, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,1130,350, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,1130,40, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,1130,90, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,1130,140, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,0,300, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,50,300, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,100,300, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,150,300, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,100,250, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,100,200, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,100,150, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,400,670, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,400,620, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,400,570, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,700,40, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,700,90, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,700,140, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,500,400, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,550,400, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,600,400, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,650,400, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,700,400, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,600,450, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,600,500, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,600,350, gameP));
+        maps.get(2).addWalls(new Wall(spriteWall3,600,300, gameP));
 
         //bane4
-        maps.add(new Level(50,650,1210,50,"res/spillbg2.png"));
-        maps.get(3).addWalls(new Wall(sprite4,100,530, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,100,580, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,100,630, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,200,300, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,200,350, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,200,400, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,100,70, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,100,120, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,100,170, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,300,70, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,300,120, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,300,170, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,400,300, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,400,350, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,400,400, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,300,530, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,300,580, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,300,630, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,500,70, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,500,120, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,500,170, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,600,300, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,600,350, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,600,400, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,500,530, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,500,580, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,500,630, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,700,70, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,700,120, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,700,170, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,800,300, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,800,350, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,800,400, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,700,530, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,700,580, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,700,630, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,900,70, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,900,120, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,900,170, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,1000,300, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,1000,350, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,1000,400, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,900,530, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,900,580, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,900,630, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,1100,70, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,1100,120, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,1100,170, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,1100,530, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,1100,580, gameRoot));
-        maps.get(3).addWalls(new Wall(sprite4,1100,630, gameRoot));
+        maps.add(new Level(50,650,1210,50,spriteBg4));
+        maps.get(3).addWalls(new Wall(spriteWall4,100,530, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,100,580, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,100,630, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,200,300, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,200,350, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,200,400, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,100,70, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,100,120, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,100,170, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,300,70, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,300,120, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,300,170, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,400,300, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,400,350, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,400,400, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,300,530, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,300,580, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,300,630, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,500,70, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,500,120, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,500,170, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,600,300, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,600,350, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,600,400, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,500,530, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,500,580, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,500,630, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,700,70, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,700,120, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,700,170, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,800,300, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,800,350, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,800,400, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,700,530, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,700,580, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,700,630, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,900,70, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,900,120, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,900,170, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,1000,300, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,1000,350, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,1000,400, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,900,530, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,900,580, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,900,630, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,1100,70, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,1100,120, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,1100,170, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,1100,530, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,1100,580, gameP));
+        maps.get(3).addWalls(new Wall(spriteWall4,1100,630, gameP));
 
         //bane5
-        maps.add(new Level(50,650,1210,50,"res/spillbg1.png"));
-        maps.get(4).addWalls(new Wall(sprite5,1150,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,1100,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,1150,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,1100,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,1150,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,1100,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,1150,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,1100,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,1150,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,1100,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,1150,530, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,1100,530, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,950,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,900,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,950,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,900,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,950,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,900,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,950,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,900,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,950,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,900,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,950,530, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,900,530, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,750,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,700,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,750,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,700,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,750,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,700,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,750,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,700,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,750,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,700,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,750,530, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,700,530, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,550,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,500,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,550,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,500,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,550,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,500,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,550,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,500,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,550,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,500,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,550,530, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,500,530, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,350,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,300,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,350,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,300,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,350,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,300,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,350,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,300,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,350,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,300,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,350,530, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,300,530, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,150,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,100,180, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,150,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,100,130, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,150,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,100,380, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,150,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,100,330, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,150,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,100,580, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,150,530, gameRoot));
-        maps.get(4).addWalls(new Wall(sprite5,100,530, gameRoot));
+        maps.add(new Level(50,650,1210,50,spriteBg5));
+        maps.get(4).addWalls(new Wall(spriteWall5,1150,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,1100,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,1150,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,1100,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,1150,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,1100,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,1150,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,1100,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,1150,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,1100,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,1150,530, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,1100,530, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,950,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,900,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,950,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,900,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,950,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,900,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,950,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,900,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,950,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,900,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,950,530, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,900,530, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,750,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,700,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,750,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,700,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,750,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,700,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,750,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,700,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,750,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,700,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,750,530, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,700,530, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,550,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,500,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,550,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,500,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,550,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,500,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,550,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,500,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,550,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,500,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,550,530, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,500,530, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,350,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,300,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,350,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,300,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,350,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,300,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,350,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,300,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,350,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,300,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,350,530, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,300,530, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,150,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,100,180, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,150,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,100,130, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,150,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,100,380, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,150,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,100,330, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,150,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,100,580, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,150,530, gameP));
+        maps.get(4).addWalls(new Wall(spriteWall5,100,530, gameP));
 
         for(Wall i : maps.get(currentLevel).getWalls()){
             i.addPane();
         }
+
         background.setImage(new Image(maps.get(currentLevel).getMapBg()));
 
-        gameRoot.getChildren().add(overLayer);
-
-        hpLabel = new Label();
-        hpLabel.setTextFill(Color.BLACK);
-        overLayer.getChildren().add(hpLabel);
-
-        hpLabel2 = new Label();
-        hpLabel2.setTextFill(Color.BLACK);
-        overLayer.getChildren().add(hpLabel2);
-
-        score = new Label();
-        score.setTextFill(Color.BLACK);
-        overLayer.getChildren().add(score);
+        currentScore.setText(player.getScore() + " : " + enemy.getScore());
+    }
+    private void switchPane(Pane from,Pane to){
+        from.setDisable(true);
+        from.setVisible(false);
+        to.setDisable(false);
+        to.setVisible(true);
     }
     private void boundsPlayer(Player player){
         double maxX = scenewidth - (player.getWidth() / 2);
@@ -372,7 +358,7 @@ public class Controller {
     private void shootPlayer(boolean shoot, Player player, boolean isPistolLadet, List<Bullet> bullets, String sprite){
         if (shoot && isPistolLadet) {
             //Adder bulleten til gameworld og posisjonen er da samme som player
-            bullets.add(new Bullet(sprite,player.getX(),player.getY(), gameRoot, player, player.getRotate()));
+            bullets.add(new Bullet(sprite,player.getX(),player.getY(), gameP, player, player.getRotate()));
             //resetter pistolklokka
             laderTeller = 0;
         }
@@ -381,7 +367,7 @@ public class Controller {
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(play)) {
                 getSound("res/sound.wav");
-                bullets.get(i).RemoveBullet(gameRoot);
+                bullets.get(i).RemoveBullet(gameP);
                 bullets.remove(i);
                 if (play.getHp() != 1) {
                     play.setHp(play.getHp() - 1);
@@ -392,7 +378,7 @@ public class Controller {
                     poeng.setScore(poeng.getScore()+1);
                 } else {
                     poeng.setScore(poeng.getScore()+1);
-                    gameRoot.getChildren().remove(play.getView());
+                    gameP.getChildren().remove(play.getView());
                     stopContent();
                     play.setHp(play.getHp() - 1);
                     play.setLifePoints(play.getLifePoints() - 1);
@@ -403,15 +389,15 @@ public class Controller {
                 }
             } //sjekker om kulene treffer utkant av kartet
             else if (bullets.get(i).getView().getTranslateY() <= 45  || bullets.get(i).getView().getTranslateY() >= sceneheigth+25) {
-                bullets.get(i).RemoveBullet(gameRoot);
+                bullets.get(i).RemoveBullet(gameP);
                 bullets.remove(i);
             } else if (bullets.get(i).getView().getTranslateX() <= 0  || bullets.get(i).getView().getTranslateX() >= scenewidth+25) {
-                bullets.get(i).RemoveBullet(gameRoot);
+                bullets.get(i).RemoveBullet(gameP);
                 bullets.remove(i);
             } else {
                 for(Wall j : maps.get(currentLevel).getWalls()) {
                     if (bullets.get(i).isColliding(j)){
-                        bullets.get(i).RemoveBullet(gameRoot);
+                        bullets.get(i).RemoveBullet(gameP);
                         bullets.remove(i);
                     }
                 }
@@ -458,10 +444,10 @@ public class Controller {
         player.getView().setRotate(0);
         enemy.getView().setRotate(180);
         for (Bullet b : bullets){
-            b.RemoveBullet(gameRoot);
+            b.RemoveBullet(gameP);
         }
         for (Bullet b : bullets2){
-            b.RemoveBullet(gameRoot);
+            b.RemoveBullet(gameP);
         }
         bullets.clear();
         bullets2.clear();
@@ -489,12 +475,12 @@ public class Controller {
         timer.start();
     }
     private void deleteImages() {
-        gameRoot.getChildren().clear();
+        gameP.getChildren().clear();
     }
     public void startGame() {
         createContent(0,0,0);
         addInputControls(mainPane.getScene());
-        switchPane(main,gameRoot);
+        switchPane(main, gameRoot);
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -564,7 +550,7 @@ public class Controller {
                 currentLevel = save.getCurrentMap();
                 createContent(player.getScore(),enemy.getScore(),currentLevel);
                 addInputControls(mainPane.getScene());
-                switchPane(loadP,gameRoot);
+                switchPane(loadP, gameRoot);
                 timer = new AnimationTimer() {
                     @Override
                     public void handle(long now) {
@@ -597,7 +583,7 @@ public class Controller {
         } else if(errorP.isVisible() && loadP.isVisible()){
             switchPane(errorP,loadP);
         } else if(errorP.isVisible() && gameRoot.isVisible()){
-            switchPane(errorP,gameRoot);
+            switchPane(errorP, gameRoot);
         } else {
             errorP.setDisable(true);
             errorP.setVisible(false);
@@ -687,18 +673,9 @@ public class Controller {
         boundsPlayer(player);
         boundsPlayer(enemy);
 
-        hpLabel.setText("PLAYER 1 HP: " + player.getHp());
-        hpLabel.setTranslateX(10);
-        hpLabel.setTranslateY(10);
-
-        hpLabel2.setText("PLAYER 2 HP: " + enemy.getHp());
-        hpLabel2.setTranslateX(scenewidth - hpLabel2.getBoundsInParent().getWidth()-10);
-        hpLabel2.setTranslateY(10);
-
-        score.setText(player.getScore() + " : " + enemy.getScore());
-        score.setTranslateX(scenewidth/2 - score.getWidth()/2);
-        score.setTranslateY(10);
-        score.setFont(new Font(20));
+        playerHp.setProgress((double)player.getHp()/10);
+        enemyHp.setProgress((double)enemy.getHp()/10);
+        currentScore.setText(player.getScore() + " : " + enemy.getScore());
 
         //oppdaterer posisjon
         bullets.forEach(Bullet::update);
