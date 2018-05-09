@@ -31,23 +31,15 @@
                         <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="resumeButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#resumeGame" prefHeight="50.0" prefWidth="180.0" text="RESUME" textAlignment="CENTER" textOverrun="CLIP">
-                     <font>
-                        <Font name="8BIT WONDER Nominal" size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="saveButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveGame" prefHeight="50.0" prefWidth="180.0" text="SAVE GAME" textAlignment="CENTER">
-                     <font>
-                        <Font name="8BIT WONDER Nominal" size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </VBox.margin>
-                  </Button>
                   <Button fx:id="loadButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loadGame" prefHeight="50.0" prefWidth="180.0" text="LOAD GAME" textAlignment="CENTER">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="help" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#help" prefHeight="50.0" prefWidth="90.0" text="HELP" textAlignment="CENTER">
                      <font>
                         <Font name="8BIT WONDER Nominal" size="15.0" />
                      </font>
@@ -60,7 +52,7 @@
                         <Font name="8BIT WONDER Nominal" size="15.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
+                        <Insets bottom="75.0" top="10.0" />
                      </VBox.margin>
                   </Button>
                </children>
@@ -69,41 +61,6 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
-      </AnchorPane>
-      <AnchorPane fx:id="saveP" disable="true" prefHeight="720.0" prefWidth="1280.0" visible="false">
-         <children>
-            <VBox alignment="CENTER" layoutX="392.0" layoutY="309.0" prefHeight="200.0" prefWidth="497.0">
-               <children>
-                  <Button fx:id="back" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="90.0" text="BACK" textAlignment="CENTER">
-                     <font>
-                        <Font name="8BIT WONDER Nominal" size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </VBox.margin>
-                  </Button>
-                  <TextField fx:id="saveText" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="288.0" promptText="SAVE NAME">
-                     <font>
-                        <Font name="8BIT WONDER Nominal" size="15.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Button fx:id="saveSave" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveSave" prefHeight="50.0" prefWidth="90.0" text="SAVE" textAlignment="CENTER">
-                     <font>
-                        <Font name="8BIT WONDER Nominal" size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </VBox.margin>
-                  </Button>
-               </children>
-            </VBox>
-         </children>
       </AnchorPane>
       <AnchorPane fx:id="loadP" disable="true" prefHeight="720.0" prefWidth="1280.0" visible="false">
          <children>
@@ -151,6 +108,75 @@
       <AnchorPane fx:id="gameRoot" disable="true" prefHeight="727.0" prefWidth="1292.0" visible="false">
          <children>
             <Pane fx:id="gameP" layoutX="-1.0" layoutY="-1.0" prefHeight="720.0" prefWidth="1280.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="gamePaused" disable="true" layoutX="-5.0" layoutY="-1.0" prefHeight="738.0" prefWidth="1301.0" visible="false">
+         <children>
+            <Pane nodeOrientation="LEFT_TO_RIGHT" opacity="0.47" prefHeight="727.0" prefWidth="1292.0" style="-fx-background-color: black;" />
+            <VBox alignment="BOTTOM_CENTER" cache="true" layoutX="398.0" layoutY="281.0" prefHeight="276.0" prefWidth="497.0" style="-fx-background-color: white;">
+               <children>
+                  <Button fx:id="resumeButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#resumeGame" prefHeight="50.0" prefWidth="180.0" text="RESUME" textAlignment="CENTER" textOverrun="CLIP">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="saveButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveGame" prefHeight="50.0" prefWidth="180.0" text="SAVE GAME" textAlignment="CENTER">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="toMain" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toMain" prefHeight="50.0" prefWidth="280.0" text="BACK TO MAIN MENU" textAlignment="CENTER">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="45.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="saveP" disable="true" onKeyPressed="#goBackGame" onMouseClicked="#goBackGame" prefHeight="720.0" prefWidth="1280.0" visible="false">
+         <children>
+            <Pane nodeOrientation="LEFT_TO_RIGHT" opacity="0.47" prefHeight="727.0" prefWidth="1292.0" style="-fx-background-color: black;" />
+            <VBox alignment="CENTER" layoutX="392.0" layoutY="279.0" prefHeight="276.0" prefWidth="497.0">
+               <children>
+                  <Button fx:id="back" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBackGame" prefHeight="50.0" prefWidth="90.0" text="BACK" textAlignment="CENTER">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <TextField fx:id="saveText" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="288.0" promptText="SAVE NAME">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Button fx:id="saveSave" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveSave" prefHeight="50.0" prefWidth="90.0" text="SAVE" textAlignment="CENTER">
+                     <font>
+                        <Font name="8BIT WONDER Nominal" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="errorP" disable="true" layoutX="-6.0" onKeyPressed="#goBack" onMouseClicked="#goBack" prefHeight="727.0" prefWidth="1292.0" visible="false" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">

@@ -61,7 +61,7 @@ public class Controller {
     public TextField saveText;
     public Label errorLabel, loadLabel;
     public Pane gameRoot;
-    public AnchorPane main, saveP, errorP, loadP, mainPane;
+    public AnchorPane main, saveP, errorP, loadP, mainPane, gamePaused;
     public ImageView background;
 
     private BitSet keyboardBitSet = new BitSet();
@@ -72,7 +72,7 @@ public class Controller {
         to.setDisable(false);
         to.setVisible(true);
     }
-    private Parent createContent(int P, int E, int L) {
+    private void createContent(int P, int E, int L) {
 
         stage = (Stage) mainPane.getScene().getWindow();
         lobby = mainPane.getScene();
@@ -266,8 +266,6 @@ public class Controller {
         score = new Label();
         score.setTextFill(Color.BLACK);
         overLayer.getChildren().add(score);
-
-        return gameRoot;
     }
     private void addInputControls(Scene scene) {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
@@ -335,9 +333,14 @@ public class Controller {
         resumeContent();
         keyboardBitSet.set(0,100,false);
     }
+    public void help() {
+        System.out.println("help me senpai");
+    }
     public void resumeGame() {
         try {
-            switchPane(main,gameRoot);
+            gamePaused.setVisible(false);
+            gamePaused.setDisable(true);
+            gameRoot.setDisable(false);
             background.setImage(new Image(maps.get(currentLevel).getMapBg()));
             resumeContent();
             keyboardBitSet.set(0,100,false);
@@ -361,7 +364,7 @@ public class Controller {
             } catch (Exception ex){
                 System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
             }
-            switchPane(saveP,main);
+            switchPane(saveP,gamePaused);
         } else {
             error("No name entered");
             System.out.println("Skriv inn et navn");
@@ -412,6 +415,7 @@ public class Controller {
         }
     }
     public void exitGame() {
+        stage = (Stage) mainPane.getScene().getWindow();
         stage.close();
     }
     public void goBack() {
@@ -435,6 +439,15 @@ public class Controller {
             main.setDisable(false);
             main.setVisible(true);
         }
+    }
+    public void goBackGame(){
+        switchPane(saveP,gamePaused);
+    }
+    public void toMain() {
+        goBack();
+        gamePaused.setVisible(false);
+        gamePaused.setDisable(true);
+        background.setImage(new Image("res/navn.png"));
     }
     private void getSound(String fname) { //Midlertidig kode for sound
 
@@ -483,9 +496,10 @@ public class Controller {
         //Pause
 
         if(isSpacePressed || isEscPressed){
-                stopContent();
-                background.setImage(new Image("res/navn.png"));
-                goBack();
+            stopContent();
+            gamePaused.setDisable(false);
+            gamePaused.setVisible(true);
+            gameRoot.setDisable(true);
         }
 
         //skyting player2
