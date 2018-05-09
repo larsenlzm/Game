@@ -9,36 +9,28 @@ public class GameObjects {
     public GameObjects(Node view) {
         this.view = view;
     }
-
     public void update() {
         view.setTranslateX(view.getTranslateX() + velocity.getX());
         view.setTranslateY(view.getTranslateY() + velocity.getY());
     }
-
     public void setVelocity(double x, double y) {
         velocity = new Point2D(x,y);
     }
-
     public Point2D getVelocity() {
         return velocity;
     }
-
     public Node getView() {
         return view;
     }
-
     public double getRotate() {
         return view.getRotate();
     }
-
     public void rotateRight() {
         view.setRotate(view.getRotate() + 3);
     }
-
     public void rotateLeft() {
         view.setRotate(view.getRotate() - 3);
     }
-
     public boolean isColliding(GameObjects other) {
         return getView().getBoundsInParent().intersects(other.getView().getBoundsInParent());
     }

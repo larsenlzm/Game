@@ -6,6 +6,7 @@ public class Player extends GameObjects {
     private int hp;
     private int lifePoints;
     private double speedMultiplier;
+    private int score;
 
     Player(String sprite, int hp,int lifePoints, double x, double y, Pane root) {
         super(new ImageView(sprite));
@@ -37,5 +38,11 @@ public class Player extends GameObjects {
         this.speedMultiplier = speed;}
     public double getSpeedMultiplier() {
         return speedMultiplier;
+    }
+    public int getScore() {
+        return score;
+    }
+    public void setScore(int score){
+        this.score = score;
     }
 }

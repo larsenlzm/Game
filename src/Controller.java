@@ -31,7 +31,7 @@ public class Controller {
     private Stage stage;
 
     private Pane overLayer;
-    private Label hpLabel, hpLabel2, score, finishLabel;
+    private Label hpLabel, hpLabel2, score;
     private AnimationTimer timer;
 
     private List<Bullet> bullets = new ArrayList<>();
@@ -47,8 +47,6 @@ public class Controller {
     private double laderTeller = lader;
     private double laderTellerDelta = 1;
 
-    private int scoreP;
-    private int scoreE;
     private int currentLevel;
 
     private File saveFile;
@@ -75,10 +73,6 @@ public class Controller {
 
         stage = (Stage) mainPane.getScene().getWindow();
 
-        scoreP = P;
-        scoreE = E;
-        currentLevel = L;
-
         String sprite1 = "res/wall1.png";
         String sprite2 = "res/wall1.png";
         String sprite3 = "res/wall1.png";
@@ -99,6 +93,10 @@ public class Controller {
         enemy.setVelocity(0,0);
         enemy.getView().setRotate(180);
         enemy.setSpeedMultiplier(3);
+
+        player.setScore(P);
+        enemy.setScore(E);
+        currentLevel = L;
 
         // bane1
         maps.add(new Level(50,650,1210,50, "res/spillbg1.png"));
@@ -334,35 +332,71 @@ public class Controller {
         hpLabel2.setTextFill(Color.BLACK);
         overLayer.getChildren().add(hpLabel2);
 
-        finishLabel = new Label();
-        finishLabel.setTextFill(Color.BLACK);
-        overLayer.getChildren().add(finishLabel);
-
         score = new Label();
         score.setTextFill(Color.BLACK);
         overLayer.getChildren().add(score);
     }
-
-    private void bulletPhysics(List<Bullet> bullets, Player enemy, int nr){
+    private void boundsPlayer(Player player){
+        double maxX = scenewidth - (player.getWidth() / 2);
+        double minX = 0 - (player.getWidth() / 2);
+        double maxY = sceneheigth - (player.getWidth() / 2);
+        double minY = 45;
+        if(player.getX() >= maxX) {
+            player.getView().setTranslateX(maxX);
+        } else if (player.getX() <= minX) {
+            player.getView().setTranslateX(minX);
+        }
+        // går for langt opp eller ned så kommer du ut på andre siden
+        if(player.getY() >= maxY) {
+            player.getView().setTranslateY(maxY);
+        } else if (player.getY() <= minY) {
+            player.getView().setTranslateY(minY);
+        }
+    }
+    private void movePlayer(boolean forward, boolean back, Player player){
+        if(forward){
+            player.setVelocity(Math.cos(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier(), Math.sin(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier());
+        } else if(back){
+            player.setVelocity(-Math.cos(Math.toRadians(player.getView().getRotate()))*player.getSpeedMultiplier(), -Math.sin(Math.toRadians(player.getView().getRotate()))*player.getSpeedMultiplier());
+        }else{
+            player.setVelocity(0,0);
+        }
+    }
+    private void rotatePlayer(boolean right, boolean left, Player player){
+        if (right && !left) {
+            player.rotateLeft();
+        } else if ( !right && left) {
+            player.rotateRight();
+        }
+    }
+    private void shootPlayer(boolean shoot, Player player, boolean isPistolLadet, List<Bullet> bullets, String sprite){
+        if (shoot && isPistolLadet) {
+            //Adder bulleten til gameworld og posisjonen er da samme som player
+            bullets.add(new Bullet(sprite,player.getX(),player.getY(), gameRoot, player, player.getRotate()));
+            //resetter pistolklokka
+            laderTeller = 0;
+        }
+    }
+    private void bulletPhysics(List<Bullet> bullets, Player play, int nr, Player poeng){
         for (int i = 0; i < bullets.size(); i++){
-            if(bullets.get(i).isColliding(enemy)) {
+            if(bullets.get(i).isColliding(play)) {
                 getSound("res/sound.wav");
                 bullets.get(i).RemoveBullet(gameRoot);
                 bullets.remove(i);
-                if (enemy.getHp() != 1) {
-                    enemy.setHp(enemy.getHp() - 1);
-                } else if(scoreP < 2){
-                    enemy.setHp(10);
+                if (play.getHp() != 1) {
+                    play.setHp(play.getHp() - 1);
+                } else if(poeng.getScore() < 2){
+                    play.setHp(10);
                     newRound();
-                    enemy.setLifePoints(enemy.getLifePoints() - 1);
-                    scoreP++;
+                    play.setLifePoints(play.getLifePoints() - 1);
+                    poeng.setScore(poeng.getScore()+1);
                 } else {
-                    scoreP++;
-                    gameRoot.getChildren().remove(enemy.getView());
+                    poeng.setScore(poeng.getScore()+1);
+                    gameRoot.getChildren().remove(play.getView());
                     stopContent();
-                    enemy.setHp(enemy.getHp() - 1);
-                    enemy.setLifePoints(enemy.getLifePoints() - 1);
-                    victoryLabelScore.setText(scoreP + " : " + scoreE);
+                    play.setHp(play.getHp() - 1);
+                    play.setLifePoints(play.getLifePoints() - 1);
+                    victoryLabelScore.setText(player.getScore() + " : " + enemy.getScore());
                     victoryLabelWinner.setText("PLAYER " + nr +" WON!");
                     victoryP.setVisible(true);
                     victoryP.setDisable(false);
@@ -384,7 +418,6 @@ public class Controller {
             }
         }
     }
-
     private void collisionWalls(Player player){
         for(Wall i : maps.get(currentLevel).getWalls()) {
             //spiller kommer fra venstre
@@ -495,7 +528,7 @@ public class Controller {
     public void saveSave(){
         if(!saveText.getText().trim().isEmpty()){
             System.out.println(saveText.getCharacters());
-            Save save = new Save(scoreP,scoreE,currentLevel);
+            Save save = new Save(player.getScore(),enemy.getScore(),currentLevel);
             try {
                 resourceManager.save(save,saveText.getText() + ".save"); // MIDLERTIDIG
                 System.out.println("Saving game ...");
@@ -526,10 +559,10 @@ public class Controller {
             try {
                 Save save = (Save) resourceManager.load(saveFile.getName());
                 System.out.println("Loading game ...");
-                scoreP = save.getScoreP();
-                scoreE = save.getScoreE();
+                player.setScore(save.getScoreP());
+                player.setScore(save.getScoreE());
                 currentLevel = save.getCurrentMap();
-                createContent(scoreP,scoreE,currentLevel);
+                createContent(player.getScore(),enemy.getScore(),currentLevel);
                 addInputControls(mainPane.getScene());
                 switchPane(loadP,gameRoot);
                 timer = new AnimationTimer() {
@@ -623,101 +656,38 @@ public class Controller {
         boolean isSpacePressed = keyboardBitSet.get(KeyCode.SPACE.ordinal());
         boolean isEscPressed = keyboardBitSet.get(KeyCode.ESCAPE.ordinal());
 
-        double maxX = scenewidth - (player.getWidth() / 2);
-        double minX = 0 - (player.getWidth() / 2);
-        double maxY = sceneheigth - (player.getWidth() / 2);
-        double minY = 45;
-
         laderTeller += laderTellerDelta;
         if( laderTeller > lader) {
             laderTeller = lader;
         }
         boolean isPistolLadet = laderTeller >= lader;
         //Pause
-
         if(isSpacePressed || isEscPressed){
             stopContent();
             gamePaused.setDisable(false);
             gamePaused.setVisible(true);
             gameRoot.setDisable(true);
         }
-
-        //skyting player2
-        if (isMPressed && isPistolLadet) {
-            Bullet bullet2 = new Bullet("res/bulletRed1.png",enemy.getX(),enemy.getY(), gameRoot,enemy,enemy.getRotate());
-            //Adder bulleten til gameworld og posisjonen er da samme som player
-            bullets2.add(bullet2);
-            //resetter pistolklokka
-            laderTeller = 0;
-        }
-        //skyting player1
-        if (isVPressed && isPistolLadet) {
-            Bullet bullet = new Bullet("res/bulletBlue.png",player.getX(),player.getY(), gameRoot, player, player.getRotate());
-            //Adder bulleten til gameworld
-            bullets.add(bullet);
-            //resetter pistolklokka
-            laderTeller = 0;
-        }
-
-        if (isLeftPressed && !isRightPressed) {
-            enemy.rotateLeft();
-        } else if ( !isLeftPressed && isRightPressed) {
-            enemy.rotateRight();
-        }
-
-        if ( isAPressed && !isDPressed) {
-            player.rotateLeft();
-        } else if ( !isAPressed && isDPressed) {
-            player.rotateRight();
-        }
-
-        if(isUpPressed){
-            enemy.setVelocity(Math.cos(Math.toRadians(enemy.getView().getRotate()))*enemy.getSpeedMultiplier(), Math.sin(Math.toRadians(enemy.getView().getRotate()))*enemy.getSpeedMultiplier());
-        } else  if(isDownPressed){
-            enemy.setVelocity(-Math.cos(Math.toRadians(enemy.getView().getRotate()))*enemy.getSpeedMultiplier(), -Math.sin(Math.toRadians(enemy.getView().getRotate()))*enemy.getSpeedMultiplier());
-        }else{
-            enemy.setVelocity(0,0);
-        }
-
-        if(isWPressed){
-            player.setVelocity(Math.cos(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier(), Math.sin(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier());
-        } else if(isSPressed){
-            player.setVelocity(-Math.cos(Math.toRadians(player.getView().getRotate()))*player.getSpeedMultiplier(), -Math.sin(Math.toRadians(player.getView().getRotate()))*player.getSpeedMultiplier());
-        }else{
-            player.setVelocity(0,0);
-        }
+        //skyte spiller
+        shootPlayer(isVPressed,player,isPistolLadet,bullets,"res/bulletBlue.png");
+        shootPlayer(isMPressed,enemy,isPistolLadet,bullets2,"res/bulletRed.png");
+        //rotere spiller
+        rotatePlayer(isLeftPressed,isRightPressed,enemy);
+        rotatePlayer(isAPressed,isDPressed,player);
+        //flytte spiller
+        movePlayer(isWPressed, isSPressed, player);
+        movePlayer(isUpPressed, isDownPressed,enemy);
         //behandler kulekollisjon med person og utkant
-        bulletPhysics(bullets2, player, 1);
-        bulletPhysics(bullets, enemy, 2);
-
+        bulletPhysics(bullets2, player, 1, enemy);
+        bulletPhysics(bullets, enemy, 2, player);
         //kollisjon med veggene spiller 1
         collisionWalls(player);
         collisionWalls(enemy);
 
-        // går for langt til høyre eller venstre så kommer du ut på andre siden
-        if(player.getX() >= maxX) {
-            player.getView().setTranslateX(maxX);
-        } else if (player.getX() <= minX) {
-            player.getView().setTranslateX(minX);
-        }
-        // går for langt opp eller ned så kommer du ut på andre siden
-        if(player.getY() >= maxY) {
-            player.getView().setTranslateY(maxY);
-        } else if (player.getY() <= minY) {
-            player.getView().setTranslateY(minY);
-        }
-        // går for langt til høyre eller venstre så kommer du ut på andre siden
-        if(enemy.getX() >= maxX) {
-            enemy.getView().setTranslateX(maxX);
-        } else if (enemy.getX() <= minX) {
-            enemy.getView().setTranslateX(minX);
-        }
-        // går for langt opp eller ned så kommer du ut på andre siden
-        if(enemy.getY() >= maxY) {
-            enemy.getView().setTranslateY(maxY);
-        } else if (enemy.getY() <= minY) {
-            enemy.getView().setTranslateY(minY);
-        }
+        System.out.println(enemy.getScore() + " " + player.getScore());
+
+        boundsPlayer(player);
+        boundsPlayer(enemy);
 
         hpLabel.setText("PLAYER 1 HP: " + player.getHp());
         hpLabel.setTranslateX(10);
@@ -727,11 +697,7 @@ public class Controller {
         hpLabel2.setTranslateX(scenewidth - hpLabel2.getBoundsInParent().getWidth()-10);
         hpLabel2.setTranslateY(10);
 
-        finishLabel.setTranslateX(scenewidth/2 - finishLabel.getWidth()/2);
-        finishLabel.setTranslateY(sceneheigth/2 - 75);
-        finishLabel.setFont(new Font(40));
-
-        score.setText(scoreP + " : " + scoreE);
+        score.setText(player.getScore() + " : " + enemy.getScore());
         score.setTranslateX(scenewidth/2 - score.getWidth()/2);
         score.setTranslateY(10);
         score.setFont(new Font(20));
