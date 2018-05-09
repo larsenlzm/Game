@@ -87,11 +87,11 @@ public class Controller {
 
         gameRoot.setPrefSize(scenewidth,sceneheigth);
 
-        player = new Player("res/tank1.png", 10,3, 50,50, gameRoot);
+        player = new Player("res/tankBlue.png", 10,3, 50,50, gameRoot);
         player.setVelocity(0,0);
         player.setSpeedMultiplier(3);
 
-        enemy = new Player("res/tank2.png", 10,3, 1210,650, gameRoot);
+        enemy = new Player("res/tankRed.png", 10,3, 1210,650, gameRoot);
         enemy.setVelocity(0,0);
         enemy.getView().setRotate(180);
         enemy.setSpeedMultiplier(3);
@@ -577,7 +577,7 @@ public class Controller {
 
         //skyting player2
         if (isMPressed && isPistolLadet) {
-            Bullet bullet2 = new Bullet(5,5,5,Color.RED,enemy.getX(),enemy.getY(), gameRoot,enemy);
+            Bullet bullet2 = new Bullet("res/bulletRed1.png",enemy.getX(),enemy.getY(), gameRoot,enemy,enemy.getRotate());
             //Adder bulleten til gameworld og posisjonen er da samme som player
             bullets2.add(bullet2);
             //resetter pistolklokka
@@ -585,7 +585,7 @@ public class Controller {
         }
         //skyting player1
         if (isVPressed && isPistolLadet) {
-            Bullet bullet = new Bullet(5,5,5,Color.RED,player.getX(),player.getY(), gameRoot, player);
+            Bullet bullet = new Bullet("res/bulletBlue.png",player.getX(),player.getY(), gameRoot, player, player.getRotate());
             //Adder bulleten til gameworld
             bullets.add(bullet);
             //resetter pistolklokka
