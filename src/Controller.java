@@ -29,7 +29,6 @@ import java.io.*;
 public class Controller {
 
     private Stage stage;
-    private Scene lobby;
 
     private Pane overLayer;
     private Label hpLabel, hpLabel2, score, finishLabel;
@@ -75,7 +74,6 @@ public class Controller {
     private void createContent(int P, int E, int L) {
 
         stage = (Stage) mainPane.getScene().getWindow();
-        lobby = mainPane.getScene();
 
         scoreP = P;
         scoreE = E;
@@ -338,6 +336,69 @@ public class Controller {
         score.setTextFill(Color.BLACK);
         overLayer.getChildren().add(score);
     }
+
+    private void bulletPhysics(List<Bullet> bullets, Player enemy, int nr){
+        for (int i = 0; i < bullets.size(); i++){
+            if(bullets.get(i).isColliding(enemy)) {
+                getSound("res/sound.wav");
+                bullets.get(i).RemoveBullet(gameRoot);
+                bullets.remove(i);
+                if (enemy.getHp() != 1) {
+                    enemy.setHp(enemy.getHp() - 1);
+                } else if(scoreP < 2){
+                    enemy.setHp(10);
+                    newRound();
+                    enemy.setLifePoints(enemy.getLifePoints() - 1);
+                    scoreP++;
+                } else {
+                    scoreP++;
+                    gameRoot.getChildren().remove(enemy.getView());
+                    stopContent();
+                    enemy.setHp(enemy.getHp() - 1);
+                    enemy.setLifePoints(enemy.getLifePoints() - 1);
+                    victoryLabelScore.setText(scoreP + " : " + scoreE);
+                    victoryLabelWinner.setText("PLAYER " + nr +" WON!");
+                    victoryP.setVisible(true);
+                    victoryP.setDisable(false);
+                }
+            } //sjekker om kulene treffer utkant av kartet
+            else if (bullets.get(i).getView().getTranslateY() <= 45  || bullets.get(i).getView().getTranslateY() >= sceneheigth+25) {
+                bullets.get(i).RemoveBullet(gameRoot);
+                bullets.remove(i);
+            } else if (bullets.get(i).getView().getTranslateX() <= 0  || bullets.get(i).getView().getTranslateX() >= scenewidth+25) {
+                bullets.get(i).RemoveBullet(gameRoot);
+                bullets.remove(i);
+            } else {
+                for(Wall j : maps.get(currentLevel).getWalls()) {
+                    if (bullets.get(i).isColliding(j)){
+                        bullets.get(i).RemoveBullet(gameRoot);
+                        bullets.remove(i);
+                    }
+                }
+            }
+        }
+    }
+
+    private void collisionWalls(Player player){
+        for(Wall i : maps.get(currentLevel).getWalls()) {
+            //spiller kommer fra venstre
+            if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMinX() - player.getWidth() + 5 && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
+                player.getView().setTranslateX(i.getMinX() - player.getWidth());
+            }
+            //spiller kommer fra høyre
+            else if (player.getX() >= i.getMaxX() - 5 && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
+                player.getView().setTranslateX(i.getMaxX());
+            }
+            //spiller kommer fra toppen
+            else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMinY() - player.getWidth() + 5) {
+                player.getView().setTranslateY(i.getMinY() - player.getWidth());
+            }
+            //spiller kommer fra bunnen
+            else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMaxY() - 5 && player.getY() <= i.getMaxY()) {
+                player.getView().setTranslateY(i.getMaxY());
+            }
+        }
+    }
     private void addInputControls(Scene scene) {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             keyboardBitSet.set(e.getCode().ordinal(), true);
@@ -393,7 +454,7 @@ public class Controller {
     }
     public void startGame() {
         createContent(0,0,0);
-        addInputControls(lobby);
+        addInputControls(mainPane.getScene());
         switchPane(main,gameRoot);
         timer = new AnimationTimer() {
             @Override
@@ -463,7 +524,7 @@ public class Controller {
                 scoreE = save.getScoreE();
                 currentLevel = save.getCurrentMap();
                 createContent(scoreP,scoreE,currentLevel);
-                addInputControls(lobby);
+                addInputControls(mainPane.getScene());
                 switchPane(loadP,gameRoot);
                 timer = new AnimationTimer() {
                     @Override
@@ -620,122 +681,13 @@ public class Controller {
             player.setVelocity(0,0);
         }
         //behandler kulekollisjon med person og utkant
-        for (int i = 0; i < bullets.size(); i++){
-            if(bullets.get(i).isColliding(enemy)) {
-                getSound("res/sound.wav");
-                bullets.get(i).RemoveBullet(gameRoot);
-                bullets.remove(i);
-                if (enemy.getHp() != 1) {
-                    enemy.setHp(enemy.getHp() - 1);
-                } else if(scoreP < 2){
-                    enemy.setHp(10);
-                    newRound();
-                    enemy.setLifePoints(enemy.getLifePoints() - 1);
-                    scoreP++;
-                } else {
-                    scoreP++;
-                    gameRoot.getChildren().remove(enemy.getView());
-                    stopContent();
-                    enemy.setHp(enemy.getHp() - 1);
-                    enemy.setLifePoints(enemy.getLifePoints() - 1);
-                    victoryLabelScore.setText(scoreP + " : " + scoreE);
-                    victoryLabelWinner.setText("PLAYER 1 WON!");
-                    victoryP.setVisible(true);
-                    victoryP.setDisable(false);
-                }
-            } //sjekker om kulene treffer utkant av kartet
-            else if (bullets.get(i).getView().getTranslateY() <= minY  || bullets.get(i).getView().getTranslateY() >= sceneheigth+25) {
-                bullets.get(i).RemoveBullet(gameRoot);
-                bullets.remove(i);
-            } else if (bullets.get(i).getView().getTranslateX() <= 0  || bullets.get(i).getView().getTranslateX() >= scenewidth+25) {
-                bullets.get(i).RemoveBullet(gameRoot);
-                bullets.remove(i);
-            } else {
-                for(Wall j : maps.get(currentLevel).getWalls()) {
-                    if (bullets.get(i).isColliding(j)){
-                        bullets.get(i).RemoveBullet(gameRoot);
-                        bullets.remove(i);
-                    }
-                }
-            }
-        }
-        //behandler kulekollisjon med person og utkant
-        for (int i = 0; i < bullets2.size(); i++){
-            if(bullets2.get(i).isColliding(player)) {
-                getSound("res/sound.wav");
-                bullets2.get(i).RemoveBullet(gameRoot);
-                bullets2.remove(i);
-                if(player.getHp() != 1){
-                    player.setHp(player.getHp() - 1);
-                } else if(scoreE < 2) {
-                    newRound();
-                    player.setLifePoints(player.getLifePoints() - 1);
-                    scoreE++;
-                } else {
-                    scoreE++;
-                    gameRoot.getChildren().remove(player.getView());
-                    stopContent();
-                    player.setHp(player.getHp() - 1);
-                    player.setLifePoints(player.getLifePoints() - 1);
-                    victoryLabelScore.setText(scoreE + " : " + scoreP);
-                    victoryLabelWinner.setText("PLAYER 2 WON!");
-                    victoryP.setVisible(true);
-                    victoryP.setDisable(false);
-                }
-            } //sjekker om kulene treffer utkant av kartet
-            else if (bullets2.get(i).getView().getTranslateY() <= minY   || bullets2.get(i).getView().getTranslateY() >= sceneheigth+25) {
-                bullets2.get(i).RemoveBullet(gameRoot);
-                bullets2.remove(i);
-            } else if (bullets2.get(i).getView().getTranslateX() <= 0  || bullets2.get(i).getView().getTranslateX() >= scenewidth+25) {
-                bullets2.get(i).RemoveBullet(gameRoot);
-                bullets2.remove(i);
-            } else {
-                for(Wall w : maps.get(currentLevel).getWalls()) {
-                    if (bullets2.get(i).isColliding(w)){
-                        bullets2.get(i).RemoveBullet(gameRoot);
-                        bullets2.remove(i);
-                    }
-                }
-            }
-        }
+        bulletPhysics(bullets2, player, 1);
+        bulletPhysics(bullets, enemy, 2);
+
         //kollisjon med veggene spiller 1
-        for(Wall i : maps.get(currentLevel).getWalls()) {
-            //spiller kommer fra venstre
-            if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMinX() - player.getWidth() + 5 && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
-                player.getView().setTranslateX(i.getMinX() - player.getWidth());
-            }
-            //spiller kommer fra høyre
-            else if (player.getX() >= i.getMaxX() - 5 && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
-                player.getView().setTranslateX(i.getMaxX());
-            }
-            //spiller kommer fra toppen
-            else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMinY() - player.getWidth() + 5) {
-                player.getView().setTranslateY(i.getMinY() - player.getWidth());
-            }
-            //spiller kommer fra bunnen
-            else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMaxY() - 5 && player.getY() <= i.getMaxY()) {
-                player.getView().setTranslateY(i.getMaxY());
-            }
-        }
-        //kollisjon med veggene spiller 2
-        for(Wall i : maps.get(currentLevel).getWalls()) {
-            //spiller kommer fra venstre
-            if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMinX() - enemy.getWidth() + 5 && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMaxY()) {
-                enemy.getView().setTranslateX(i.getMinX() - enemy.getWidth());
-            }
-            //spiller kommer fra høyre
-            else if (enemy.getX() >= i.getMaxX() - 5 && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMaxY()) {
-                enemy.getView().setTranslateX(i.getMaxX());
-            }
-            //spiller fra toppen
-            else if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMinY() - enemy.getWidth() && enemy.getY() <= i.getMinY() - enemy.getWidth() + 5) {
-                enemy.getView().setTranslateY(i.getMinY() - enemy.getWidth());
-            }
-            //spiller fra bunnen
-            else if (enemy.getX() >= i.getMinX() - enemy.getWidth() && enemy.getX() <= i.getMaxX() && enemy.getY() >= i.getMaxY() - 5 && enemy.getY() <= i.getMaxY()) {
-                enemy.getView().setTranslateY(i.getMaxY());
-            }
-        }
+        collisionWalls(player);
+        collisionWalls(enemy);
+
         // går for langt til høyre eller venstre så kommer du ut på andre siden
         if(player.getX() >= maxX) {
             player.getView().setTranslateX(maxX);

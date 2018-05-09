@@ -181,17 +181,17 @@
       </AnchorPane>
       <AnchorPane fx:id="victoryP" disable="true" layoutX="5.0" layoutY="9.0" prefHeight="738.0" prefWidth="1301.0" visible="false">
          <children>
-            <Label fx:id="victoryLabelScore" alignment="CENTER" layoutX="302.0" layoutY="106.0" prefHeight="90.0" prefWidth="717.0" text="2-0">
+            <Label fx:id="victoryLabelScore" alignment="CENTER" layoutX="273.0" layoutY="105.0" prefHeight="90.0" prefWidth="717.0" text="2-0">
                <font>
                   <Font name="8BIT WONDER Nominal" size="180.0" />
                </font>
             </Label>
-            <Label fx:id="victoryLabelWinner" alignment="CENTER" layoutX="302.0" layoutY="334.0" prefHeight="90.0" prefWidth="717.0" text="PLAYER 1 WON">
+            <Label fx:id="victoryLabelWinner" alignment="CENTER" layoutX="273.0" layoutY="340.0" prefHeight="90.0" prefWidth="717.0" text="PLAYER 1 WON">
                <font>
                   <Font name="8BIT WONDER Nominal" size="49.0" />
                </font>
             </Label>
-            <Button fx:id="toMain1" alignment="CENTER" layoutX="511.0" layoutY="502.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toMain" prefHeight="50.0" prefWidth="280.0" text="BACK TO MAIN MENU" textAlignment="CENTER">
+            <Button fx:id="toMain1" alignment="CENTER" layoutX="491.0" layoutY="501.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#toMain" prefHeight="50.0" prefWidth="280.0" text="BACK TO MAIN MENU" textAlignment="CENTER">
                <font>
                   <Font name="8BIT WONDER Nominal" size="15.0" />
                </font>
