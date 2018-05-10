@@ -116,10 +116,10 @@ public class Controller {
             try {
                 Save save = (Save) resourceManager.load(saveFile.getName());
                 System.out.println("Loading game ...");
-                player.setScore(save.getScoreP());
-                player.setScore(save.getScoreE());
-                currentLevel = save.getCurrentMap();
-                createContent(player.getScore(),enemy.getScore(),currentLevel);
+                int P = save.getScoreP();
+                int E = save.getScoreE();
+                int c = save.getCurrentMap();
+                createContent(P,E,c);
                 addInputControls(mainPane.getScene());
                 switchPane(loadP, gameRoot);
                 timer = new AnimationTimer() {
@@ -183,7 +183,7 @@ public class Controller {
 
         stage = (Stage) mainPane.getScene().getWindow();
 
-        deleteImages();
+        gameP.getChildren().clear();
 
         player = new Player("res/tankBlue.png", 10,3, 50,50, gameP);
         player.setVelocity(0,0);
@@ -565,9 +565,6 @@ public class Controller {
         player.getView().setTranslateY(maps.get(currentLevel).getSpawnPY());
         enemy.getView().setTranslateX(maps.get(currentLevel).getSpawnEX());
         enemy.getView().setTranslateY(maps.get(currentLevel).getSpawnEY());
-    }
-    private void deleteImages() {
-        gameP.getChildren().clear();
     }
     private void getSound(String fname) { //Midlertidig kode for sound
         Clip ooh;
