@@ -114,7 +114,7 @@
                   <Insets />
                </opaqueInsets>
                <children>
-                  <ProgressBar fx:id="playerHp" prefWidth="200.0" progress="1.0" style="-fx-accent: green;">
+                  <ProgressBar fx:id="playerHp" prefWidth="200.0" progress="1.0" style="-fx-accent: blue;">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></ProgressBar>
@@ -126,7 +126,7 @@
                         <Insets left="375.0" right="375.0" />
                      </HBox.margin>
                   </Label>
-                  <ProgressBar fx:id="enemyHp" layoutX="10.0" layoutY="20.0" prefWidth="200.0" progress="1.0" style="-fx-accent: green;">
+                  <ProgressBar fx:id="enemyHp" layoutX="10.0" layoutY="20.0" prefWidth="200.0" progress="1.0" style="-fx-accent: red;">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></ProgressBar>
