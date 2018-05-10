@@ -26,30 +26,21 @@ import java.io.*;
 public class Controller {
 
     private Stage stage;
-
     private AnimationTimer timer;
-
     private List<Bullet> bullets = new ArrayList<>();
     private List<Bullet> bullets2 = new ArrayList<>();
     private List<Level> maps = new ArrayList<>();
-
     private Player player;
     private Player enemy;
 
-    private Clip ooh;
-
-    private double lader = 10; //skudd per antall frames
-    private double laderTeller = lader;
-    private double laderTellerDelta = 1;
+    private double load = 10; //skudd per antall frames
+    private double loadCount = load;
 
     private int currentLevel;
-
     private File saveFile;
-
+    private BitSet keyboardBitSet = new BitSet();
     private double scenewidth = 1280;
     private double sceneheigth = 720;
-
-    public Button saveButton, startButton, resumeButton, loadButton, exitButton, back, saveSave;
     public TextField saveText;
     public Label errorLabel, loadLabel, victoryLabelWinner, victoryLabelScore, currentScore;
     public Pane gameP;
@@ -57,8 +48,137 @@ public class Controller {
     public ImageView background;
     public ProgressBar playerHp, enemyHp;
 
-    private BitSet keyboardBitSet = new BitSet();
-
+    public void startGame() {
+        createContent(0,0,0);
+        addInputControls(mainPane.getScene());
+        switchPane(main, gameRoot);
+        timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                onUpdate();
+            }
+        };
+        timer.start();
+        keyboardBitSet.set(0,100,false);
+    }
+    public void help() {
+        System.out.println("help me senpai");
+    }
+    public void resumeGame() {
+        try {
+            gamePaused.setVisible(false);
+            gamePaused.setDisable(true);
+            gameRoot.setDisable(false);
+            background.setImage(new Image(maps.get(currentLevel).getMapBg()));
+            timer.start();
+            keyboardBitSet.set(0,100,false);
+            System.out.println("Resuming game ...");
+        } catch(RuntimeException e){
+            error("Nothing to resume");
+            System.out.println("Cant resume, you sure you have anything to resume??");
+        }
+    }
+    public void saveGame() {
+        saveText.setText("");
+        switchPane(main,saveP);
+    }
+    public void saveSave(){
+        if(!saveText.getText().trim().isEmpty()){
+            System.out.println(saveText.getCharacters());
+            Save save = new Save(player.getScore(),enemy.getScore(),currentLevel);
+            try {
+                resourceManager.save(save,saveText.getText() + ".save"); // MIDLERTIDIG
+                System.out.println("Saving game ...");
+            } catch (Exception ex){
+                System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
+            }
+            switchPane(saveP,gamePaused);
+        } else {
+            error("No name entered");
+            System.out.println("Skriv inn et navn");
+        }
+    }
+    public void loadGame() {
+        switchPane(main,loadP);
+    }
+    public void loader(){
+        System.out.println("getting file");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load .save file");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Saves", "*.save");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        saveFile = fileChooser.showOpenDialog(stage);
+        loadLabel.setText(saveFile.getName());
+    }
+    public void loadLoad(){
+        if(saveFile != null) {
+            try {
+                Save save = (Save) resourceManager.load(saveFile.getName());
+                System.out.println("Loading game ...");
+                player.setScore(save.getScoreP());
+                player.setScore(save.getScoreE());
+                currentLevel = save.getCurrentMap();
+                createContent(player.getScore(),enemy.getScore(),currentLevel);
+                addInputControls(mainPane.getScene());
+                switchPane(loadP, gameRoot);
+                timer = new AnimationTimer() {
+                    @Override
+                    public void handle(long now) {
+                        onUpdate();
+                    }
+                };
+                timer.start();
+                keyboardBitSet.set(0, 100, false);
+                saveFile = null;
+                loadLabel.setText("");
+            } catch (Exception ex) {
+                if (ex.getMessage() != null) {
+                    System.out.println("KAN IKKE LOADE!: " + ex.getMessage());
+                    error("cant load file");
+                }
+            }
+        } else {
+            error("cant load file, no file chosen");
+        }
+    }
+    public void exitGame() {
+        stage = (Stage) mainPane.getScene().getWindow();
+        stage.close();
+    }
+    public void goBack() {
+        if(errorP.isVisible() && main.isVisible()){
+            switchPane(errorP,main);
+        } else if(errorP.isVisible() && saveP.isVisible()){
+            switchPane(errorP,saveP);
+        } else if(errorP.isVisible() && loadP.isVisible()){
+            switchPane(errorP,loadP);
+        } else if(errorP.isVisible() && gameRoot.isVisible()){
+            switchPane(errorP, gameRoot);
+        } else {
+            errorP.setDisable(true);
+            errorP.setVisible(false);
+            loadP.setDisable(true);
+            loadP.setVisible(false);
+            saveP.setDisable(true);
+            saveP.setVisible(false);
+            gameRoot.setDisable(true);
+            gameRoot.setVisible(false);
+            main.setDisable(false);
+            main.setVisible(true);
+        }
+    }
+    public void goBackGame(){
+        switchPane(saveP,gamePaused);
+    }
+    public void toMain() {
+        goBack();
+        gamePaused.setVisible(false);
+        gamePaused.setDisable(true);
+        victoryP.setVisible(false);
+        victoryP.setDisable(true);
+        background.setImage(new Image("res/navn.png"));
+    }
     private void createContent(int P, int E, int L) {
 
         stage = (Stage) mainPane.getScene().getWindow();
@@ -276,6 +396,22 @@ public class Controller {
         to.setDisable(false);
         to.setVisible(true);
     }
+    private void addInputControls(Scene scene) {
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            keyboardBitSet.set(e.getCode().ordinal(), true);
+        });
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, e -> {
+            keyboardBitSet.set(e.getCode().ordinal(), false);
+        });
+    }
+    private void error(String error){
+        errorLabel.setText("Error!!! \n" + error);
+        errorP.setDisable(false);
+        errorP.setVisible(true);
+        main.setDisable(true);
+        saveP.setDisable(true);
+        loadP.setDisable(true);
+    }
     private void boundsPlayer(Player player){
         double maxX = scenewidth - (player.getWidth() / 2);
         double minX = 0 - (player.getWidth() / 2);
@@ -312,46 +448,59 @@ public class Controller {
     private void shootPlayer(boolean shoot, Player player, boolean isPistolLadet, List<Bullet> bullets, String sprite){
         if (shoot && isPistolLadet) {
             //Adder bulleten til gameworld og posisjonen er da samme som player
-            bullets.add(new Bullet(sprite,player.getX(),player.getY(), gameP, player, player.getRotate()));
+            bullets.add(new Bullet(sprite,player.getX()+(player.getHeigth()/2),player.getY()+(player.getWidth()/2), gameP, player, player.getRotate()));
             //resetter pistolklokka
-            laderTeller = 0;
+            loadCount = 0;
         }
     }
-    private void bulletPhysics(List<Bullet> bullets, Player play, String navn, Player poeng){
+    private void bulletExplosion(Player play){
+        System.out.println("boom!");
+    }
+    private void lifeUpdate(Player play, String name, Player pointer){
+        if (play.getHp() != 1) {
+            play.setHp(play.getHp() - 1);
+            getSound("res/sound.wav");
+        } else if(pointer.getScore() < 2){
+            getSound("res/fatality.wav");
+            pointer.setScore(pointer.getScore()+1);
+            play.setLifePoints(play.getLifePoints() - 1);
+            play.setHp(10);
+            newRound();
+        } else {
+            getSound("res/fatality.wav");
+            pointer.setScore(pointer.getScore()+1);
+            play.setLifePoints(play.getLifePoints() - 1);
+            play.setHp(play.getHp() - 1);
+            timer.stop();
+            victoryLabelScore.setText(player.getScore() + " : " + enemy.getScore());
+            victoryLabelWinner.setText(name + " WON!");
+            victoryP.setVisible(true);
+            victoryP.setDisable(false);
+        }
+    }
+    private void bulletPhysics(List<Bullet> bullets, Player play, String name, Player pointer){
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(play)) {
-                getSound("res/sound.wav");
                 bullets.get(i).RemoveBullet(gameP);
                 bullets.remove(i);
-                if (play.getHp() != 1) {
-                    play.setHp(play.getHp() - 1);
-                } else if(poeng.getScore() < 2){
-                    play.setHp(10);
-                    newRound();
-                    play.setLifePoints(play.getLifePoints() - 1);
-                    poeng.setScore(poeng.getScore()+1);
-                } else {
-                    poeng.setScore(poeng.getScore()+1);
-                    timer.stop();
-                    play.setHp(play.getHp() - 1);
-                    play.setLifePoints(play.getLifePoints() - 1);
-                    victoryLabelScore.setText(player.getScore() + " : " + enemy.getScore());
-                    victoryLabelWinner.setText(navn + " WON!");
-                    victoryP.setVisible(true);
-                    victoryP.setDisable(false);
-                }
-            } //sjekker om kulene treffer utkant av kartet
-            else if (bullets.get(i).getView().getTranslateY() <= 45  || bullets.get(i).getView().getTranslateY() >= sceneheigth+25) {
+                lifeUpdate(play, name, pointer);
+                bulletExplosion(play);
+            } else if (bullets.get(i).getView().getTranslateY() <= 0  || bullets.get(i).getView().getTranslateY() >= sceneheigth+25) {
                 bullets.get(i).RemoveBullet(gameP);
                 bullets.remove(i);
-            } else if (bullets.get(i).getView().getTranslateX() <= 0  || bullets.get(i).getView().getTranslateX() >= scenewidth+25) {
+                bulletExplosion(play);
+            } else if (bullets.get(i).getView().getTranslateX() <= -30  || bullets.get(i).getView().getTranslateX() >= scenewidth+25) {
                 bullets.get(i).RemoveBullet(gameP);
                 bullets.remove(i);
+                bulletExplosion(play);
             } else {
                 for(Wall j : maps.get(currentLevel).getWalls()) {
-                    if (bullets.get(i).isColliding(j)){
-                        bullets.get(i).RemoveBullet(gameP);
-                        bullets.remove(i);
+                    if(bullets.size() != 0) {
+                        if (bullets.get(i).isColliding(j)) {
+                            bullets.get(i).RemoveBullet(gameP);
+                            bullets.remove(i);
+                            bulletExplosion(play);
+                        }
                     }
                 }
             }
@@ -360,38 +509,34 @@ public class Controller {
     private void collisionWalls(Player player){
         for(Wall i : maps.get(currentLevel).getWalls()) {
             //spiller kommer fra venstre
-            if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMinX() - player.getWidth() + 5 && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
+            if (    player.getX() >= i.getMinX() - player.getWidth() &&
+                    player.getX() <= i.getMinX() - player.getWidth() + 5 &&
+                    player.getY() >= i.getMinY() - player.getHeigth() &&
+                    player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateX(i.getMinX() - player.getWidth());
             }
             //spiller kommer fra høyre
-            else if (player.getX() >= i.getMaxX() - 5 && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMaxY()) {
+            else if(player.getX() >= i.getMaxX() - 5 &&
+                    player.getX() <= i.getMaxX() &&
+                    player.getY() >= i.getMinY() - player.getHeigth() &&
+                    player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateX(i.getMaxX());
             }
             //spiller kommer fra toppen
-            else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMinY() - player.getWidth() && player.getY() <= i.getMinY() - player.getWidth() + 5) {
-                player.getView().setTranslateY(i.getMinY() - player.getWidth());
+            else if(player.getX() >= i.getMinX() - player.getWidth() &&
+                    player.getX() <= i.getMaxX() &&
+                    player.getY() >= i.getMinY() - player.getHeigth() &&
+                    player.getY() <= i.getMinY() - player.getHeigth() + 5) {
+                player.getView().setTranslateY(i.getMinY() - player.getHeigth());
             }
             //spiller kommer fra bunnen
-            else if (player.getX() >= i.getMinX() - player.getWidth() && player.getX() <= i.getMaxX() && player.getY() >= i.getMaxY() - 5 && player.getY() <= i.getMaxY()) {
+            else if(player.getX() >= i.getMinX() - player.getWidth() &&
+                    player.getX() <= i.getMaxX() &&
+                    player.getY() >= i.getMaxY() -5 &&
+                    player.getY() <= i.getMaxY() ) {
                 player.getView().setTranslateY(i.getMaxY());
             }
         }
-    }
-    private void addInputControls(Scene scene) {
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-            keyboardBitSet.set(e.getCode().ordinal(), true);
-        });
-        scene.addEventFilter(KeyEvent.KEY_RELEASED, e -> {
-            keyboardBitSet.set(e.getCode().ordinal(), false);
-        });
-    }
-    private void error(String error){
-        errorLabel.setText("Error!!! \n" + error);
-        errorP.setDisable(false);
-        errorP.setVisible(true);
-        main.setDisable(true);
-        saveP.setDisable(true);
-        loadP.setDisable(true);
     }
     private void newRound(){
         player.getView().setRotate(0);
@@ -424,139 +569,8 @@ public class Controller {
     private void deleteImages() {
         gameP.getChildren().clear();
     }
-    public void startGame() {
-        createContent(0,0,0);
-        addInputControls(mainPane.getScene());
-        switchPane(main, gameRoot);
-        timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                onUpdate();
-            }
-        };
-        timer.start();
-        keyboardBitSet.set(0,100,false);
-    }
-    public void help() {
-        System.out.println("help me senpai");
-    }
-    public void resumeGame() {
-        try {
-            gamePaused.setVisible(false);
-            gamePaused.setDisable(true);
-            gameRoot.setDisable(false);
-            background.setImage(new Image(maps.get(currentLevel).getMapBg()));
-            timer.start();
-            keyboardBitSet.set(0,100,false);
-            System.out.println("Resuming game ...");
-        } catch(RuntimeException e){
-            error("Nothing to resume");
-            System.out.println("Cant resume, you sure you have anything to resume??");
-        }
-    }
-    public void saveGame() {
-        saveText.setText("");
-        switchPane(main,saveP);
-    }
-    public void saveSave(){
-        if(!saveText.getText().trim().isEmpty()){
-            System.out.println(saveText.getCharacters());
-            Save save = new Save(player.getScore(),enemy.getScore(),currentLevel);
-            try {
-                resourceManager.save(save,saveText.getText() + ".save"); // MIDLERTIDIG
-                System.out.println("Saving game ...");
-            } catch (Exception ex){
-                System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
-            }
-            switchPane(saveP,gamePaused);
-        } else {
-            error("No name entered");
-            System.out.println("Skriv inn et navn");
-        }
-    }
-    public void loadGame() {
-        switchPane(main,loadP);
-    }
-    public void loader(){
-        System.out.println("getting file");
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Load .save file");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Saves", "*.save");
-        fileChooser.getExtensionFilters().add(extFilter);
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        saveFile = fileChooser.showOpenDialog(stage);
-        loadLabel.setText(saveFile.getName());
-    }
-    public void loadLoad(){
-        if(saveFile != null) {
-            try {
-                Save save = (Save) resourceManager.load(saveFile.getName());
-                System.out.println("Loading game ...");
-                player.setScore(save.getScoreP());
-                player.setScore(save.getScoreE());
-                currentLevel = save.getCurrentMap();
-                createContent(player.getScore(),enemy.getScore(),currentLevel);
-                addInputControls(mainPane.getScene());
-                switchPane(loadP, gameRoot);
-                timer = new AnimationTimer() {
-                    @Override
-                    public void handle(long now) {
-                        onUpdate();
-                    }
-                };
-                timer.start();
-                keyboardBitSet.set(0, 100, false);
-                saveFile = null;
-                loadLabel.setText("");
-            } catch (Exception ex) {
-                if (ex.getMessage() != null) {
-                    System.out.println("KAN IKKE LOADE!: " + ex.getMessage());
-                    error("cant load file");
-                }
-            }
-        } else {
-            error("cant load file, no file chosen");
-        }
-    }
-    public void exitGame() {
-        stage = (Stage) mainPane.getScene().getWindow();
-        stage.close();
-    }
-    public void goBack() {
-        if(errorP.isVisible() && main.isVisible()){
-            switchPane(errorP,main);
-        } else if(errorP.isVisible() && saveP.isVisible()){
-            switchPane(errorP,saveP);
-        } else if(errorP.isVisible() && loadP.isVisible()){
-            switchPane(errorP,loadP);
-        } else if(errorP.isVisible() && gameRoot.isVisible()){
-            switchPane(errorP, gameRoot);
-        } else {
-            errorP.setDisable(true);
-            errorP.setVisible(false);
-            loadP.setDisable(true);
-            loadP.setVisible(false);
-            saveP.setDisable(true);
-            saveP.setVisible(false);
-            gameRoot.setDisable(true);
-            gameRoot.setVisible(false);
-            main.setDisable(false);
-            main.setVisible(true);
-        }
-    }
-    public void goBackGame(){
-        switchPane(saveP,gamePaused);
-    }
-    public void toMain() {
-        goBack();
-        gamePaused.setVisible(false);
-        gamePaused.setDisable(true);
-        victoryP.setVisible(false);
-        victoryP.setDisable(true);
-        background.setImage(new Image("res/navn.png"));
-    }
     private void getSound(String fname) { //Midlertidig kode for sound
-
+        Clip ooh;
         try {
             URL url = this.getClass().getClassLoader().getResource(fname);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
@@ -589,11 +603,12 @@ public class Controller {
         boolean isSpacePressed = keyboardBitSet.get(KeyCode.SPACE.ordinal());
         boolean isEscPressed = keyboardBitSet.get(KeyCode.ESCAPE.ordinal());
 
-        laderTeller += laderTellerDelta;
-        if( laderTeller > lader) {
-            laderTeller = lader;
+        double loadCountD = 1;
+        loadCount += loadCountD;
+        if( loadCount > load) {
+            loadCount = load;
         }
-        boolean isPistolLadet = laderTeller >= lader;
+        boolean isLoaded = loadCount >= load;
         //Pause
         if(isSpacePressed || isEscPressed){
             timer.stop();
@@ -605,8 +620,8 @@ public class Controller {
         bulletPhysics(bullets, enemy, "BLUE PLAYER", player);
         bulletPhysics(bullets2, player, "RED PLAYER ", enemy);
         //skyte spiller
-        shootPlayer(isVPressed,player,isPistolLadet,bullets,"res/bulletBlue.png");
-        shootPlayer(isMPressed,enemy,isPistolLadet,bullets2,"res/bulletRed.png");
+        shootPlayer(isVPressed,player,isLoaded,bullets,"res/bulletBlue.png");
+        shootPlayer(isMPressed,enemy,isLoaded,bullets2,"res/bulletRed.png");
         //rotere spiller
         rotatePlayer(isLeftPressed,isRightPressed,enemy);
         rotatePlayer(isAPressed,isDPressed,player);
