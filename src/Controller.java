@@ -332,7 +332,7 @@ public class Controller {
                     poeng.setScore(poeng.getScore()+1);
                 } else {
                     poeng.setScore(poeng.getScore()+1);
-                    stopContent();
+                    timer.stop();
                     play.setHp(play.getHp() - 1);
                     play.setLifePoints(play.getLifePoints() - 1);
                     victoryLabelScore.setText(player.getScore() + " : " + enemy.getScore());
@@ -421,12 +421,6 @@ public class Controller {
         enemy.getView().setTranslateX(maps.get(currentLevel).getSpawnEX());
         enemy.getView().setTranslateY(maps.get(currentLevel).getSpawnEY());
     }
-    private void stopContent() {
-        timer.stop();
-    }
-    private void resumeContent() {
-        timer.start();
-    }
     private void deleteImages() {
         gameP.getChildren().clear();
     }
@@ -440,7 +434,7 @@ public class Controller {
                 onUpdate();
             }
         };
-        resumeContent();
+        timer.start();
         keyboardBitSet.set(0,100,false);
     }
     public void help() {
@@ -452,7 +446,7 @@ public class Controller {
             gamePaused.setDisable(true);
             gameRoot.setDisable(false);
             background.setImage(new Image(maps.get(currentLevel).getMapBg()));
-            resumeContent();
+            timer.start();
             keyboardBitSet.set(0,100,false);
             System.out.println("Resuming game ...");
         } catch(RuntimeException e){
@@ -510,7 +504,7 @@ public class Controller {
                         onUpdate();
                     }
                 };
-                resumeContent();
+                timer.start();
                 keyboardBitSet.set(0, 100, false);
                 saveFile = null;
                 loadLabel.setText("");
@@ -602,7 +596,7 @@ public class Controller {
         boolean isPistolLadet = laderTeller >= lader;
         //Pause
         if(isSpacePressed || isEscPressed){
-            stopContent();
+            timer.stop();
             gamePaused.setDisable(false);
             gamePaused.setVisible(true);
             gameRoot.setDisable(true);
