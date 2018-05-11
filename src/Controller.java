@@ -52,15 +52,6 @@ public class Controller {
     public ImageView background;
     public ProgressBar playerHp, enemyHp;
 
-    //konstruktør
-    public Controller(){
-        boom[0]= new ImageView(new Image("res/explosion1.png"));
-        boom[1]= new ImageView(new Image("res/explosion2.png"));
-        boom[2]= new ImageView(new Image("res/explosion3.png"));
-        boom[3]= new ImageView(new Image("res/explosion4.png"));
-        boom[4]= new ImageView(new Image("res/explosion5.png"));
-    }
-
     public void startGame() {
         createContent(0,0,0);
         addInputControls(mainPane.getScene());
@@ -195,7 +186,15 @@ public class Controller {
         victoryP.setDisable(true);
         background.setImage(new Image("res/navn.png"));
     }
-
+    
+    //konstruktør
+    public Controller(){
+        boom[0]= new ImageView(new Image("res/explosion1.png"));
+        boom[1]= new ImageView(new Image("res/explosion2.png"));
+        boom[2]= new ImageView(new Image("res/explosion3.png"));
+        boom[3]= new ImageView(new Image("res/explosion4.png"));
+        boom[4]= new ImageView(new Image("res/explosion5.png"));
+    }
     private void createContent(int P, int E, int L) {
 
         stage = (Stage) mainPane.getScene().getWindow();
