@@ -469,8 +469,7 @@ public class Controller {
             boom[i].relocate(play.getX(),play.getY());
         }
         if(loadCount2!=0){
-            //funker ikke alltid, fiks denne linjen til å slette forige imageview
-            gameP.getChildren().remove(gameP.getChildren().size()-1);
+            gameP.getChildren().remove(2+maps.get(currentLevel).getWalls().size()+bullets2.size()+bullets.size(),gameP.getChildren().size());
         }
         if(loadCount2!=5){
             gameP.getChildren().add(boom[loadCount2]);
@@ -623,8 +622,6 @@ public class Controller {
         boolean isMPressed = keyboardBitSet.get(KeyCode.M.ordinal());
         boolean isSpacePressed = keyboardBitSet.get(KeyCode.SPACE.ordinal());
         boolean isEscPressed = keyboardBitSet.get(KeyCode.ESCAPE.ordinal());
-
-        System.out.println(gameP.getChildren().size());
 
         int countD = 1;
         loadCount += countD;
