@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class TankMain extends Application {
@@ -9,6 +10,7 @@ public class TankMain extends Application {
     @Override
     public void start(Stage mainStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
+        Font.loadFont(getClass().getResource("/res/8bit.TTF").getFile(),15);
         Parent root = loader.load(getClass().getResource("fuxml.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("Style.css");
