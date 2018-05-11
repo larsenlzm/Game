@@ -35,9 +35,8 @@ public class Music {
     }
 
     public void stop() {
-        if (clip == null) {
             clip.stop();
-        }
+
     }
 
     public void loop() {

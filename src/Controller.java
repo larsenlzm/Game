@@ -88,6 +88,7 @@ public class Controller {
             timer.start();
             keyboardBitSet.set(0,100,false);
             System.out.println("Resuming game ...");
+            Music.sound1.loop();
         } catch(RuntimeException e){
             error("Nothing to resume");
             System.out.println("Cant resume, you sure you have anything to resume??");
@@ -523,7 +524,7 @@ public class Controller {
             } else {
                 for(Wall j : maps.get(currentLevel).getWalls()) {
                     if(bullets.size() != 0) {
-                        if (bullets.get(i).isColliding(j)) {
+                        if (i < bullets.size() && bullets.get(i).isColliding(j)) {
                             bullets.get(i).RemoveBullet(gameP);
                             bullets.remove(i);
                         }
@@ -646,6 +647,7 @@ public class Controller {
             gamePaused.setDisable(false);
             gamePaused.setVisible(true);
             gameRoot.setDisable(true);
+            Music.sound1.stop();
         }
         //behandler kulekollisjon med person og utkant
         bulletPhysics(bullets, enemy, "BLUE PLAYER", player);
