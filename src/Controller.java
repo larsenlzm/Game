@@ -87,6 +87,7 @@ public class Controller {
             timer.start();
             keyboardBitSet.set(0,100,false);
             System.out.println("Resuming game ...");
+            Music.sound1.loop();
         } catch(RuntimeException e){
             error("Nothing to resume");
             System.out.println("Cant resume, you sure you have anything to resume??");
