@@ -52,6 +52,14 @@ public class Controller {
     public ImageView background;
     public ProgressBar playerHp, enemyHp;
 
+    public Controller(){
+        boom[0]= new ImageView(new Image("res/explosion1.png"));
+        boom[1]= new ImageView(new Image("res/explosion2.png"));
+        boom[2]= new ImageView(new Image("res/explosion3.png"));
+        boom[3]= new ImageView(new Image("res/explosion4.png"));
+        boom[4]= new ImageView(new Image("res/explosion5.png"));
+    }
+
     public void startGame() {
         createContent(0,0,0);
         addInputControls(mainPane.getScene());
@@ -185,6 +193,7 @@ public class Controller {
         victoryP.setDisable(true);
         background.setImage(new Image("res/navn.png"));
     }
+
     private void createContent(int P, int E, int L) {
 
         stage = (Stage) mainPane.getScene().getWindow();
@@ -461,16 +470,11 @@ public class Controller {
         }
     }
     private void bulletExplosion(Player play){
-        boom[0]= new ImageView(new Image("res/explosion1.png"));
-        boom[1]= new ImageView(new Image("res/explosion2.png"));
-        boom[2]= new ImageView(new Image("res/explosion3.png"));
-        boom[3]= new ImageView(new Image("res/explosion4.png"));
-        boom[4]= new ImageView(new Image("res/explosion5.png"));
         for(int i = 0; i < 5; i++){
             boom[i].relocate(play.getX(),play.getY());
         }
         if(loadCount2!=0){
-            gameP.getChildren().remove(2+maps.get(currentLevel).getWalls().size()+bullets2.size()+bullets.size(),gameP.getChildren().size());
+            gameP.getChildren().remove(boom[loadCount2-1]);
         }
         if(loadCount2!=5){
             gameP.getChildren().add(boom[loadCount2]);
