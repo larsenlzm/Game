@@ -52,6 +52,7 @@ public class Controller {
     public ImageView background;
     public ProgressBar playerHp, enemyHp;
 
+    //konstruktør
     public Controller(){
         boom[0]= new ImageView(new Image("res/explosion1.png"));
         boom[1]= new ImageView(new Image("res/explosion2.png"));
@@ -541,21 +542,21 @@ public class Controller {
                     player.getX() <= i.getMinX() - player.getWidth() + 5 &&
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMaxY()) {
-                player.getView().setTranslateX(i.getMinX() - 40);
+                player.getView().setTranslateX(i.getMinX() - player.getWidth());
             }
             //spiller kommer fra høyre
             else if(player.getX() >= i.getMaxX() - 5 &&
                     player.getX() <= i.getMaxX() &&
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMaxY()) {
-                player.getView().setTranslateX(i.getMaxX() + 2);
+                player.getView().setTranslateX(i.getMaxX());
             }
             //spiller kommer fra toppen
             else if(player.getX() >= i.getMinX() - player.getWidth() &&
                     player.getX() <= i.getMaxX() &&
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMinY() - player.getHeigth() + 5) {
-                player.getView().setTranslateY(i.getMinY() - 40);
+                player.getView().setTranslateY(i.getMinY() - player.getHeigth());
             }
             //spiller kommer fra bunnen
             else if(player.getX() >= i.getMinX() - player.getWidth() &&
