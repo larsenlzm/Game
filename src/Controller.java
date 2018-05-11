@@ -1,6 +1,5 @@
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -32,8 +31,9 @@ public class Controller {
     private List<Level> maps = new ArrayList<>();
     private Player player;
     private Player enemy;
-    private ImageView boom[] = new ImageView[5];;
+    private ImageView boom[] = new ImageView[5];
 
+    //interne klokker
     private int load = 10; //skudd per antall frames
     private int loadCount = load;
     private int load2 = 6;
@@ -44,6 +44,7 @@ public class Controller {
     private BitSet keyboardBitSet = new BitSet();
     private double scenewidth = 1280;
     private double sceneheigth = 720;
+    //fxml koblinger
     public TextField saveText;
     public Label errorLabel, loadLabel, victoryLabelWinner, victoryLabelScore, currentScore;
     public Pane gameP;
@@ -378,7 +379,7 @@ public class Controller {
         maps.get(4).addWalls(new Wall(spriteWall5,300,470, gameP));
         maps.get(4).addWalls(new Wall(spriteWall5,250,470, gameP));
         maps.get(4).addWalls(new Wall(spriteWall5,200,470, gameP));
-        //nede til høyr
+        //nede til høyre
         maps.get(4).addWalls(new Wall(spriteWall5,950,670, gameP));
         maps.get(4).addWalls(new Wall(spriteWall5,950,620, gameP));
         maps.get(4).addWalls(new Wall(spriteWall5,950,570, gameP));
