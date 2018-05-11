@@ -32,9 +32,12 @@ public class Controller {
     private List<Level> maps = new ArrayList<>();
     private Player player;
     private Player enemy;
+    private ImageView boom[] = new ImageView[5];;
 
-    private double load = 10; //skudd per antall frames
-    private double loadCount = load;
+    private int load = 10; //skudd per antall frames
+    private int loadCount = load;
+    private int load2 = 6;
+    private int loadCount2 = load2;
 
     private int currentLevel;
     private File saveFile;
@@ -208,6 +211,7 @@ public class Controller {
         String spriteBg3 = "res/spillbg3.png";
         String spriteBg4 = "res/spillbg1.png";
         String spriteBg5 = "res/spillbg2.png";
+
 
         // bane1
         maps.add(new Level(50,650,1210,50, spriteBg1));
@@ -454,7 +458,23 @@ public class Controller {
         }
     }
     private void bulletExplosion(Player play){
-        System.out.println("boom!");
+        boom[0]= new ImageView(new Image("res/explosion1.png"));
+        boom[1]= new ImageView(new Image("res/explosion2.png"));
+        boom[2]= new ImageView(new Image("res/explosion3.png"));
+        boom[3]= new ImageView(new Image("res/explosion4.png"));
+        boom[4]= new ImageView(new Image("res/explosion5.png"));
+        for(int i = 0; i < 5; i++){
+            boom[i].relocate(play.getX(),play.getY());
+        }
+        if(loadCount2!=0){
+            //funker ikke alltid, fiks denne linjen til å slette forige imageview
+            gameP.getChildren().remove(gameP.getChildren().size()-1);
+        }
+        if(loadCount2!=5){
+            gameP.getChildren().add(boom[loadCount2]);
+        } else {
+            play.setExploded(false);
+        }
     }
     private void lifeUpdate(Player play, String name, Player pointer){
         if (play.getHp() != 1) {
@@ -465,6 +485,7 @@ public class Controller {
             pointer.setScore(pointer.getScore()+1);
             play.setLifePoints(play.getLifePoints() - 1);
             play.setHp(10);
+            loadCount2=0;
             newRound();
         } else {
             getSound("res/fatality.wav");
@@ -484,26 +505,27 @@ public class Controller {
                 bullets.get(i).RemoveBullet(gameP);
                 bullets.remove(i);
                 lifeUpdate(play, name, pointer);
-                bulletExplosion(play);
+                loadCount2=0;
+                play.setExploded(true);
             } else if (bullets.get(i).getView().getTranslateY() <= 0  || bullets.get(i).getView().getTranslateY() >= sceneheigth+25) {
                 bullets.get(i).RemoveBullet(gameP);
                 bullets.remove(i);
-                bulletExplosion(play);
             } else if (bullets.get(i).getView().getTranslateX() <= -30  || bullets.get(i).getView().getTranslateX() >= scenewidth+25) {
                 bullets.get(i).RemoveBullet(gameP);
                 bullets.remove(i);
-                bulletExplosion(play);
             } else {
                 for(Wall j : maps.get(currentLevel).getWalls()) {
                     if(bullets.size() != 0) {
                         if (bullets.get(i).isColliding(j)) {
                             bullets.get(i).RemoveBullet(gameP);
                             bullets.remove(i);
-                            bulletExplosion(play);
                         }
                     }
                 }
             }
+        }
+        if(loadCount2 < load2 && play.getExploded()) {
+            bulletExplosion(play);
         }
     }
     private void collisionWalls(Player player){
@@ -600,12 +622,19 @@ public class Controller {
         boolean isSpacePressed = keyboardBitSet.get(KeyCode.SPACE.ordinal());
         boolean isEscPressed = keyboardBitSet.get(KeyCode.ESCAPE.ordinal());
 
-        double loadCountD = 1;
-        loadCount += loadCountD;
+        System.out.println(gameP.getChildren().size());
+
+        int countD = 1;
+        loadCount += countD;
         if( loadCount > load) {
             loadCount = load;
         }
+
         boolean isLoaded = loadCount >= load;
+        loadCount2 += countD;
+        if(loadCount2 > load2) {
+            loadCount2 = load2;
+        }
         //Pause
         if(isSpacePressed || isEscPressed){
             timer.stop();

@@ -22,6 +22,7 @@ public class GameObjects {
     public Node getView() {
         return view;
     }
+    public void setView(Node view){this.view = view;}
     public double getRotate() {
         return view.getRotate();
     }

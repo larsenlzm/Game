@@ -7,6 +7,7 @@ public class Player extends GameObjects {
     private int lifePoints;
     private double speedMultiplier;
     private int score;
+    private boolean exploded;
 
     Player(String sprite, int hp,int lifePoints, double x, double y, Pane root) {
         super(new ImageView(sprite));
@@ -44,5 +45,11 @@ public class Player extends GameObjects {
     }
     public void setScore(int score){
         this.score = score;
+    }
+    public boolean getExploded(){
+        return exploded;
+    }
+    public void setExploded(boolean b){
+        exploded = b;
     }
 }
