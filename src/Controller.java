@@ -537,21 +537,21 @@ public class Controller {
                     player.getX() <= i.getMinX() - player.getWidth() + 5 &&
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMaxY()) {
-                player.getView().setTranslateX(i.getMinX() - player.getWidth());
+                player.getView().setTranslateX(i.getMinX() - 40);
             }
             //spiller kommer fra høyre
             else if(player.getX() >= i.getMaxX() - 5 &&
                     player.getX() <= i.getMaxX() &&
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMaxY()) {
-                player.getView().setTranslateX(i.getMaxX());
+                player.getView().setTranslateX(i.getMaxX() + 2);
             }
             //spiller kommer fra toppen
             else if(player.getX() >= i.getMinX() - player.getWidth() &&
                     player.getX() <= i.getMaxX() &&
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMinY() - player.getHeigth() + 5) {
-                player.getView().setTranslateY(i.getMinY() - player.getHeigth());
+                player.getView().setTranslateY(i.getMinY() - 40);
             }
             //spiller kommer fra bunnen
             else if(player.getX() >= i.getMinX() - player.getWidth() &&
