@@ -63,6 +63,8 @@ public class Controller {
         };
         timer.start();
         keyboardBitSet.set(0,100,false);
+        Music.sound1.loop();
+
     }
     public void help() {
         System.out.println("help me senpai");
