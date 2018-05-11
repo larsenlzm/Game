@@ -1,12 +1,9 @@
-import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.layout.Pane;
 
 public class Bullet extends GameObjects {
 
-    Bullet(String sprite, double x, double y, Pane root, Player player, double rotate) {
+    Bullet(String sprite, double x, double y, Pane root, Player player, double rotate){
         super(new ImageView(sprite));
         getView().setTranslateX(x);
         getView().setTranslateY(y);
