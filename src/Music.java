@@ -3,12 +3,11 @@ import javax.sound.sampled.*;
 public class Music {
 
     private Clip clip;
-
-    public static Music sound1 = new Music("/res/backgroundMusic1.wav");
-    public static Music sound2 = new Music("/res/backgroundMusic.wav");
+    private String musicFile;
 
     public Music(String fileName) {
         try {
+            musicFile = fileName;
             AudioInputStream ais = AudioSystem.getAudioInputStream(Music.class.getResource(fileName));
             clip = AudioSystem.getClip();
             clip.open(ais);
@@ -30,6 +29,18 @@ public class Music {
                     }
                 }.start();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void playonce() {
+        Clip onceClip;
+        try {
+            AudioInputStream ais = AudioSystem.getAudioInputStream(Music.class.getResource(musicFile));
+            onceClip = AudioSystem.getClip();
+            onceClip.open(ais);
+            onceClip.setFramePosition(0);
+            onceClip.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

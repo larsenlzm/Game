@@ -14,12 +14,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.net.*;
 import java.io.*;
 
 public class Controller {
@@ -46,6 +40,14 @@ public class Controller {
     private BitSet keyboardBitSet = new BitSet();
     private double scenewidth = 1280;
     private double sceneheigth = 720;
+    private static Music game = new Music("/res/backgroundMusic1.wav");
+    private static Music lobby = new Music("/res/backgroundMusic.wav");
+    private static Music victory = new Music("/res/Victory.wav");
+    private static Music hit = new Music("/res/sound.wav");
+    private static Music die = new Music("/res/fatality.wav");
+    private static Music moving = new Music("/res/moving.wav");
+    public static Music firing = new Music("/res/shoot.wav");
+
     //fxml koblinger
     public TextField saveText;
     public Label errorLabel, loadLabel, victoryLabelWinner, victoryLabelScore, currentScore;
@@ -66,9 +68,9 @@ public class Controller {
         };
         timer.start();
         keyboardBitSet.set(0,100,false);
-        Music.sound2.stop();
+        lobby.stop();
         if(music)
-        Music.sound1.loop();
+        game.loop();
 
     }
     public void help() {
@@ -83,7 +85,7 @@ public class Controller {
             timer.start();
             keyboardBitSet.set(0,100,false);
             System.out.println("Resuming game ...");
-            Music.sound1.loop();
+            game.loop();
         } catch(RuntimeException e){
             error("Nothing to resume");
             System.out.println("Cant resume, you sure you have anything to resume??");
@@ -142,8 +144,8 @@ public class Controller {
                 timer.start();
                 keyboardBitSet.set(0, 100, false);
                 if(music)
-                Music.sound1.loop();
-                Music.sound2.stop();
+                game.loop();
+                lobby.stop();
                 saveFile = null;
                 loadLabel.setText("");
             } catch (Exception ex) {
@@ -193,11 +195,11 @@ public class Controller {
         if(music){
             music = false;
             System.out.println("av");
-            Music.sound2.stop();
+            lobby.stop();
         } else {
             music = true;
             System.out.println("på");
-            Music.sound2.loop();
+            lobby.loop();
         }
     }
     public void eOFF() {
@@ -212,7 +214,7 @@ public class Controller {
     public void toMain() {
         goBack();
         if(music)
-        Music.sound2.loop();
+        lobby.loop();
         gamePaused.setVisible(false);
         gamePaused.setDisable(true);
         victoryP.setVisible(false);
@@ -226,7 +228,7 @@ public class Controller {
         boom[2]= new ImageView(new Image("res/explosion3.png"));
         boom[3]= new ImageView(new Image("res/explosion4.png"));
         boom[4]= new ImageView(new Image("res/explosion5.png"));
-        Music.sound2.loop();
+        lobby.loop();
     }
     private void createContent(int P, int E, int L) {
 
@@ -250,8 +252,6 @@ public class Controller {
         String spriteWall = "res/wall2.png";
         String spriteWall2 = "res/wall1.png";
         String spriteWall3 = "res/wall1.png";
-        String spriteWall4 = "res/wall2.png";
-        String spriteWall5 = "res/wall1.png";
         String spriteBg1 = "res/spillbg1.png";
         String spriteBg2 = "res/spillbg2.png";
         String spriteBg3 = "res/spillbg3.png";
@@ -261,29 +261,34 @@ public class Controller {
 
         // bane1
         maps.add(new Level(50,650,1210,50, spriteBg1));
-        maps.get(0).addWalls(new Wall(spriteWall,150,100, gameP)); //oppe til venstre
+        //oppe til venstre
+        maps.get(0).addWalls(new Wall(spriteWall,150,100, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,150,150, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,150,200, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,200,100, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,250,100, gameP));
-        maps.get(0).addWalls(new Wall(spriteWall,1100,100, gameP)); // oppe til høyre
+        // oppe til høyre
+        maps.get(0).addWalls(new Wall(spriteWall,1100,100, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,1050,100, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,1000,100, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,1100,150, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,1100,200, gameP));
-        maps.get(0).addWalls(new Wall(spriteWall,150,550, gameP)); // nede til venstre
+        // nede til venstre
+        maps.get(0).addWalls(new Wall(spriteWall,150,550, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,150,500, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,150,450, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,200,550, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,250,550, gameP));
-        maps.get(0).addWalls(new Wall(spriteWall,1100,550, gameP));//nede til høyre
+        //nede til høyre
+        maps.get(0).addWalls(new Wall(spriteWall,1100,550, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,1100,500, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,1100,450, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,1050,550, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,1000,550, gameP));
+        //dritten i midten
         maps.get(0).addWalls(new Wall(spriteWall,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameP)); //midten
 
-        //bane2
+        //BANE 2
         maps.add(new Level(50,650,1210,50,spriteBg2));
         maps.get(1).addWalls(new Wall(spriteWall2,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameP));
         //opp til venstre
@@ -365,72 +370,15 @@ public class Controller {
 
         //bane4
         maps.add(new Level(50,650,1210,50,spriteBg4));
-        //oppe til venstre
-        maps.get(3).addWalls(new Wall(spriteWall4,150,100, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,150,150, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,150,200, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,200,100, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,250,100, gameP));
-        // oppe til høyre
-        maps.get(3).addWalls(new Wall(spriteWall4,1100,100, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,1050,100, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,1000,100, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,1100,150, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,1100,200, gameP));
-        // nede til venstre
-        maps.get(3).addWalls(new Wall(spriteWall4,150,550, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,150,500, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,150,450, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,200,550, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,250,550, gameP));
-        //nede til høyre
-        maps.get(3).addWalls(new Wall(spriteWall4,1100,550, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,1100,500, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,1100,450, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,1050,550, gameP));
-        maps.get(3).addWalls(new Wall(spriteWall4,1000,550, gameP));
-        //dritten i midten
-        maps.get(3).addWalls(new Wall(spriteWall4,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameP)); //midten
+        for(Wall i : maps.get(0).getWalls()){
+            maps.get(3).addWalls(i);
+        }
 
         //bane5
         maps.add(new Level(50,650,1210,50,spriteBg5));
-        maps.get(4).addWalls(new Wall(spriteWall5,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameP));
-        //opp til venstre
-        maps.get(4).addWalls(new Wall(spriteWall5,300,45, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,300,95, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,300,145, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,300,195, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,300,245, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,250,245, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,200,245, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,150,245, gameP));
-        //oppe til høyre
-        maps.get(4).addWalls(new Wall(spriteWall5,900,45, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,900,95, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,900,145, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,900,195, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,900,245, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,950,245, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,1000,245, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,1050,245, gameP));
-        //nede til venstre
-        maps.get(4).addWalls(new Wall(spriteWall5,350,670, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,350,620, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,350,570, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,350,520, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,350,470, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,300,470, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,250,470, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,200,470, gameP));
-        //nede til høyre
-        maps.get(4).addWalls(new Wall(spriteWall5,950,670, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,950,620, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,950,570, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,950,520, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,950,470, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,1000,470, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,1050,470, gameP));
-        maps.get(4).addWalls(new Wall(spriteWall5,1100,470, gameP));
+        for(Wall i : maps.get(1).getWalls()){
+            maps.get(4).addWalls(i);
+        }
 
         for(Wall i : maps.get(currentLevel).getWalls()){
             i.addPane();
@@ -520,10 +468,10 @@ public class Controller {
         if (play.getHp() != 1) {
             play.setHp(play.getHp() - 1);
             if(effect)
-            getSound("res/sound.wav");
+                hit.playonce();
         } else if(pointer.getScore() < 2){
             if(effect)
-            getSound("res/fatality.wav");
+                die.play();
             pointer.setScore(pointer.getScore()+1);
             play.setLifePoints(play.getLifePoints() - 1);
             play.setHp(10);
@@ -531,12 +479,14 @@ public class Controller {
             newRound();
         } else {
             if(effect)
-            getSound("res/fatality.wav");
+                die.play();
             pointer.setScore(pointer.getScore()+1);
             play.setLifePoints(play.getLifePoints() - 1);
             play.setHp(play.getHp() - 1);
             timer.stop();
-            Music.sound2.stop();
+            game.stop();
+            if(effect)
+                victory.play();
             victoryLabelScore.setText(player.getScore() + " : " + enemy.getScore());
             victoryLabelWinner.setText(name + " WON!");
             victoryP.setVisible(true);
@@ -632,27 +582,8 @@ public class Controller {
         enemy.getView().setTranslateX(maps.get(currentLevel).getSpawnEX());
         enemy.getView().setTranslateY(maps.get(currentLevel).getSpawnEY());
     }
-    private void getSound(String fname) { //Midlertidig kode for sound
-        Clip ooh;
-        try {
-            URL url = this.getClass().getClassLoader().getResource(fname);
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-            ooh = AudioSystem.getClip();
-            ooh.open(audioIn);
-            ooh.setFramePosition(0);
-            ooh.start();
-        }
-        catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
-    }
     private void onUpdate() {
+        System.out.println(hit.isActive());
         boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());
         boolean isSPressed = keyboardBitSet.get(KeyCode.S.ordinal());
@@ -671,7 +602,6 @@ public class Controller {
         if( loadCount > load) {
             loadCount = load;
         }
-
         boolean isLoaded = loadCount >= load;
         loadCount2 += countD;
         if(loadCount2 > load2) {
@@ -683,7 +613,7 @@ public class Controller {
             gamePaused.setDisable(false);
             gamePaused.setVisible(true);
             gameRoot.setDisable(true);
-            Music.sound1.stop();
+            game.stop();
         }
         //behandler kulekollisjon med person og utkant
         bulletPhysics(bullets, enemy, "BLUE PLAYER", player);

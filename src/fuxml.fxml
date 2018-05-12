@@ -155,7 +155,7 @@
                   <Image url="@res/settings.png" />
                </image>
             </ImageView>
-            <VBox alignment="CENTER" layoutX="392.0" layoutY="457.0" prefHeight="200.0" prefWidth="497.0">
+            <VBox alignment="CENTER" layoutX="393.0" layoutY="520.0" prefHeight="200.0" prefWidth="497.0">
                <children>
                   <Button fx:id="back211" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBackHelp" prefHeight="50.0" prefWidth="90.0" text="BACK" textAlignment="CENTER">
                      <font>
