@@ -3,8 +3,7 @@ import javax.sound.sampled.*;
 public class Music {
 
     private Clip clip;
-
-    public static Music sound1 = new Music("/res/backgroundMusic.wav");
+    public static final Music sound1 = new Music("/res/backgroundMusic.wav");
 
     public Music(String fileName) {
         try {

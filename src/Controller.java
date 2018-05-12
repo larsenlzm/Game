@@ -48,7 +48,7 @@ public class Controller {
     public TextField saveText;
     public Label errorLabel, loadLabel, victoryLabelWinner, victoryLabelScore, currentScore;
     public Pane gameP;
-    public AnchorPane main, saveP, errorP, loadP, mainPane, gamePaused, victoryP, gameRoot;
+    public AnchorPane main, saveP, errorP, loadP, mainPane, gamePaused, victoryP, gameRoot, helpP, settingsP;
     public ImageView background;
     public ProgressBar playerHp, enemyHp;
 
@@ -68,7 +68,7 @@ public class Controller {
 
     }
     public void help() {
-        System.out.println("help me senpai");
+        switchPane(main,helpP);
     }
     public void resumeGame() {
         try {
@@ -137,6 +137,7 @@ public class Controller {
                 };
                 timer.start();
                 keyboardBitSet.set(0, 100, false);
+                Music.sound1.loop();
                 saveFile = null;
                 loadLabel.setText("");
             } catch (Exception ex) {
@@ -171,6 +172,8 @@ public class Controller {
             saveP.setVisible(false);
             gameRoot.setDisable(true);
             gameRoot.setVisible(false);
+            helpP.setDisable(true);
+            helpP.setVisible(false);
             main.setDisable(false);
             main.setVisible(true);
         }
@@ -178,6 +181,8 @@ public class Controller {
     public void goBackGame(){
         switchPane(saveP,gamePaused);
     }
+    public void goBackHelp() {switchPane(settingsP,helpP);}
+    public void goSettings() {switchPane(helpP,settingsP);}
     public void toMain() {
         goBack();
         gamePaused.setVisible(false);
