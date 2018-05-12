@@ -66,6 +66,7 @@ public class Controller {
         };
         timer.start();
         keyboardBitSet.set(0,100,false);
+        Music.sound2.stop();
         if(music)
         Music.sound1.loop();
 
@@ -142,6 +143,7 @@ public class Controller {
                 keyboardBitSet.set(0, 100, false);
                 if(music)
                 Music.sound1.loop();
+                Music.sound2.stop();
                 saveFile = null;
                 loadLabel.setText("");
             } catch (Exception ex) {
@@ -191,9 +193,11 @@ public class Controller {
         if(music){
             music = false;
             System.out.println("av");
+            Music.sound2.stop();
         } else {
             music = true;
             System.out.println("på");
+            Music.sound2.loop();
         }
     }
     public void eOFF() {
@@ -207,6 +211,8 @@ public class Controller {
     }
     public void toMain() {
         goBack();
+        if(music)
+        Music.sound2.loop();
         gamePaused.setVisible(false);
         gamePaused.setDisable(true);
         victoryP.setVisible(false);
@@ -220,6 +226,7 @@ public class Controller {
         boom[2]= new ImageView(new Image("res/explosion3.png"));
         boom[3]= new ImageView(new Image("res/explosion4.png"));
         boom[4]= new ImageView(new Image("res/explosion5.png"));
+        Music.sound2.loop();
     }
     private void createContent(int P, int E, int L) {
 
