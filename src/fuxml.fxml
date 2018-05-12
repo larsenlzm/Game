@@ -42,7 +42,7 @@
                         <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="help" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#help" prefHeight="50.0" prefWidth="90.0" text="HELP" textAlignment="CENTER">
+                  <Button fx:id="help" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#help" prefHeight="50.0" prefWidth="180.0" text="SETTINGS" textAlignment="CENTER">
                      <font>
                         <Font name="8BIT WONDER Nominal" size="15.0" />
                      </font>
