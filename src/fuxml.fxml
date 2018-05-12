@@ -120,7 +120,7 @@
                         <Insets bottom="40.0" top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <CheckBox mnemonicParsing="false" text="BACKGROUND MUSIC">
+                  <CheckBox mnemonicParsing="false" onAction="#mOFF" selected="true" text="BACKGROUND MUSIC">
                      <font>
                         <Font name="8BIT WONDER Nominal" size="12.0" />
                      </font>
@@ -128,7 +128,7 @@
                         <Insets bottom="30.0" />
                      </VBox.margin>
                   </CheckBox>
-                  <CheckBox mnemonicParsing="false" text="SOUND EFFECTS">
+                  <CheckBox mnemonicParsing="false" onAction="#eOFF" selected="true" text="SOUND EFFECTS">
                      <font>
                         <Font name="8BIT WONDER Nominal" size="12.0" />
                      </font>

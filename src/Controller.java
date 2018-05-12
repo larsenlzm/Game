@@ -32,6 +32,8 @@ public class Controller {
     private Player player;
     private Player enemy;
     private ImageView boom[] = new ImageView[5];
+    private boolean music = true;
+    private boolean effect = true;
 
     //interne klokker
     private int load = 10; //skudd per antall frames
@@ -64,6 +66,7 @@ public class Controller {
         };
         timer.start();
         keyboardBitSet.set(0,100,false);
+        if(music)
         Music.sound1.loop();
 
     }
@@ -137,6 +140,7 @@ public class Controller {
                 };
                 timer.start();
                 keyboardBitSet.set(0, 100, false);
+                if(music)
                 Music.sound1.loop();
                 saveFile = null;
                 loadLabel.setText("");
@@ -183,6 +187,24 @@ public class Controller {
     }
     public void goBackHelp() {switchPane(settingsP,helpP);}
     public void goSettings() {switchPane(helpP,settingsP);}
+    public void mOFF() {
+        if(music){
+            music = false;
+            System.out.println("av");
+        } else {
+            music = true;
+            System.out.println("på");
+        }
+    }
+    public void eOFF() {
+        if(effect){
+            effect = false;
+            System.out.println("aV");
+        } else {
+            effect = true;
+            System.out.println("på");
+        }
+    }
     public void toMain() {
         goBack();
         gamePaused.setVisible(false);
@@ -191,7 +213,6 @@ public class Controller {
         victoryP.setDisable(true);
         background.setImage(new Image("res/navn.png"));
     }
-    
     //konstruktør
     public Controller(){
         boom[0]= new ImageView(new Image("res/explosion1.png"));
@@ -491,8 +512,10 @@ public class Controller {
     private void lifeUpdate(Player play, String name, Player pointer){
         if (play.getHp() != 1) {
             play.setHp(play.getHp() - 1);
+            if(effect)
             getSound("res/sound.wav");
         } else if(pointer.getScore() < 2){
+            if(effect)
             getSound("res/fatality.wav");
             pointer.setScore(pointer.getScore()+1);
             play.setLifePoints(play.getLifePoints() - 1);
@@ -500,6 +523,7 @@ public class Controller {
             loadCount2=0;
             newRound();
         } else {
+            if(effect)
             getSound("res/fatality.wav");
             pointer.setScore(pointer.getScore()+1);
             play.setLifePoints(play.getLifePoints() - 1);
