@@ -536,6 +536,7 @@ public class Controller {
             play.setLifePoints(play.getLifePoints() - 1);
             play.setHp(play.getHp() - 1);
             timer.stop();
+            Music.sound2.stop();
             victoryLabelScore.setText(player.getScore() + " : " + enemy.getScore());
             victoryLabelWinner.setText(name + " WON!");
             victoryP.setVisible(true);

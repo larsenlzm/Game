@@ -55,7 +55,7 @@
                         <Font name="8BIT WONDER Nominal" size="15.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="75.0" top="10.0" />
+                        <Insets bottom="30.0" top="10.0" />
                      </VBox.margin>
                   </Button>
                </children>
