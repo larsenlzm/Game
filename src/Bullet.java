@@ -1,10 +1,11 @@
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class Bullet extends GameObjects {
 
     Bullet(String sprite, double x, double y, Pane root, Player player, double rotate){
-        super(new ImageView(sprite));
+        super(new ImageView(String.valueOf(Bullet.class.getResource(sprite))));
         getView().setTranslateX(x);
         getView().setTranslateY(y);
         root.getChildren().add(getView());

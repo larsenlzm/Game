@@ -9,9 +9,8 @@ public class TankMain extends Application {
 
     @Override
     public void start(Stage mainStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
         Font.loadFont(getClass().getResource("/res/8bit.TTF").toExternalForm(),15);
-        Parent root = loader.load(getClass().getResource("fuxml.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fuxml.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("Style.css");
         mainStage.setTitle("TankSpillet");

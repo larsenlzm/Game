@@ -10,7 +10,7 @@ public class Player extends GameObjects {
     private boolean exploded;
 
     Player(String sprite, int hp,int lifePoints, double x, double y, Pane root) {
-        super(new ImageView(sprite));
+        super(new ImageView(String.valueOf(Bullet.class.getResource(sprite))));
         this.hp = hp;
         this.lifePoints = lifePoints;
         getView().setTranslateX(x);

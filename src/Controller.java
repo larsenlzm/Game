@@ -40,12 +40,11 @@ public class Controller {
     private BitSet keyboardBitSet = new BitSet();
     private double scenewidth = 1280;
     private double sceneheigth = 720;
-    private static Music game = new Music("/res/backgroundMusic1.wav");
+    //private static Music game = new Music("/res/backgroundMusic1.wav");
     private static Music lobby = new Music("/res/backgroundMusic.wav");
     private static Music victory = new Music("/res/Victory.wav");
     private static Music hit = new Music("/res/sound.wav");
     private static Music die = new Music("/res/fatality.wav");
-    private static Music moving = new Music("/res/moving.wav");
     public static Music firing = new Music("/res/shoot.wav");
 
     //fxml koblinger
@@ -69,8 +68,8 @@ public class Controller {
         timer.start();
         keyboardBitSet.set(0,100,false);
         lobby.stop();
-        if(music)
-        game.loop();
+        //if(music)
+            //game.loop();
 
     }
     public void help() {
@@ -85,7 +84,7 @@ public class Controller {
             timer.start();
             keyboardBitSet.set(0,100,false);
             System.out.println("Resuming game ...");
-            game.loop();
+            //game.resume();
         } catch(RuntimeException e){
             error("Nothing to resume");
             System.out.println("Cant resume, you sure you have anything to resume??");
@@ -144,7 +143,7 @@ public class Controller {
                 timer.start();
                 keyboardBitSet.set(0, 100, false);
                 if(music)
-                game.loop();
+                //game.loop();
                 lobby.stop();
                 saveFile = null;
                 loadLabel.setText("");
@@ -194,22 +193,15 @@ public class Controller {
     public void mOFF() {
         if(music){
             music = false;
-            System.out.println("av");
             lobby.stop();
         } else {
             music = true;
-            System.out.println("på");
             lobby.loop();
         }
     }
     public void eOFF() {
-        if(effect){
-            effect = false;
-            System.out.println("aV");
-        } else {
-            effect = true;
-            System.out.println("på");
-        }
+        effect = !effect;
+
     }
     public void toMain() {
         goBack();
@@ -219,15 +211,15 @@ public class Controller {
         gamePaused.setDisable(true);
         victoryP.setVisible(false);
         victoryP.setDisable(true);
-        background.setImage(new Image("res/navn.png"));
+        background.setImage(new Image("/res/navn.png"));
     }
     //konstruktør
     public Controller(){
-        boom[0]= new ImageView(new Image("res/explosion1.png"));
-        boom[1]= new ImageView(new Image("res/explosion2.png"));
-        boom[2]= new ImageView(new Image("res/explosion3.png"));
-        boom[3]= new ImageView(new Image("res/explosion4.png"));
-        boom[4]= new ImageView(new Image("res/explosion5.png"));
+        boom[0]= new ImageView(new Image("/res/explosion1.png"));
+        boom[1]= new ImageView(new Image("/res/explosion2.png"));
+        boom[2]= new ImageView(new Image("/res/explosion3.png"));
+        boom[3]= new ImageView(new Image("/res/explosion4.png"));
+        boom[4]= new ImageView(new Image("/res/explosion5.png"));
         lobby.loop();
     }
     private void createContent(int P, int E, int L) {
@@ -236,11 +228,11 @@ public class Controller {
 
         gameP.getChildren().clear();
 
-        player = new Player("res/tankBlue.png", 10,3, 50,50, gameP);
+        player = new Player("/res/tankBlue.png", 10,3, 50,50, gameP);
         player.setVelocity(0,0);
         player.setSpeedMultiplier(3);
 
-        enemy = new Player("res/tankRed.png", 10,3, 1210,650, gameP);
+        enemy = new Player("/res/tankRed.png", 10,3, 1210,650, gameP);
         enemy.setVelocity(0,0);
         enemy.getView().setRotate(180);
         enemy.setSpeedMultiplier(3);
@@ -249,14 +241,14 @@ public class Controller {
         enemy.setScore(E);
         currentLevel = L;
 
-        String spriteWall = "res/wall2.png";
-        String spriteWall2 = "res/wall1.png";
-        String spriteWall3 = "res/wall1.png";
-        String spriteBg1 = "res/spillbg1.png";
-        String spriteBg2 = "res/spillbg2.png";
-        String spriteBg3 = "res/spillbg3.png";
-        String spriteBg4 = "res/spillbg1.png";
-        String spriteBg5 = "res/spillbg2.png";
+        String spriteWall = "/res/wall2.png";
+        String spriteWall2 = "/res/wall1.png";
+        String spriteWall3 = "/res/wall1.png";
+        String spriteBg1 = "/res/spillbg1.png";
+        String spriteBg2 = "/res/spillbg2.png";
+        String spriteBg3 = "/res/spillbg3.png";
+        String spriteBg4 = "/res/spillbg1.png";
+        String spriteBg5 = "/res/spillbg2.png";
 
 
         // bane1
@@ -428,9 +420,9 @@ public class Controller {
         }
     }
     private void movePlayer(boolean forward, boolean back, Player player){
-        if(forward){
+        if(forward && !back){
             player.setVelocity(Math.cos(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier(), Math.sin(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier());
-        } else if(back){
+        } else if(back && !forward){
             player.setVelocity(-Math.cos(Math.toRadians(player.getView().getRotate()))*player.getSpeedMultiplier(), -Math.sin(Math.toRadians(player.getView().getRotate()))*player.getSpeedMultiplier());
         }else{
             player.setVelocity(0,0);
@@ -449,6 +441,8 @@ public class Controller {
             bullets.add(new Bullet(sprite,player.getX()+(player.getHeigth()/2),player.getY()+(player.getWidth()/2), gameP, player, player.getRotate()));
             //resetter pistolklokka
             loadCount = 0;
+            if(effect)
+                firing.playonce();
         }
     }
     private void bulletExplosion(Player play){
@@ -484,7 +478,7 @@ public class Controller {
             play.setLifePoints(play.getLifePoints() - 1);
             play.setHp(play.getHp() - 1);
             timer.stop();
-            game.stop();
+            //game.stop();
             if(effect)
                 victory.play();
             victoryLabelScore.setText(player.getScore() + " : " + enemy.getScore());
@@ -583,7 +577,6 @@ public class Controller {
         enemy.getView().setTranslateY(maps.get(currentLevel).getSpawnEY());
     }
     private void onUpdate() {
-        System.out.println(hit.isActive());
         boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());
         boolean isSPressed = keyboardBitSet.get(KeyCode.S.ordinal());
@@ -613,14 +606,15 @@ public class Controller {
             gamePaused.setDisable(false);
             gamePaused.setVisible(true);
             gameRoot.setDisable(true);
-            game.stop();
+            //game.stop();
         }
+
         //behandler kulekollisjon med person og utkant
         bulletPhysics(bullets, enemy, "BLUE PLAYER", player);
         bulletPhysics(bullets2, player, "RED PLAYER ", enemy);
         //skyte spiller
-        shootPlayer(isVPressed,player,isLoaded,bullets,"res/bulletBlue.png");
-        shootPlayer(isMPressed,enemy,isLoaded,bullets2,"res/bulletRed.png");
+        shootPlayer(isVPressed,player,isLoaded,bullets,"/res/bulletBlue.png");
+        shootPlayer(isMPressed,enemy,isLoaded,bullets2,"/res/bulletRed.png");
         //rotere spiller
         rotatePlayer(isLeftPressed,isRightPressed,enemy);
         rotatePlayer(isAPressed,isDPressed,player);

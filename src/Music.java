@@ -48,7 +48,10 @@ public class Music {
 
     public void stop() {
             clip.stop();
+    }
 
+    public void resume() {
+        clip.start();
     }
 
     public void loop() {
