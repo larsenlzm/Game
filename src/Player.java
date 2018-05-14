@@ -1,6 +1,12 @@
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+/**
+ * This class has all the information about the player and enemy.
+ *
+ * @author s25919, s325894
+ */
+
 public class Player extends GameObjects {
 
     private int hp;
@@ -9,10 +15,17 @@ public class Player extends GameObjects {
     private int score;
     private boolean exploded;
 
-    Player(String sprite, int hp,int lifePoints, double x, double y, Pane root) {
+    /**
+     *
+     * @param sprite String that contains the sprite/image.
+     * @param hp int variable that contains the number of hp a player has.
+     * @param x
+     * @param y
+     * @param root
+     */
+    Player(String sprite, int hp, double x, double y, Pane root) {
         super(new ImageView(String.valueOf(Bullet.class.getResource(sprite))));
         this.hp = hp;
-        this.lifePoints = lifePoints;
         getView().setTranslateX(x);
         getView().setTranslateY(y);
         root.getChildren().add(getView());

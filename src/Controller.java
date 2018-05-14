@@ -228,11 +228,11 @@ public class Controller {
 
         gameP.getChildren().clear();
 
-        player = new Player("/res/tankBlue.png", 10,3, 50,50, gameP);
+        player = new Player("/res/tankBlue.png", 10, 50,50, gameP);
         player.setVelocity(0,0);
         player.setSpeedMultiplier(3);
 
-        enemy = new Player("/res/tankRed.png", 10,3, 1210,650, gameP);
+        enemy = new Player("/res/tankRed.png", 10, 1210,650, gameP);
         enemy.setVelocity(0,0);
         enemy.getView().setRotate(180);
         enemy.setSpeedMultiplier(3);
