@@ -6,51 +6,47 @@ public class GameObjects {
     private Node view;
     private Point2D velocity;
 
-    public GameObjects(Node view) {
+    GameObjects(Node view) {
         this.view = view;
     }
-    public void update() {
+    void update() {
         view.setTranslateX(view.getTranslateX() + velocity.getX());
         view.setTranslateY(view.getTranslateY() + velocity.getY());
     }
-    public void setVelocity(double x, double y) {
+    void setVelocity(double x, double y) {
         velocity = new Point2D(x,y);
     }
-    public Point2D getVelocity() {
-        return velocity;
-    }
-    public Node getView() {
+    Node getView() {
         return view;
     }
-    public void setView(Node view){this.view = view;}
-    public double getRotate() {
+    double getRotate() {
         return view.getRotate();
     }
-    public void rotateRight() {
+    void rotateRight() {
         view.setRotate(view.getRotate() + 3);
     }
-    public void rotateLeft() {
+    void rotateLeft() {
         view.setRotate(view.getRotate() - 3);
     }
-    public boolean isColliding(GameObjects other) {
+    boolean isColliding(GameObjects other) {
         return getView().getBoundsInParent().intersects(other.getView().getBoundsInParent());
     }
-    public double getWidth() {
+    double getWidth() {
         return getView().getLayoutBounds().getWidth();
     }
-    public double getHeigth() {
+    double getHeigth() {
          return getView().getLayoutBounds().getHeight();
     }
-    public double getMaxX() {
+    double getMaxX() {
         return getView().getBoundsInParent().getMaxX();
     }
-    public double getMinX() {
+    double getMinX() {
         return getView().getBoundsInParent().getMinX();
     }
-    public double getMaxY() {
+    double getMaxY() {
         return getView().getBoundsInParent().getMaxY();
     }
-    public double getMinY() {
+    double getMinY() {
         return getView().getBoundsInParent().getMinY();
     }
 }

@@ -48,6 +48,10 @@ public class Controller {
     public static Music firing = new Music("/res/shoot.wav");
 
     //fxml koblinger
+    /**
+     * saveText The textfield you write your savefilename into
+     */
+
     public TextField saveText;
     public Label errorLabel, loadLabel, victoryLabelWinner, victoryLabelScore, currentScore;
     public Pane gameP;
@@ -472,7 +476,6 @@ public class Controller {
             if(effect)
                 die.play();
             pointer.setScore(pointer.getScore()+1);
-            play.setLifePoints(play.getLifePoints() - 1);
             play.setHp(10);
             loadCount2=0;
             newRound();
@@ -480,7 +483,6 @@ public class Controller {
             if(effect)
                 die.play();
             pointer.setScore(pointer.getScore()+1);
-            play.setLifePoints(play.getLifePoints() - 1);
             play.setHp(play.getHp() - 1);
             timer.stop();
             //game.stop();
