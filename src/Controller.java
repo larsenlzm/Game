@@ -16,6 +16,12 @@ import java.util.BitSet;
 import java.util.List;
 import java.io.*;
 
+/**
+ * Controls for main game screen.
+ *
+ * @author s325919, s325894
+ */
+
 public class Controller {
 
     private Stage stage;
@@ -497,6 +503,8 @@ public class Controller {
 
     /**
      *
+     *
+     *
      * @param scene
      */
     private void addInputControls(Scene scene) {
@@ -507,6 +515,13 @@ public class Controller {
             keyboardBitSet.set(e.getCode().ordinal(), false);
         });
     }
+
+    /**
+     *
+     * Shows an error message.
+     *
+     * @param error What the error says.
+     */
     private void error(String error){
         errorLabel.setText("Error!!! \n" + error);
         errorP.setDisable(false);
@@ -515,6 +530,13 @@ public class Controller {
         saveP.setDisable(true);
         loadP.setDisable(true);
     }
+
+    /**
+     *
+     * Stops the player from going out of bounds.
+     *
+     * @param player takes the Player object as param
+     */
     private void boundsPlayer(Player player){
         double maxX = scenewidth - (player.getWidth() / 2);
         double minX = 0 - (player.getWidth() / 2);
@@ -525,13 +547,23 @@ public class Controller {
         } else if (player.getX() <= minX) {
             player.getView().setTranslateX(minX);
         }
-        // går for langt opp eller ned så kommer du ut på andre siden
+
         if(player.getY() >= maxY) {
             player.getView().setTranslateY(maxY);
         } else if (player.getY() <= minY) {
             player.getView().setTranslateY(minY);
         }
     }
+
+    /**
+     *
+     * Method that moves the objects forward
+     * or backwards.
+     *
+     * @param forward boolean about forward movement.
+     * @param back boolean about backwards movement.
+     * @param player Which Player object.
+     */
     private void movePlayer(boolean forward, boolean back, Player player){
         if(forward && !back){
             player.setVelocity(Math.cos(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier(), Math.sin(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier());
@@ -541,6 +573,15 @@ public class Controller {
             player.setVelocity(0,0);
         }
     }
+
+    /**
+     *
+     * Method that rotates the objects the right way.
+     *
+     * @param right boolean about right-movement.
+     * @param left boolean about left-movement.
+     * @param player Which Player object.
+     */
     private void rotatePlayer(boolean right, boolean left, Player player){
         if (right && !left) {
             player.rotateLeft();
@@ -548,6 +589,15 @@ public class Controller {
             player.rotateRight();
         }
     }
+
+    /**
+     *
+     * @param shoot boolean, if bullet is shot or not.
+     * @param player Which Player it is.
+     * @param isPistolLadet boolean, if the pistol is loaded or not.
+     * @param bullets Takes the ArrayList as param.
+     * @param sprite Sprite/Image for the bullet.
+     */
     private void shootPlayer(boolean shoot, Player player, boolean isPistolLadet, List<Bullet> bullets, String sprite){
         if (shoot && isPistolLadet) {
             //Adder bulleten til gameworld og posisjonen er da samme som player
@@ -558,6 +608,13 @@ public class Controller {
                 firing.playonce();
         }
     }
+
+    /**
+     *
+     * Goes through the explosion sprites.
+     *
+     * @param play the players.
+     */
     private void bulletExplosion(Player play){
         for(int i = 0; i < 5; i++){
             boom[i].relocate(play.getX(),play.getY());
@@ -571,6 +628,18 @@ public class Controller {
             play.setExploded(false);
         }
     }
+
+    /**
+     *
+     * Method for updating lifepoints,
+     * playing the die and hit sound,
+     * updating the score and showing
+     * the victory screen.
+     *
+     * @param play the players.
+     * @param name name of the player.
+     * @param pointer the shooter.
+     */
     private void lifeUpdate(Player play, String name, Player pointer){
         if (play.getHp() != 1) {
             play.setHp(play.getHp() - 1);
@@ -598,6 +667,18 @@ public class Controller {
             victoryP.setDisable(false);
         }
     }
+
+    /**
+     *
+     * Method that controls what happends when
+     * a bullet hits another player, a wall or
+     * when it hits the end of the map.
+     *
+     * @param bullets the ArrayList of bullets.
+     * @param play the player.
+     * @param name name of the player.
+     * @param pointer the one that is shooting.
+     */
     private void bulletPhysics(List<Bullet> bullets, Player play, String name, Player pointer){
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(play)) {
@@ -627,6 +708,14 @@ public class Controller {
             bulletExplosion(play);
         }
     }
+
+    /**
+     *
+     * Method that controls what happends when a
+     * player hits a wall.
+     *
+     * @param player Which player it is.
+     */
     private void collisionWalls(Player player){
         for(Wall i : maps.get(currentLevel).getWalls()) {
             //spiller kommer fra venstre
@@ -659,6 +748,14 @@ public class Controller {
             }
         }
     }
+
+    /**
+     *
+     * Method that sets the player to the
+     * correct spawn coordinates, sets HP
+     * back to 10, removes bullets and sets
+     * the correct background image.
+     */
     private void newRound(){
         player.getView().setRotate(0);
         enemy.getView().setRotate(180);
@@ -687,6 +784,10 @@ public class Controller {
         enemy.getView().setTranslateX(maps.get(currentLevel).getSpawnEX());
         enemy.getView().setTranslateY(maps.get(currentLevel).getSpawnEY());
     }
+
+    /**
+     * Method that updates the game.
+     */
     private void onUpdate() {
         boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());

@@ -1,7 +1,13 @@
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 
-public class GameObjects {
+/**
+ * Class for the interactive parts of the game.
+ *
+ * @author s325919, s325894
+ */
+
+class GameObjects {
 
     private Node view;
     private Point2D velocity;
