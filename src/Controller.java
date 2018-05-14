@@ -142,12 +142,18 @@ public class Controller {
      * Lets the user choose a savefile.
      */
     public void loader(){
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Saves", "*.save");
-        fileChooser.getExtensionFilters().add(extFilter);
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        saveFile = fileChooser.showOpenDialog(stage);
-        loadLabel.setText(saveFile.getName());
+        try {
+            System.out.println("getting file");
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Load .save file");
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Saves", "*.save");
+            fileChooser.getExtensionFilters().add(extFilter);
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+            saveFile = fileChooser.showOpenDialog(stage);
+            loadLabel.setText(saveFile.getName());
+        } catch (Exception e){
+            System.out.println("hmm "+e.getMessage());
+        }
     }
 
     /**

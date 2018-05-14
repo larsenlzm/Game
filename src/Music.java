@@ -16,7 +16,6 @@ public class Music {
      *
      * @param fileName String that contains the url of the sound file.
      */
-
     Music(String fileName) {
         try {
             musicFile = fileName;
@@ -32,7 +31,7 @@ public class Music {
      * Restarts the clip.
      */
 
-    public void play() {
+    void play() {
         try {
             if (clip != null) {
                 new Thread() {
@@ -53,7 +52,7 @@ public class Music {
     /**
      * Creates a clip that only gets played once.
      */
-    public void playonce() {
+    void playonce() {
         Clip onceClip;
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(Music.class.getResource(musicFile));
@@ -66,11 +65,12 @@ public class Music {
         }
     }
 
+
     /**
      * Stops the clip
      */
 
-    public void stop() {
+    void stop() {
             clip.stop();
     }
 
@@ -86,7 +86,7 @@ public class Music {
      * Loops the clip
      */
 
-    public void loop() {
+    void loop() {
         try {
             if (clip != null) {
                 new Thread() {
@@ -104,7 +104,7 @@ public class Music {
         }
     }
 
-    public boolean isActive() {
+    boolean isActive() {
         return clip.isActive();
     }
 }
