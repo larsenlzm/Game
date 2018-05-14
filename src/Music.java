@@ -1,10 +1,21 @@
 import javax.sound.sampled.*;
 
+/**
+ * Class for sound files
+ *
+ * @author s325919, s325894
+ */
+
 public class Music {
 
     private Clip clip;
     private String musicFile;
 
+    /**
+     * Initiates the clip
+     *
+     * @param fileName String that contains the url of the sound file.
+     */
     Music(String fileName) {
         try {
             musicFile = fileName;
@@ -15,6 +26,10 @@ public class Music {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Restarts the clip.
+     */
 
     void play() {
         try {
@@ -33,6 +48,10 @@ public class Music {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Creates a clip that only gets played once.
+     */
     void playonce() {
         Clip onceClip;
         try {
@@ -46,9 +65,26 @@ public class Music {
         }
     }
 
+
+    /**
+     * Stops the clip
+     */
+
     void stop() {
             clip.stop();
     }
+
+    /**
+     * Starts the clip
+     */
+
+    public void resume() {
+        clip.start();
+    }
+
+    /**
+     * Loops the clip
+     */
 
     void loop() {
         try {
@@ -68,7 +104,7 @@ public class Music {
         }
     }
 
-    public boolean isActive() {
+    boolean isActive() {
         return clip.isActive();
     }
 }
