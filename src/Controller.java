@@ -228,11 +228,11 @@ public class Controller {
 
         gameP.getChildren().clear();
 
-        player = new Player("/res/tankBlue.png", 10,3, 50,50, gameP);
+        player = new Player("/res/tankBlue.png", 10,  gameP);
         player.setVelocity(0,0);
         player.setSpeedMultiplier(3);
 
-        enemy = new Player("/res/tankRed.png", 10,3, 1210,650, gameP);
+        enemy = new Player("/res/tankRed.png", 10,  gameP);
         enemy.setVelocity(0,0);
         enemy.getView().setRotate(180);
         enemy.setSpeedMultiplier(3);
@@ -250,7 +250,7 @@ public class Controller {
 
 
         // bane1
-        maps.add(new Level(50,650,1210,50, spriteBg1));
+        maps.add(new Level(50,50,1210,650, spriteBg1));
         //oppe til venstre
         maps.get(0).addWalls(new Wall(spriteWall,150,100, gameP));
         maps.get(0).addWalls(new Wall(spriteWall,150,150, gameP));
@@ -279,7 +279,7 @@ public class Controller {
         maps.get(0).addWalls(new Wall(spriteWall,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameP)); //midten
 
         //BANE 2
-        maps.add(new Level(50,650,1210,50,spriteBg2));
+        maps.add(new Level(50,50,1210,650,spriteBg2));
         maps.get(1).addWalls(new Wall(spriteWall2,scenewidth/2 - 25/2,sceneheigth/2 - 25/2, gameP));
         //opp til venstre
         maps.get(1).addWalls(new Wall(spriteWall2,300,45, gameP));
@@ -319,7 +319,7 @@ public class Controller {
         maps.get(1).addWalls(new Wall(spriteWall2,1100,470, gameP));
 
         //bane3
-        maps.add(new Level(50 ,50,1210,650,spriteBg3));
+        maps.add(new Level(50 ,650,1210,50,spriteBg3));
         //nede til høyre'
         maps.get(2).addWalls(new Wall(spriteWall3,1230,400, gameP));
         maps.get(2).addWalls(new Wall(spriteWall3,1180,400, gameP));
@@ -359,7 +359,8 @@ public class Controller {
         maps.get(2).addWalls(new Wall(spriteWall3,600,550, gameP));
 
         //bane4
-        maps.add(new Level(50,650,1210,50,spriteBg1));
+        maps.add(new Level(50,50,1210,650,spriteBg1));
+
         for(Wall i : maps.get(0).getWalls()){
             maps.get(3).addWalls(i);
         }
@@ -373,6 +374,12 @@ public class Controller {
         for(Wall i : maps.get(currentLevel).getWalls()){
             i.addPane();
         }
+
+        player.getView().setTranslateX(maps.get(currentLevel).getSpawnPX());
+        player.getView().setTranslateY(maps.get(currentLevel).getSpawnPY());
+        enemy.getView().setTranslateX(maps.get(currentLevel).getSpawnEX());
+        enemy.getView().setTranslateY(maps.get(currentLevel).getSpawnEY());
+
 
         background.setImage(new Image(maps.get(currentLevel).getMapBg()));
 
