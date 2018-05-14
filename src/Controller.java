@@ -213,7 +213,7 @@ public class Controller {
         victoryP.setDisable(true);
         background.setImage(new Image("/res/navn.png"));
     }
-    //konstruktør
+     //konstruktør
     public Controller(){
         boom[0]= new ImageView(new Image("/res/explosion1.png"));
         boom[1]= new ImageView(new Image("/res/explosion2.png"));
@@ -247,8 +247,6 @@ public class Controller {
         String spriteBg1 = "/res/spillbg1.png";
         String spriteBg2 = "/res/spillbg2.png";
         String spriteBg3 = "/res/spillbg3.png";
-        String spriteBg4 = "/res/spillbg1.png";
-        String spriteBg5 = "/res/spillbg2.png";
 
 
         // bane1
@@ -361,13 +359,13 @@ public class Controller {
         maps.get(2).addWalls(new Wall(spriteWall3,600,550, gameP));
 
         //bane4
-        maps.add(new Level(50,650,1210,50,spriteBg4));
+        maps.add(new Level(50,650,1210,50,spriteBg1));
         for(Wall i : maps.get(0).getWalls()){
             maps.get(3).addWalls(i);
         }
 
         //bane5
-        maps.add(new Level(50,650,1210,50,spriteBg5));
+        maps.add(new Level(50,650,1210,50,spriteBg2));
         for(Wall i : maps.get(1).getWalls()){
             maps.get(4).addWalls(i);
         }
