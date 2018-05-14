@@ -45,7 +45,7 @@ public class Controller {
     private static Music victory = new Music("/res/Victory.wav");
     private static Music hit = new Music("/res/sound.wav");
     private static Music die = new Music("/res/fatality.wav");
-    public static Music firing = new Music("/res/shoot.wav");
+    private static Music firing = new Music("/res/shoot.wav");
 
     //fxml koblinger
     /**
@@ -118,14 +118,18 @@ public class Controller {
         switchPane(main,loadP);
     }
     public void loader(){
-        System.out.println("getting file");
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Load .save file");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Saves", "*.save");
-        fileChooser.getExtensionFilters().add(extFilter);
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        saveFile = fileChooser.showOpenDialog(stage);
-        loadLabel.setText(saveFile.getName());
+        try {
+            System.out.println("getting file");
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Load .save file");
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Saves", "*.save");
+            fileChooser.getExtensionFilters().add(extFilter);
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+            saveFile = fileChooser.showOpenDialog(stage);
+            loadLabel.setText(saveFile.getName());
+        } catch (Exception e){
+            System.out.println("hmm "+e.getMessage());
+        }
     }
     public void loadLoad(){
         if(saveFile != null) {

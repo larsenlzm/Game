@@ -5,7 +5,7 @@ public class Music {
     private Clip clip;
     private String musicFile;
 
-    public Music(String fileName) {
+    Music(String fileName) {
         try {
             musicFile = fileName;
             AudioInputStream ais = AudioSystem.getAudioInputStream(Music.class.getResource(fileName));
@@ -16,7 +16,7 @@ public class Music {
         }
     }
 
-    public void play() {
+    void play() {
         try {
             if (clip != null) {
                 new Thread() {
@@ -33,7 +33,7 @@ public class Music {
             e.printStackTrace();
         }
     }
-    public void playonce() {
+    void playonce() {
         Clip onceClip;
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(Music.class.getResource(musicFile));
@@ -46,15 +46,11 @@ public class Music {
         }
     }
 
-    public void stop() {
+    void stop() {
             clip.stop();
     }
 
-    public void resume() {
-        clip.start();
-    }
-
-    public void loop() {
+    void loop() {
         try {
             if (clip != null) {
                 new Thread() {
