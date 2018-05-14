@@ -118,14 +118,17 @@ public class Controller {
     }
 
     /**
-     *
+     * Method that saves the game and
+     * prints out an error if it cant
+     * save the file or no name is
+     * entered.
      */
     public void saveSave(){
         if(!saveText.getText().trim().isEmpty()){
             System.out.println(saveText.getCharacters());
             Save save = new Save(player.getScore(),enemy.getScore(),currentLevel);
             try {
-                resourceManager.save(save,saveText.getText() + ".save"); // MIDLERTIDIG
+                resourceManager.save(save,saveText.getText() + ".save");
                 System.out.println("Saving game ...");
             } catch (Exception ex){
                 System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
