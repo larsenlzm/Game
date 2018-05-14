@@ -393,14 +393,13 @@ public class Controller {
             maps.get(4).addWalls(i);
         }
 
-        for(Wall i : maps.get(currentLevel).getWalls()){
+        for(Wall i : maps.get(L).getWalls()){
             i.addPane();
         }
-
-        player.getView().setTranslateX(maps.get(currentLevel).getSpawnPX());
-        player.getView().setTranslateY(maps.get(currentLevel).getSpawnPY());
-        enemy.getView().setTranslateX(maps.get(currentLevel).getSpawnEX());
-        enemy.getView().setTranslateY(maps.get(currentLevel).getSpawnEY());
+        player.getView().setTranslateX(maps.get(L).getSpawnPX());
+        player.getView().setTranslateY(maps.get(L).getSpawnPY());
+        enemy.getView().setTranslateX(maps.get(L).getSpawnEX());
+        enemy.getView().setTranslateY(maps.get(L).getSpawnEY());
 
 
         background.setImage(new Image(maps.get(currentLevel).getMapBg()));
