@@ -19,15 +19,13 @@ public class Player extends GameObjects {
      *
      * @param sprite String that contains the sprite/image.
      * @param hp int variable that contains the number of hp a player has.
-     * @param x
+     * @param x double variable that cointains the x-position
      * @param y
      * @param root
      */
-    Player(String sprite, int hp, double x, double y, Pane root) {
+    Player(String sprite, int hp, Pane root) {
         super(new ImageView(String.valueOf(Bullet.class.getResource(sprite))));
         this.hp = hp;
-        getView().setTranslateX(x);
-        getView().setTranslateY(y);
         root.getChildren().add(getView());
     }
     public int getHp() {
