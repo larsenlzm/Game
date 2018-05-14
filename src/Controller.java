@@ -45,7 +45,7 @@ public class Controller {
     private static Music victory = new Music("/res/Victory.wav");
     private static Music hit = new Music("/res/sound.wav");
     private static Music die = new Music("/res/fatality.wav");
-    public static Music firing = new Music("/res/shoot.wav");
+    private static Music firing = new Music("/res/shoot.wav");
 
     //fxml koblinger
     /**
@@ -59,6 +59,12 @@ public class Controller {
     public ImageView background;
     public ProgressBar playerHp, enemyHp;
 
+    /**
+     * Loads in the player, enemy and level.
+     * Adds the controls in and loads pane in.
+     * Starts the timer and sets the keyboardBitSet to false
+     * Stops the lobby music.
+     */
     public void startGame() {
         createContent(0,0,0);
         addInputControls(mainPane.getScene());
@@ -72,13 +78,21 @@ public class Controller {
         timer.start();
         keyboardBitSet.set(0,100,false);
         lobby.stop();
-        //if(music)
-            //game.loop();
 
     }
+
+    /**
+     * Switches to the help pane.
+     */
     public void help() {
         switchPane(main,helpP);
     }
+
+    /**
+     * Sets the correct things to be shown on screen
+     * when going from paused to unpaused.
+     *
+     */
     public void resumeGame() {
         try {
             gamePaused.setVisible(false);

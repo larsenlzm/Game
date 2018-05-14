@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for levels
+ *
+ * @author s325919, s325894
+ */
+
 public class Level {
 
     private List<Wall> Walls = new ArrayList<>();
@@ -9,6 +15,16 @@ public class Level {
     private double spawnEX;
     private double spawnEY;
     private String mapBg;
+
+    /**
+     * Constructer that initiates the spawn loactions and background image
+     *
+     * @param spawnPX spawn x-coordinate for player.
+     * @param spawnPY spawn y-coordinate for player.
+     * @param spawnEX spawn x-coordinate for enemy.
+     * @param spawnEY spawn y-coordinate for enemy.
+     * @param mapBg Location of the background image.
+     */
 
     public Level(double spawnPX, double spawnPY,double spawnEX, double spawnEY, String mapBg){
         this.spawnPX = spawnPX;
