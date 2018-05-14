@@ -62,7 +62,7 @@ public class Controller {
     /**
      * Loads in the player, enemy and level.
      * Adds the controls in and loads pane in.
-     * Starts the timer and sets the keyboardBitSet to false
+     * Starts the timer and clears the keyboardBitSet
      * Stops the lobby music.
      */
     public void startGame() {
@@ -76,7 +76,7 @@ public class Controller {
             }
         };
         timer.start();
-        keyboardBitSet.set(0,100,false);
+        keyboardBitSet.clear();
         lobby.stop();
 
     }
@@ -91,27 +91,29 @@ public class Controller {
     /**
      * Sets the correct things to be shown on screen
      * when going from paused to unpaused.
-     *
+     * Loads in the correct background image.
+     * starts the timer and clears the keyboardBitSets
      */
     public void resumeGame() {
-        try {
             gamePaused.setVisible(false);
             gamePaused.setDisable(true);
             gameRoot.setDisable(false);
             background.setImage(new Image(maps.get(currentLevel).getMapBg()));
             timer.start();
-            keyboardBitSet.set(0,100,false);
-            System.out.println("Resuming game ...");
-            //game.resume();
-        } catch(RuntimeException e){
-            error("Nothing to resume");
-            System.out.println("Cant resume, you sure you have anything to resume??");
-        }
+            keyboardBitSet.clear();
     }
+
+    /**
+     * Switches to saveGame pane and clear the inputfield.
+     */
     public void saveGame() {
         saveText.setText("");
         switchPane(main,saveP);
     }
+
+    /**
+     *
+     */
     public void saveSave(){
         if(!saveText.getText().trim().isEmpty()){
             System.out.println(saveText.getCharacters());
@@ -128,19 +130,32 @@ public class Controller {
             System.out.println("Skriv inn et navn");
         }
     }
+
+    /**
+     * Switches to the loadGame pane.
+     */
     public void loadGame() {
         switchPane(main,loadP);
     }
+
+    /**
+     * Lets the user choose a savefile.
+     */
     public void loader(){
-        System.out.println("getting file");
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Load .save file");
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Saves", "*.save");
         fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         saveFile = fileChooser.showOpenDialog(stage);
         loadLabel.setText(saveFile.getName());
     }
+
+    /**
+     * Loads in the chosen savefile and
+     * start up the game. Catches exception
+     * and prints out error message if it cant
+     * load correctly or no file is chosen.
+     */
     public void loadLoad(){
         if(saveFile != null) {
             try {
@@ -159,7 +174,7 @@ public class Controller {
                     }
                 };
                 timer.start();
-                keyboardBitSet.set(0, 100, false);
+                keyboardBitSet.clear();
                 if(music)
                 //game.loop();
                 lobby.stop();
@@ -175,10 +190,20 @@ public class Controller {
             error("cant load file, no file chosen");
         }
     }
+
+    /**
+     * Closes the game window.
+     */
     public void exitGame() {
         stage = (Stage) mainPane.getScene().getWindow();
         stage.close();
     }
+
+    /**
+     * Switches back to Main Pane or
+     * back to the pane you got
+     * an error.
+     */
     public void goBack() {
         if(errorP.isVisible() && main.isVisible()){
             switchPane(errorP,main);
@@ -203,11 +228,32 @@ public class Controller {
             main.setVisible(true);
         }
     }
+
+    /**
+     * Switches the pane back to the main
+     * pause menu.
+     */
     public void goBackGame(){
         switchPane(saveP,gamePaused);
     }
-    public void goBackHelp() {switchPane(settingsP,helpP);}
-    public void goSettings() {switchPane(helpP,settingsP);}
+
+    /**
+     * Switches the pane back to settings pane.
+     */
+    public void goBackHelp() {
+        switchPane(settingsP,helpP);
+    }
+
+    /**
+     * Switches the pane from help to settings.
+     */
+    public void goSettings() {
+        switchPane(helpP,settingsP);
+    }
+
+    /**
+     * Turns the background music off.
+     */
     public void mOFF() {
         if(music){
             music = false;
@@ -217,10 +263,20 @@ public class Controller {
             lobby.loop();
         }
     }
+
+    /**
+     * turns the sound effects off.
+     */
     public void eOFF() {
         effect = !effect;
 
     }
+
+    /**
+     * Switches back to the main menu,
+     * plays the main menu music and
+     * loads in the logo image.
+     */
     public void toMain() {
         goBack();
         if(music)
@@ -231,7 +287,11 @@ public class Controller {
         victoryP.setDisable(true);
         background.setImage(new Image("/res/navn.png"));
     }
-     //konstruktør
+
+    /**
+     * Constructor initializes the ImageView
+     * array and starts the music.
+     */
     public Controller(){
         boom[0]= new ImageView(new Image("/res/explosion1.png"));
         boom[1]= new ImageView(new Image("/res/explosion2.png"));
@@ -240,6 +300,17 @@ public class Controller {
         boom[4]= new ImageView(new Image("/res/explosion5.png"));
         lobby.loop();
     }
+
+    /**
+     *
+     * Method that creates all the objects and
+     * maps and places the relevant photo and
+     * text on screen.
+     *
+     * @param P int for player's score.
+     * @param E int for enemy's score.
+     * @param L int for the current level.
+     */
     private void createContent(int P, int E, int L) {
 
         stage = (Stage) mainPane.getScene().getWindow();
@@ -403,12 +474,26 @@ public class Controller {
 
         currentScore.setText(player.getScore() + " : " + enemy.getScore());
     }
+
+    /**
+     *
+     * Method that switches from one pane
+     * to another.
+     *
+     * @param from The pane you are on.
+     * @param to The pane you want to change to.
+     */
     private void switchPane(Pane from,Pane to){
         from.setDisable(true);
         from.setVisible(false);
         to.setDisable(false);
         to.setVisible(true);
     }
+
+    /**
+     *
+     * @param scene
+     */
     private void addInputControls(Scene scene) {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             keyboardBitSet.set(e.getCode().ordinal(), true);
