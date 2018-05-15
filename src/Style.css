@@ -4,26 +4,6 @@
 
 .button {
     	-fx-background-color: white;
-
-}
-
-#loadfile1 {
-	-fx-background-color: grey;
-}
-#loadfile2 {
-	-fx-background-color: grey;
-}
-#loadfile3 {
-	-fx-background-color: grey;
-}
-#savefile1 {
-    -fx-background-color: grey;
-}
-#savefile2 {
-    -fx-background-color: grey;
-}
-#savefile3 {
-    -fx-background-color: grey;
 }
 
 .button:hover {

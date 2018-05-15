@@ -34,6 +34,9 @@ public class Controller {
     private ImageView boom[] = new ImageView[5];
     private boolean music = true;
     private boolean effect = true;
+    private boolean show = false;
+    private boolean show2 = false;
+    private boolean show3 = false;
 
     //interne klokker
     private int load = 10; //skudd per antall frames
@@ -65,7 +68,7 @@ public class Controller {
     public AnchorPane main, saveP, errorP, loadP, mainPane, gamePaused, victoryP, gameRoot, helpP, settingsP;
     public ImageView background;
     public ProgressBar playerHp, enemyHp;
-    public Button loadfile1,loadfile2,loadfile3;
+    public Button loadfile1,loadfile2,loadfile3, savefile1, savefile2,savefile3;
 
     /**
      * Loads in the player, enemy and level.
@@ -116,6 +119,12 @@ public class Controller {
      */
     public void saveGame() {
         saveFile=null;
+        loadfile3.setStyle("-fx-background-color: white;");
+        savefile3.setStyle("-fx-background-color: white;");
+        loadfile2.setStyle("-fx-background-color: white;");
+        savefile2.setStyle("-fx-background-color: white;");
+        loadfile1.setStyle("-fx-background-color: white;");
+        savefile1.setStyle("-fx-background-color: white;");
         switchPane(main,saveP);
     }
 
@@ -146,6 +155,12 @@ public class Controller {
      * Switches to the loadGame pane.
      */
     public void loadGame() {
+        loadfile3.setStyle("-fx-background-color: white;");
+        savefile3.setStyle("-fx-background-color: white;");
+        loadfile2.setStyle("-fx-background-color: white;");
+        savefile2.setStyle("-fx-background-color: white;");
+        loadfile1.setStyle("-fx-background-color: white;");
+        savefile1.setStyle("-fx-background-color: white;");
         switchPane(main,loadP);
     }
 
@@ -155,14 +170,32 @@ public class Controller {
     public void loader(){
         System.out.println("getting file 1");
         saveName = "save1.save";
+        loadfile1.setStyle("-fx-background-color: black;");
+        savefile1.setStyle("-fx-background-color: black;");
+        loadfile2.setStyle("-fx-background-color: white;");
+        savefile2.setStyle("-fx-background-color: white;");
+        loadfile3.setStyle("-fx-background-color: white;");
+        savefile3.setStyle("-fx-background-color: white;");
     }
     public void loader2(){
         System.out.println("getting file 2");
         saveName = "save2.save";
+        loadfile2.setStyle("-fx-background-color: black;");
+        savefile2.setStyle("-fx-background-color: black;");
+        loadfile1.setStyle("-fx-background-color: white;");
+        savefile1.setStyle("-fx-background-color: white;");
+        loadfile3.setStyle("-fx-background-color: white;");
+        savefile3.setStyle("-fx-background-color: white;");
     }
     public void loader3(){
         System.out.println("getting file 3");
         saveName = "save3.save";
+        loadfile3.setStyle("-fx-background-color: black;");
+        savefile3.setStyle("-fx-background-color: black;");
+        loadfile2.setStyle("-fx-background-color: white;");
+        savefile2.setStyle("-fx-background-color: white;");
+        loadfile1.setStyle("-fx-background-color: white;");
+        savefile1.setStyle("-fx-background-color: white;");
     }
 
 
@@ -552,7 +585,6 @@ public class Controller {
         } else if (player.getX() <= minX) {
             player.getView().setTranslateX(minX);
         }
-
         if(player.getY() >= maxY) {
             player.getView().setTranslateY(maxY);
         } else if (player.getY() <= minY) {
