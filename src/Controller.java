@@ -722,11 +722,12 @@ public class Controller {
     private void collisionWalls(Player player){
         for(Wall i : maps.get(currentLevel).getWalls()) {
             //spiller kommer fra venstre
-            if (    player.getX() >= i.getMinX() - player.getWidth() &&
+            if (player.getX() >= i.getMinX() - player.getWidth() &&
                     player.getX() <= i.getMinX() - player.getWidth() + 5 &&
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateX(i.getMinX() - player.getWidth());
+                System.out.println("venstre");
             }
             //spiller kommer fra høyre
             else if(player.getX() >= i.getMaxX() - 5 &&
@@ -734,13 +735,16 @@ public class Controller {
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateX(i.getMaxX());
+                System.out.println("høyre");
             }
             //spiller kommer fra toppen
+
             else if(player.getX() >= i.getMinX() - player.getWidth() &&
                     player.getX() <= i.getMaxX() &&
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMinY() - player.getHeigth() + 5) {
                 player.getView().setTranslateY(i.getMinY() - player.getHeigth());
+                System.out.println("topp");
             }
             //spiller kommer fra bunnen
             else if(player.getX() >= i.getMinX() - player.getWidth() &&
@@ -748,6 +752,7 @@ public class Controller {
                     player.getY() >= i.getMaxY() -5 &&
                     player.getY() <= i.getMaxY() ) {
                 player.getView().setTranslateY(i.getMaxY());
+                System.out.println("bunn");
             }
         }
     }

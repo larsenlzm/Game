@@ -4,7 +4,7 @@
  * @author s325919, s325894
  */
 
-public class Save implements java.io.Serializable {
+class Save implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,13 +26,13 @@ public class Save implements java.io.Serializable {
         this.currentMap = currentMap;
     }
 
-    public int getScoreP(){
+    int getScoreP(){
         return scoreP;
     }
-    public int getScoreE(){
+    int getScoreE(){
         return scoreE;
     }
-    public int getCurrentMap(){
+    int getCurrentMap(){
         return currentMap;
     }
 }

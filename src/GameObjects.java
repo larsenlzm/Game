@@ -1,4 +1,3 @@
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
 
 /**
@@ -10,17 +9,31 @@ import javafx.scene.Node;
 class GameObjects {
 
     private Node view;
-    private Point2D velocity;
+    private double speedX;
+    private double speedY;
 
     GameObjects(Node view) {
         this.view = view;
     }
     void update() {
-        view.setTranslateX(view.getTranslateX() + velocity.getX());
-        view.setTranslateY(view.getTranslateY() + velocity.getY());
+        view.setTranslateX(view.getTranslateX() + speedX);
+        view.setTranslateY(view.getTranslateY() + speedY);
     }
     void setVelocity(double x, double y) {
-        velocity = new Point2D(x,y);
+        speedX = x;
+        speedY = y;
+    }
+    void setSpeedX(double speedX){
+        this.speedX = speedX;
+    }
+    void setSpeedY(double speedY){
+        this.speedY = speedY;
+    }
+    double getSpeedX(){
+        return speedX;
+    }
+    double getSpeedY(){
+        return speedY;
     }
     Node getView() {
         return view;

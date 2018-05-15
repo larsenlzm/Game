@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
  * @author s25919, s325894
  */
 
-public class Player extends GameObjects {
+class Player extends GameObjects {
 
     private int hp;
     private double speedMultiplier;
