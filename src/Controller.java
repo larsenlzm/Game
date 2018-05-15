@@ -331,6 +331,9 @@ public class Controller {
         stage = (Stage) mainPane.getScene().getWindow();
 
         gameP.getChildren().clear();
+        bullets2.clear();
+        bullets.clear();
+        maps.clear();
 
         player = new Player("/res/tankBlue.png", 10,  gameP);
         player.setVelocity(0,0);
@@ -464,7 +467,6 @@ public class Controller {
 
         //bane4
         maps.add(new Level(50,50,1210,650,spriteBg1));
-
         for(Wall i : maps.get(0).getWalls()){
             maps.get(3).addWalls(i);
         }
@@ -779,9 +781,10 @@ public class Controller {
             }
             currentLevel = currentLevel + 1;
             for (Wall i : maps.get(currentLevel).getWalls()) {
-                i.addPane();
+                 i.addPane();
             }
         }
+
         background.setImage(new Image(maps.get(currentLevel).getMapBg()));
         player.getView().setTranslateX(maps.get(currentLevel).getSpawnPX());
         player.getView().setTranslateY(maps.get(currentLevel).getSpawnPY());

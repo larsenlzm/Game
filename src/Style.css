@@ -16,6 +16,15 @@
 #loadfile3 {
 	-fx-background-color: grey;
 }
+#savefile1 {
+    -fx-background-color: grey;
+}
+#savefile2 {
+    -fx-background-color: grey;
+}
+#savefile3 {
+    -fx-background-color: grey;
+}
 
 .button:hover {
 	-fx-scale-y: 1.1;
