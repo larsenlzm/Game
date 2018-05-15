@@ -69,23 +69,13 @@ public class Music {
     /**
      * Stops the clip
      */
-
     void stop() {
             clip.stop();
     }
 
     /**
-     * Starts the clip
-     */
-
-    public void resume() {
-        clip.start();
-    }
-
-    /**
      * Loops the clip
      */
-
     void loop() {
         try {
             if (clip != null) {
@@ -104,7 +94,4 @@ public class Music {
         }
     }
 
-    boolean isActive() {
-        return clip.isActive();
-    }
 }
