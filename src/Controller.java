@@ -115,7 +115,7 @@ public class Controller {
      * Switches to saveGame pane and clear the inputfield.
      */
     public void saveGame() {
-        saveText.setText("");
+        saveFile=null;
         switchPane(main,saveP);
     }
 
@@ -126,18 +126,18 @@ public class Controller {
      * entered.
      */
     public void saveSave(){
-        if(!saveText.getText().trim().isEmpty()){
-            System.out.println(saveText.getCharacters());
+        if(saveName != null){
+            System.out.println(saveName);
             Save save = new Save(player.getScore(),enemy.getScore(),currentLevel);
             try {
-                resourceManager.save(save,saveText.getText() + ".save");
+                resourceManager.save(save,saveName);
                 System.out.println("Saving game ...");
             } catch (Exception ex){
                 System.out.println("FUNKER IKKE Å LAGRE " + ex.getMessage());
             }
             switchPane(saveP,gamePaused);
         } else {
-            error("No name entered");
+            error("No save picked");
             System.out.println("Skriv inn et navn");
         }
     }

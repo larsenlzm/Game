@@ -6,7 +6,6 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,7 +19,7 @@
    <ImageView fx:id="background" fitHeight="720.0" fitWidth="1280.0" nodeOrientation="INHERIT" pickOnBounds="true" smooth="false" GridPane.columnSpan="2147483647" GridPane.rowSpan="2147483647">
       <Image url="@res/navn.png" />
    </ImageView>
-   <AnchorPane fx:id="main" disable="true" prefHeight="720.0" prefWidth="1280.0" visible="false">
+   <AnchorPane fx:id="main" prefHeight="720.0" prefWidth="1280.0">
       <opaqueInsets>
          <Insets />
       </opaqueInsets>
@@ -59,7 +58,7 @@
          </Button>
       </VBox>
    </AnchorPane>
-   <AnchorPane fx:id="loadP" prefHeight="720.0" prefWidth="1280.0">
+   <AnchorPane fx:id="loadP" disable="true" prefHeight="720.0" prefWidth="1280.0" visible="false">
       <VBox alignment="CENTER" layoutX="392.0" layoutY="360.0" prefHeight="200.0" prefWidth="497.0">
          <Button alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="90.0" text="BACK" textAlignment="CENTER">
             <font>
@@ -214,8 +213,8 @@
       </VBox>
    </AnchorPane>
    <AnchorPane fx:id="saveP" disable="true" prefHeight="720.0" prefWidth="1280.0" visible="false">
-      <Pane nodeOrientation="LEFT_TO_RIGHT" onKeyPressed="#goBackGame" onMouseClicked="#goBackGame" opacity="0.0" prefHeight="727.0" prefWidth="1292.0" style="-fx-background-color: black;" />
-      <VBox alignment="CENTER" layoutX="392.0" layoutY="279.0" prefHeight="276.0" prefWidth="497.0" style="-fx-background-color: white;">
+      <Pane nodeOrientation="LEFT_TO_RIGHT" onKeyPressed="#goBackGame" onMouseClicked="#goBackGame" opacity="0.0" prefHeight="727.0" prefWidth="1292.0" style="-fx-background-color: black;" visible="false" />
+      <VBox alignment="CENTER" layoutX="392.0" layoutY="279.0" prefHeight="276.0" prefWidth="550.0" style="-fx-background-color: white;">
          <Button alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBackGame" prefHeight="50.0" prefWidth="90.0" text="BACK" textAlignment="CENTER">
             <font>
                <Font name="8BIT WONDER Nominal" size="15.0" />
@@ -224,17 +223,31 @@
                <Insets bottom="10.0" top="10.0" />
             </VBox.margin>
          </Button>
-         <TextField fx:id="saveText" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="288.0" promptText="SAVE NAME">
-            <font>
-               <Font name="8BIT WONDER Nominal" size="15.0" />
-            </font>
-            <opaqueInsets>
-               <Insets />
-            </opaqueInsets>
-            <VBox.margin>
-               <Insets bottom="10.0" left="75.0" right="75.0" top="10.0" />
-            </VBox.margin>
-         </TextField>
+         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <children>
+               <Button fx:id="savefile1" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loader" prefHeight="50.0" prefWidth="160.0" text="SAVEFILE 1" textAlignment="CENTER">
+                  <font>
+                     <Font name="8BIT WONDER Nominal" size="15.0" />
+                  </font>
+               </Button>
+               <Button fx:id="savefile2" alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loader2" prefHeight="50.0" prefWidth="160.0" text="SAVEFILE 2" textAlignment="CENTER">
+                  <font>
+                     <Font name="8BIT WONDER Nominal" size="15.0" />
+                  </font>
+                  <HBox.margin>
+                     <Insets left="25.0" right="25.0" />
+                  </HBox.margin>
+               </Button>
+               <Button fx:id="savefile3" alignment="CENTER" layoutX="100.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loader3" prefHeight="50.0" prefWidth="160.0" text="SAVEFILE 3" textAlignment="CENTER">
+                  <font>
+                     <Font name="8BIT WONDER Nominal" size="15.0" />
+                  </font>
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+               </Button>
+            </children>
+         </HBox>
          <Button fx:id="saveSave" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveSave" prefHeight="50.0" prefWidth="90.0" text="SAVE" textAlignment="CENTER">
             <font>
                <Font name="8BIT WONDER Nominal" size="15.0" />
