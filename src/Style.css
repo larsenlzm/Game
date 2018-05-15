@@ -7,6 +7,16 @@
 
 }
 
+#loadfile1 {
+	-fx-background-color: grey;
+}
+#loadfile2 {
+	-fx-background-color: grey;
+}
+#loadfile3 {
+	-fx-background-color: grey;
+}
+
 .button:hover {
 	-fx-scale-y: 1.1;
 	-fx-scale-x: 1.1;

@@ -1,5 +1,6 @@
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -9,7 +10,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -43,6 +43,7 @@ public class Controller {
 
     private int currentLevel;
     private File saveFile;
+    private String saveName;
     private BitSet keyboardBitSet = new BitSet();
     private double scenewidth = 1280;
     private double sceneheigth = 720;
@@ -59,11 +60,12 @@ public class Controller {
      */
 
     public TextField saveText;
-    public Label errorLabel, loadLabel, victoryLabelWinner, victoryLabelScore, currentScore;
+    public Label errorLabel, victoryLabelWinner, victoryLabelScore, currentScore;
     public Pane gameP;
     public AnchorPane main, saveP, errorP, loadP, mainPane, gamePaused, victoryP, gameRoot, helpP, settingsP;
     public ImageView background;
     public ProgressBar playerHp, enemyHp;
+    public Button loadfile1,loadfile2,loadfile3;
 
     /**
      * Loads in the player, enemy and level.
@@ -151,19 +153,18 @@ public class Controller {
      * Lets the user choose a savefile.
      */
     public void loader(){
-        try {
-            System.out.println("getting file");
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Load .save file");
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Saves", "*.save");
-            fileChooser.getExtensionFilters().add(extFilter);
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-            saveFile = fileChooser.showOpenDialog(stage);
-            loadLabel.setText(saveFile.getName());
-        } catch (Exception e){
-            System.out.println("hmm "+e.getMessage());
-        }
+        System.out.println("getting file 1");
+        saveName = "save1.save";
     }
+    public void loader2(){
+        System.out.println("getting file 2");
+        saveName = "save2.save";
+    }
+    public void loader3(){
+        System.out.println("getting file 3");
+        saveName = "save3.save";
+    }
+
 
     /**
      * Loads in the chosen savefile and
@@ -172,9 +173,9 @@ public class Controller {
      * load correctly or no file is chosen.
      */
     public void loadLoad(){
-        if(saveFile != null) {
+        if(saveName != null) {
             try {
-                Save save = (Save) resourceManager.load(saveFile.getName());
+                Save save = (Save) resourceManager.load(saveName);
                 System.out.println("Loading game ...");
                 int P = save.getScoreP();
                 int E = save.getScoreE();
@@ -194,7 +195,6 @@ public class Controller {
                 //game.loop();
                 lobby.stop();
                 saveFile = null;
-                loadLabel.setText("");
             } catch (Exception ex) {
                 if (ex.getMessage() != null) {
                     System.out.println("KAN IKKE LOADE!: " + ex.getMessage());
@@ -423,7 +423,7 @@ public class Controller {
         maps.get(1).addWalls(new Wall(spriteWall2,1100,470, gameP));
 
         //bane3
-        maps.add(new Level(50 ,650,1210,50,spriteBg3));
+        maps.add(new Level(50 ,50,1210,6550,spriteBg3));
         //nede til høyre'
         maps.get(2).addWalls(new Wall(spriteWall3,1230,400, gameP));
         maps.get(2).addWalls(new Wall(spriteWall3,1180,400, gameP));
@@ -727,7 +727,6 @@ public class Controller {
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateX(i.getMinX() - player.getWidth());
-                System.out.println("venstre");
             }
             //spiller kommer fra høyre
             else if(player.getX() >= i.getMaxX() - 5 &&
@@ -735,7 +734,6 @@ public class Controller {
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMaxY()) {
                 player.getView().setTranslateX(i.getMaxX());
-                System.out.println("høyre");
             }
             //spiller kommer fra toppen
 
@@ -744,7 +742,6 @@ public class Controller {
                     player.getY() >= i.getMinY() - player.getHeigth() &&
                     player.getY() <= i.getMinY() - player.getHeigth() + 5) {
                 player.getView().setTranslateY(i.getMinY() - player.getHeigth());
-                System.out.println("topp");
             }
             //spiller kommer fra bunnen
             else if(player.getX() >= i.getMinX() - player.getWidth() &&
@@ -752,7 +749,6 @@ public class Controller {
                     player.getY() >= i.getMaxY() -5 &&
                     player.getY() <= i.getMaxY() ) {
                 player.getView().setTranslateY(i.getMaxY());
-                System.out.println("bunn");
             }
         }
     }
