@@ -26,12 +26,30 @@ class Save implements java.io.Serializable {
         this.currentMap = currentMap;
     }
 
+    /**
+     * Gets the player score.
+     *
+     * @return returns the player score.
+     */
     int getScoreP(){
         return scoreP;
     }
+
+    /**
+     * Gets the enemy score.
+     *
+     * @return returns the enemy score.
+     */
     int getScoreE(){
         return scoreE;
     }
+
+    /**
+     * Gets which map it is.
+     *
+     * @return returns the current map.
+     *
+     */
     int getCurrentMap(){
         return currentMap;
     }

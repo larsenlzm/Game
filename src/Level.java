@@ -34,27 +34,66 @@ public class Level {
         this.mapBg = mapBg;
     }
 
+    /**
+     * Adds the correct wall
+     * to the game.
+     *
+     * @param wall Which wall to add from the ArrayList.
+     */
     public void addWalls(Wall wall){
         Walls.add(wall);
     }
+
+    /**
+     * Gets walls from the ArrayList.
+     *
+     * @return returns the walls from the ArrayList.
+     */
     public List<Wall> getWalls(){
         return Walls;
     }
-    public Wall getWall(int i){
-        return Walls.get(i);
-    }
+
+    /**
+     * Gets the player spawn x-coordinate.
+     *
+     * @return returns the player spawn x-coordinate.
+     */
     public double getSpawnPX() {
         return spawnPX;
     }
+
+    /**
+     * Gets the player spawn y-coordinate
+     *
+     * @return returns the player spawn y-coordinate.
+     */
     public double getSpawnPY() {
         return spawnPY;
     }
+
+    /**
+     * Gets the enemy spawn x-coordinate
+     *
+     * @return returns the enemy spawn x-coordinate.
+     */
     public double getSpawnEX() {
         return spawnEX;
     }
+
+    /**
+     * Gets the enemy spawn y-coordinate
+     *
+     * @return returns the enemy spawn y-coordinate.
+     */
     public double getSpawnEY() {
         return spawnEY;
     }
+
+    /**
+     * Gets the map background.
+     *
+     * @return returns the map background
+     */
     public String getMapBg() {
         return mapBg;
     }

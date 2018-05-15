@@ -30,6 +30,7 @@ class resourceManager {
      * @return The object.
      * @throws Exception
      */
+
      static Object load(String fileName) throws Exception {
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/saves/"+fileName))) {
             return ois.readObject();

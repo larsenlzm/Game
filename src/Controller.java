@@ -423,7 +423,7 @@ public class Controller {
         maps.get(1).addWalls(new Wall(spriteWall2,1100,470, gameP));
 
         //bane3
-        maps.add(new Level(50 ,50,1210,6550,spriteBg3));
+        maps.add(new Level(50 ,50,1210,650,spriteBg3));
         //nede til høyre'
         maps.get(2).addWalls(new Wall(spriteWall3,1230,400, gameP));
         maps.get(2).addWalls(new Wall(spriteWall3,1180,400, gameP));
