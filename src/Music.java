@@ -14,12 +14,12 @@ public class Music {
     /**
      * Initiates the clip
      *
-     * @param fileName String that contains the url of the sound file.
+     * @param file String that contains the url of the sound file.
      */
-    public Music(String fileName) {
+    public Music(String file) {
         try {
-            musicFile = fileName;
-            AudioInputStream ais = AudioSystem.getAudioInputStream(Music.class.getResource(fileName));
+            musicFile = file;
+            AudioInputStream ais = AudioSystem.getAudioInputStream(Music.class.getResource(file));
             clip = AudioSystem.getClip();
             clip.open(ais);
         } catch (Exception e) {
