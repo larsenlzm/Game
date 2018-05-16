@@ -1,7 +1,5 @@
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Pane;
-import java.awt.*;
 
 /**
  * Class for the wall objects.
