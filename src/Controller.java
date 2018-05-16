@@ -44,7 +44,6 @@ public class Controller {
     private BitSet keyboardBitSet = new BitSet();
     private double scenewidth = 1280;
     private double sceneheigth = 720;
-    //private static Music game = new Music("/res/backgroundMusic1.wav");
     private static Music lobby = new Music("/res/backgroundMusic.wav");
     private static Music victory = new Music("/res/Victory.wav");
     private static Music hit = new Music("/res/sound.wav");
@@ -574,7 +573,7 @@ public class Controller {
      * @param from The pane you are on.
      * @param to The pane you want to change to.
      */
-    private void switchPane(Pane from,Pane to){
+    public void switchPane(Pane from,Pane to){
         from.setDisable(true);
         from.setVisible(false);
         to.setDisable(false);
@@ -583,11 +582,12 @@ public class Controller {
 
     /**
      *
+     * Sets the keyboardBitSet if
+     * key pressed but not released
      *
-     *
-     * @param scene
+     * @param scene current scene.
      */
-    private void addInputControls(Scene scene) {
+    public void addInputControls(Scene scene) {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             keyboardBitSet.set(e.getCode().ordinal(), true);
         });
@@ -602,7 +602,7 @@ public class Controller {
      *
      * @param error What the error says.
      */
-    private void error(String error){
+    public void error(String error){
         errorLabel.setText("Error!!! \n" + error);
         errorP.setDisable(false);
         errorP.setVisible(true);
@@ -617,7 +617,7 @@ public class Controller {
      *
      * @param player takes the Player object as param
      */
-    private void boundsPlayer(Player player){
+    public void boundsPlayer(Player player){
         double maxX = scenewidth - (player.getWidth() / 2);
         double minX = 0 - (player.getWidth() / 2);
         double maxY = sceneheigth - (player.getWidth() / 2);
@@ -643,7 +643,7 @@ public class Controller {
      * @param back boolean about backwards movement.
      * @param player Which Player object.
      */
-    private void movePlayer(boolean forward, boolean back, Player player){
+    public void movePlayer(boolean forward, boolean back, Player player){
         if(forward && !back){
             player.setVelocity(Math.cos(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier(), Math.sin(Math.toRadians(player.getRotate()))*player.getSpeedMultiplier());
         } else if(back && !forward){
@@ -661,7 +661,7 @@ public class Controller {
      * @param left boolean about left-movement.
      * @param player Which Player object.
      */
-    private void rotatePlayer(boolean right, boolean left, Player player){
+    public void rotatePlayer(boolean right, boolean left, Player player){
         if (right && !left) {
             player.rotateLeft();
         } else if ( !right && left) {
@@ -671,13 +671,16 @@ public class Controller {
 
     /**
      *
+     * Adds bullets to the game
+     * and plays sound.
+     *
      * @param shoot boolean, if bullet is shot or not.
      * @param player Which Player it is.
      * @param isPistolLadet boolean, if the pistol is loaded or not.
      * @param bullets Takes the ArrayList as param.
      * @param sprite Sprite/Image for the bullet.
      */
-    private void shootPlayer(boolean shoot, Player player, boolean isPistolLadet, List<Bullet> bullets, String sprite){
+    public void shootPlayer(boolean shoot, Player player, boolean isPistolLadet, List<Bullet> bullets, String sprite){
         if (shoot && isPistolLadet) {
             //Adder bulleten til gameworld og posisjonen er da samme som player
             bullets.add(new Bullet(sprite,player.getX()+(player.getHeigth()/2),player.getY()+(player.getWidth()/2), gameP, player, player.getRotate()));
@@ -694,7 +697,7 @@ public class Controller {
      *
      * @param play the players.
      */
-    private void bulletExplosion(Player play){
+    public void bulletExplosion(Player play){
         for(int i = 0; i < 5; i++){
             boom[i].relocate(play.getX(),play.getY());
         }
@@ -719,7 +722,7 @@ public class Controller {
      * @param name name of the player.
      * @param pointer the shooter.
      */
-    private void lifeUpdate(Player play, String name, Player pointer){
+    public void lifeUpdate(Player play, String name, Player pointer){
         if (play.getHp() != 1) {
             play.setHp(play.getHp() - 1);
             if(effect)
@@ -758,7 +761,7 @@ public class Controller {
      * @param name name of the player.
      * @param pointer the one that is shooting.
      */
-    private void bulletPhysics(List<Bullet> bullets, Player play, String name, Player pointer){
+    public void bulletPhysics(List<Bullet> bullets, Player play, String name, Player pointer){
         for (int i = 0; i < bullets.size(); i++){
             if(bullets.get(i).isColliding(play)) {
                 bullets.get(i).RemoveBullet(gameP);
@@ -795,7 +798,7 @@ public class Controller {
      *
      * @param player Which player it is.
      */
-    private void collisionWalls(Player player){
+    public void collisionWalls(Player player){
         for(Wall i : maps.get(currentLevel).getWalls()) {
             //spiller kommer fra venstre
             if (player.getX() >= i.getMinX() - player.getWidth() &&
@@ -836,7 +839,7 @@ public class Controller {
      * back to 10, removes bullets and sets
      * the correct background image.
      */
-    private void newRound(){
+    public void newRound(){
         player.getView().setRotate(0);
         enemy.getView().setRotate(180);
         for (Bullet b : bullets){
@@ -869,7 +872,7 @@ public class Controller {
     /**
      * Method that updates the game.
      */
-    private void onUpdate() {
+    public void onUpdate() {
         boolean isWPressed = keyboardBitSet.get(KeyCode.W.ordinal());
         boolean isAPressed = keyboardBitSet.get(KeyCode.A.ordinal());
         boolean isSPressed = keyboardBitSet.get(KeyCode.S.ordinal());

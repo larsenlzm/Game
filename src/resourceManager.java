@@ -25,7 +25,7 @@ public class resourceManager {
      *
      * Makes the save file readable
      *
-     * @param fileName
+     * @param fileName name of the file.
      * @return The object.
      */
 
