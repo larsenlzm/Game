@@ -2,7 +2,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 /**
- * Class for the bullets.
+ * Class for the bullets
  *
  * @author s325919, s325894
  */
