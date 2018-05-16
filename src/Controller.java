@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
-import java.io.*;
 
 /**
  * Controls for main game screen.

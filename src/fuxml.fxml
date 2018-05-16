@@ -59,7 +59,7 @@
       </VBox>
    </AnchorPane>
    <AnchorPane fx:id="loadP" disable="true" prefHeight="720.0" prefWidth="1280.0" visible="false">
-      <VBox alignment="CENTER" layoutX="392.0" layoutY="360.0" prefHeight="200.0" prefWidth="497.0">
+      <VBox alignment="CENTER" layoutX="375.0" layoutY="360.0" prefHeight="200.0" prefWidth="497.0">
          <Button alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="90.0" text="BACK" textAlignment="CENTER">
             <font>
                <Font name="8BIT WONDER Nominal" size="15.0" />
@@ -107,7 +107,7 @@
       </VBox>
    </AnchorPane>
    <AnchorPane fx:id="helpP" disable="true" layoutX="6.0" prefHeight="720.0" prefWidth="1280.0" visible="false">
-      <VBox alignment="CENTER" layoutX="385.0" layoutY="310.0" prefHeight="200.0" prefWidth="497.0">
+      <VBox alignment="CENTER" layoutX="384.0" layoutY="360.0" prefHeight="200.0" prefWidth="497.0">
          <Button alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="90.0" text="BACK" textAlignment="CENTER">
             <font>
                <Font name="8BIT WONDER Nominal" size="15.0" />
