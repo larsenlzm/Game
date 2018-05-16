@@ -119,12 +119,12 @@ public class Controller {
      */
     public void saveGame() {
         saveFile=null;
-        loadfile3.setStyle("-fx-background-color: white;");
-        savefile3.setStyle("-fx-background-color: white;");
-        loadfile2.setStyle("-fx-background-color: white;");
-        savefile2.setStyle("-fx-background-color: white;");
-        loadfile1.setStyle("-fx-background-color: white;");
-        savefile1.setStyle("-fx-background-color: white;");
+        loadfile3.setStyle("-fx-background-color: whitesmoke;");
+        savefile3.setStyle("-fx-background-color: whitesmoke;");
+        loadfile2.setStyle("-fx-background-color: whitesmoke;");
+        savefile2.setStyle("-fx-background-color: whitesmoke;");
+        loadfile1.setStyle("-fx-background-color: whitesmoke;");
+        savefile1.setStyle("-fx-background-color: whitesmoke;");
         switchPane(main,saveP);
     }
 
@@ -155,12 +155,12 @@ public class Controller {
      * Switches to the loadGame pane.
      */
     public void loadGame() {
-        loadfile3.setStyle("-fx-background-color: white;");
-        savefile3.setStyle("-fx-background-color: white;");
-        loadfile2.setStyle("-fx-background-color: white;");
-        savefile2.setStyle("-fx-background-color: white;");
-        loadfile1.setStyle("-fx-background-color: white;");
-        savefile1.setStyle("-fx-background-color: white;");
+        loadfile3.setStyle("-fx-background-color: whitesmoke;");
+        savefile3.setStyle("-fx-background-color: whitesmoke;");
+        loadfile2.setStyle("-fx-background-color: whitesmoke;");
+        savefile2.setStyle("-fx-background-color: whitesmoke;");
+        loadfile1.setStyle("-fx-background-color: whitesmoke;");
+        savefile1.setStyle("-fx-background-color: whitesmoke;");
         switchPane(main,loadP);
     }
 
@@ -170,32 +170,32 @@ public class Controller {
     public void loader(){
         System.out.println("getting file 1");
         saveName = "save1.save";
-        loadfile1.setStyle("-fx-background-color: black;");
-        savefile1.setStyle("-fx-background-color: black;");
-        loadfile2.setStyle("-fx-background-color: white;");
-        savefile2.setStyle("-fx-background-color: white;");
-        loadfile3.setStyle("-fx-background-color: white;");
-        savefile3.setStyle("-fx-background-color: white;");
+        loadfile1.setStyle("-fx-background-color: lightgray;");
+        savefile1.setStyle("-fx-background-color: lightgray;");
+        loadfile2.setStyle("-fx-background-color: whitesmoke;");
+        savefile2.setStyle("-fx-background-color: whitesmoke;");
+        loadfile3.setStyle("-fx-background-color: whitesmoke;");
+        savefile3.setStyle("-fx-background-color: whitesmoke;");
     }
     public void loader2(){
         System.out.println("getting file 2");
         saveName = "save2.save";
-        loadfile2.setStyle("-fx-background-color: black;");
-        savefile2.setStyle("-fx-background-color: black;");
-        loadfile1.setStyle("-fx-background-color: white;");
-        savefile1.setStyle("-fx-background-color: white;");
-        loadfile3.setStyle("-fx-background-color: white;");
-        savefile3.setStyle("-fx-background-color: white;");
+        loadfile2.setStyle("-fx-background-color: lightgray;");
+        savefile2.setStyle("-fx-background-color: lightgray;");
+        loadfile1.setStyle("-fx-background-color: whitesmoke;");
+        savefile1.setStyle("-fx-background-color: whitesmoke;");
+        loadfile3.setStyle("-fx-background-color: whitesmoke;");
+        savefile3.setStyle("-fx-background-color: whitesmoke;");
     }
     public void loader3(){
         System.out.println("getting file 3");
         saveName = "save3.save";
-        loadfile3.setStyle("-fx-background-color: black;");
-        savefile3.setStyle("-fx-background-color: black;");
-        loadfile2.setStyle("-fx-background-color: white;");
-        savefile2.setStyle("-fx-background-color: white;");
-        loadfile1.setStyle("-fx-background-color: white;");
-        savefile1.setStyle("-fx-background-color: white;");
+        loadfile3.setStyle("-fx-background-color: lightgray;");
+        savefile3.setStyle("-fx-background-color: lightgray;");
+        loadfile2.setStyle("-fx-background-color: whitesmoke;");
+        savefile2.setStyle("-fx-background-color: whitesmoke;");
+        loadfile1.setStyle("-fx-background-color: whitesmoke;");
+        savefile1.setStyle("-fx-background-color: whitesmoke;");
     }
 
 
