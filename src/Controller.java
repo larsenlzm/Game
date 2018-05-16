@@ -34,9 +34,6 @@ public class Controller {
     private ImageView boom[] = new ImageView[5];
     private boolean music = true;
     private boolean effect = true;
-    private boolean show = false;
-    private boolean show2 = false;
-    private boolean show3 = false;
 
     //interne klokker
     private int load = 10; //skudd per antall frames
@@ -45,7 +42,6 @@ public class Controller {
     private int loadCount2 = load2;
 
     private int currentLevel;
-    private File saveFile;
     private String saveName;
     private BitSet keyboardBitSet = new BitSet();
     private double scenewidth = 1280;
@@ -118,7 +114,7 @@ public class Controller {
      * Switches to saveGame pane and clear the inputfield.
      */
     public void saveGame() {
-        saveFile=null;
+        saveName=null;
         loadfile3.setStyle("-fx-background-color: whitesmoke;");
         savefile3.setStyle("-fx-background-color: whitesmoke;");
         loadfile2.setStyle("-fx-background-color: whitesmoke;");
@@ -146,7 +142,7 @@ public class Controller {
             }
             switchPane(saveP,gamePaused);
         } else {
-            error("No save picked");
+            error("No save picked \n");
             System.out.println("Skriv inn et navn");
         }
     }
@@ -161,6 +157,7 @@ public class Controller {
         savefile2.setStyle("-fx-background-color: whitesmoke;");
         loadfile1.setStyle("-fx-background-color: whitesmoke;");
         savefile1.setStyle("-fx-background-color: whitesmoke;");
+        saveName = null;
         switchPane(main,loadP);
     }
 
@@ -227,15 +224,14 @@ public class Controller {
                 if(music)
                 //game.loop();
                 lobby.stop();
-                saveFile = null;
             } catch (Exception ex) {
                 if (ex.getMessage() != null) {
                     System.out.println("KAN IKKE LOADE!: " + ex.getMessage());
-                    error("cant load file");
+                    error("cant load file \n" + ex.getMessage());
                 }
             }
         } else {
-            error("cant load file, no file chosen");
+            error("cant load file, no save chosen");
         }
     }
 
