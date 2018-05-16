@@ -21,7 +21,7 @@ public class Wall extends GameObjects {
      * @param pane the pane it's placed on.
      */
 
-    Wall(String sprite, double x, double y, Pane pane) {
+    public Wall(String sprite, double x, double y, Pane pane) {
         super(new ImageView(String.valueOf(Bullet.class.getResource(sprite))));
         getView().setTranslateX(x);
         getView().setTranslateY(y);
@@ -31,14 +31,14 @@ public class Wall extends GameObjects {
     /**
      * adds the objects to the pane.
      */
-    void addPane(){
+    public void addPane(){
         pane.getChildren().add(getView());
     }
 
     /**
      * Removes the objects from the pane.
      */
-    void removePane(){
+    public void removePane(){
         pane.getChildren().remove(getView());
     }
 }

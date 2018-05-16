@@ -14,9 +14,8 @@ public class resourceManager {
      *
      * @param data serialVersionUID
      * @param fileName name of the file.
-     * @throws Exception
      */
-    static void save(Serializable data, String fileName) throws Exception {
+    public static void save(Serializable data, String fileName) throws Exception {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/saves/"+fileName))) {
             oos.writeObject(data);
         }
@@ -28,10 +27,9 @@ public class resourceManager {
      *
      * @param fileName
      * @return The object.
-     * @throws Exception
      */
 
-     static Object load(String fileName) throws Exception {
+     public static Object load(String fileName) throws Exception {
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/saves/"+fileName))) {
             return ois.readObject();
         }

@@ -20,7 +20,7 @@ public class Save implements java.io.Serializable {
      * @param currentMap Which map is getting saved.
      */
 
-    Save(int scoreP, int scoreE, int currentMap){
+    public Save(int scoreP, int scoreE, int currentMap){
         this.scoreP = scoreP;
         this.scoreE = scoreE;
         this.currentMap = currentMap;
@@ -31,7 +31,7 @@ public class Save implements java.io.Serializable {
      *
      * @return returns the player score.
      */
-    int getScoreP(){
+     public int getScoreP(){
         return scoreP;
     }
 
@@ -40,7 +40,7 @@ public class Save implements java.io.Serializable {
      *
      * @return returns the enemy score.
      */
-    int getScoreE(){
+    public int getScoreE(){
         return scoreE;
     }
 
@@ -50,7 +50,7 @@ public class Save implements java.io.Serializable {
      * @return returns the current map.
      *
      */
-    int getCurrentMap(){
+    public int getCurrentMap(){
         return currentMap;
     }
 }

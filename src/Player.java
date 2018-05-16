@@ -21,7 +21,7 @@ public class Player extends GameObjects {
      * @param hp int variable that contains the number of hp a player has.
      * @param root Pane that the player gets placed on.
      */
-    Player(String sprite, int hp, Pane root) {
+    public Player(String sprite, int hp, Pane root) {
         super(new ImageView(String.valueOf(Bullet.class.getResource(sprite))));
         this.hp = hp;
         root.getChildren().add(getView());
@@ -32,7 +32,7 @@ public class Player extends GameObjects {
      *
      * @return return hp
      */
-    int getHp() {
+    public int getHp() {
         return hp;
     }
 
@@ -41,7 +41,7 @@ public class Player extends GameObjects {
      *
      * @param hp Lifepoints for player.
      */
-    void setHp(int hp){
+    public void setHp(int hp){
         this.hp = hp;
     }
 
@@ -50,7 +50,7 @@ public class Player extends GameObjects {
      *
      * @return returns the x-coordinate
      */
-    double getX() {
+    public double getX() {
         return getView().getTranslateX();
     }
 
@@ -59,7 +59,7 @@ public class Player extends GameObjects {
      *
      * @return returns the y-coordinate
      */
-    double getY() {
+    public double getY() {
         return getView().getTranslateY();
     }
 
@@ -68,7 +68,7 @@ public class Player extends GameObjects {
      *
      * @param speed How fast a object moves
      */
-    void setSpeedMultiplier(double speed) {
+    public void setSpeedMultiplier(double speed) {
         this.speedMultiplier = speed;
     }
 
@@ -77,7 +77,7 @@ public class Player extends GameObjects {
      *
      * @return returns the speed.
      */
-    double getSpeedMultiplier() {
+    public double getSpeedMultiplier() {
         return speedMultiplier;
     }
 
@@ -86,7 +86,7 @@ public class Player extends GameObjects {
      *
      * @return returns the score.
      */
-    int getScore() {
+    public int getScore() {
         return score;
     }
 
@@ -95,7 +95,7 @@ public class Player extends GameObjects {
      *
      * @param score what the score is.
      */
-    void setScore(int score){
+    public void setScore(int score){
         this.score = score;
     }
 
@@ -105,7 +105,7 @@ public class Player extends GameObjects {
      *
      * @return returns the exploded boolean.
      */
-    boolean getExploded(){
+    public boolean getExploded(){
         return exploded;
     }
 
@@ -114,7 +114,7 @@ public class Player extends GameObjects {
      *
      * @param b sets exploded as b.
      */
-    void setExploded(boolean b){
+    public void setExploded(boolean b){
         exploded = b;
     }
 }

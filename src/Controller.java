@@ -54,15 +54,52 @@ public class Controller {
 
     //fxml koblinger
     /**
-     * saveText The textfield you write your savefilename into
+     * Label errorLabel shows error on screen.
+     * Label victoryLabelWinner shows the winner.
+     * Label VictoryLabelScore shows the winner's score.
+     * Label currentScore shows the current score.
      */
 
-    public TextField saveText;
     public Label errorLabel, victoryLabelWinner, victoryLabelScore, currentScore;
+
+    /**
+     * Pane gameP the pane which the game is loaded into.
+     */
     public Pane gameP;
+
+    /**
+     * AnchorPane main, the main menu pane.
+     *      * AnchorPane SaveP, the save pane.
+     *      * AnchorPane errorP, the error pane.
+     *      * AnchorPane LoadP, the load pane.
+     *      * AnchorPane mainPane, the pane that every other pane is connected to.
+     *      * AnchorPane gamePaused, the pane that shows up when the game is paused.
+     *      * AnchorPane victoryP, the pane that shows up when you win.
+     *      * AnchorPane gameRoot, the pane that the game is played on.
+     *      * AnchorPane helpP, the settings pane.
+     *      * AnchorPane settingsP, the keybinds pane.
+     */
     public AnchorPane main, saveP, errorP, loadP, mainPane, gamePaused, victoryP, gameRoot, helpP, settingsP;
+
+    /**
+     * ImageView background, the background logo for the game.
+     */
     public ImageView background;
+
+    /**
+     * ProgressBar playerHP, shows the player HP.
+     * ProgressBar enemyHP, shows the enemy HP
+     */
     public ProgressBar playerHp, enemyHp;
+
+    /**
+     * Button loadfile1, chooses savefile name to load.
+     * Button loadfile2, chooses savefile name to load.
+     * Button loadfile3, chooses savefile name to load.
+     * Button savefile1, chooses savefile name to save.
+     * Button savefile2, chooses savefile name to save.
+     * Button savefile3, chooses savefile name to save.
+     */
     public Button loadfile1,loadfile2,loadfile3, savefile1, savefile2,savefile3;
 
     /**
@@ -161,7 +198,8 @@ public class Controller {
     }
 
     /**
-     * Lets the user choose a savefile.
+     * Lets the user choose savefile 1,
+     * and changes the color.
      */
     public void loader(){
         System.out.println("getting file 1");
@@ -173,6 +211,11 @@ public class Controller {
         loadfile3.setStyle("-fx-background-color: whitesmoke;");
         savefile3.setStyle("-fx-background-color: whitesmoke;");
     }
+
+    /**
+     * Lets the user choose savefile 2,
+     * and changes the color.
+     */
     public void loader2(){
         System.out.println("getting file 2");
         saveName = "save2.save";
@@ -183,6 +226,11 @@ public class Controller {
         loadfile3.setStyle("-fx-background-color: whitesmoke;");
         savefile3.setStyle("-fx-background-color: whitesmoke;");
     }
+
+    /**
+     * Lets the user choose savefile 3,
+     * and changes the color.
+     */
     public void loader3(){
         System.out.println("getting file 3");
         saveName = "save3.save";

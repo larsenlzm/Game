@@ -13,14 +13,19 @@ public class GameObjects {
     private double speedY;
 
     /**
+     * Initializes the view
      *
-     * @param view
+     * @param view the view.
      */
 
-    GameObjects(Node view) {
+    public GameObjects(Node view) {
         this.view = view;
     }
-    void update() {
+
+    /**
+     * Updates the game.
+     */
+    public void update() {
         view.setTranslateX(view.getTranslateX() + speedX);
         view.setTranslateY(view.getTranslateY() + speedY);
     }
@@ -31,22 +36,9 @@ public class GameObjects {
      * @param x how many x-coordinates per frame.
      * @param y how many y-coordinates per frame.
      */
-    void setVelocity(double x, double y) {
+    public void setVelocity(double x, double y) {
         speedX = x;
         speedY = y;
-    }
-
-    void setSpeedX(double speedX){
-        this.speedX = speedX;
-    }
-    void setSpeedY(double speedY){
-        this.speedY = speedY;
-    }
-    double getSpeedX(){
-        return speedX;
-    }
-    double getSpeedY(){
-        return speedY;
     }
 
     /**
@@ -54,7 +46,7 @@ public class GameObjects {
      *
      * @return returns the view
      */
-    Node getView() {
+    public Node getView() {
         return view;
     }
 
@@ -63,21 +55,21 @@ public class GameObjects {
      *
      * @return returns the rotation of the object.
      */
-    double getRotate() {
+    public double getRotate() {
         return view.getRotate();
     }
 
     /**
      * Rotates the object to the right.
      */
-    void rotateRight() {
+    public void rotateRight() {
         view.setRotate(view.getRotate() + 3);
     }
 
     /**
      * Rotates the object left.
      */
-    void rotateLeft() {
+    public void rotateLeft() {
         view.setRotate(view.getRotate() - 3);
     }
 
@@ -87,7 +79,7 @@ public class GameObjects {
      * @param other is another object to check.
      * @return returns the view of objects colliding.
      */
-    boolean isColliding(GameObjects other) {
+    public boolean isColliding(GameObjects other) {
         return getView().getBoundsInParent().intersects(other.getView().getBoundsInParent());
     }
 
@@ -96,7 +88,7 @@ public class GameObjects {
      *
      * @return returns the width.
      */
-    double getWidth() {
+    public double getWidth() {
         return getView().getLayoutBounds().getWidth();
     }
 
@@ -105,7 +97,7 @@ public class GameObjects {
      *
      * @return returns the height.
      */
-    double getHeigth() {
+    public double getHeigth() {
          return getView().getLayoutBounds().getHeight();
     }
 
@@ -115,7 +107,7 @@ public class GameObjects {
      *
      * @return returns the maximum x-value
      */
-    double getMaxX() {
+    public double getMaxX() {
         return getView().getBoundsInParent().getMaxX();
     }
 
@@ -125,7 +117,7 @@ public class GameObjects {
      *
      * @return returns the minimum x-value.
      */
-    double getMinX() {
+    public double getMinX() {
         return getView().getBoundsInParent().getMinX();
     }
 
@@ -135,7 +127,7 @@ public class GameObjects {
      *
      * @return returns the maximum y-value.
      */
-    double getMaxY() {
+    public double getMaxY() {
         return getView().getBoundsInParent().getMaxY();
     }
 
@@ -145,7 +137,7 @@ public class GameObjects {
      *
      * @return returns the minimum y-value
      */
-    double getMinY() {
+    public double getMinY() {
         return getView().getBoundsInParent().getMinY();
     }
 }

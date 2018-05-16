@@ -19,7 +19,7 @@ public class Bullet extends GameObjects {
      * @param rotate Which way the player is facing.
      */
 
-    Bullet(String sprite, double x, double y, Pane root, Player player, double rotate){
+    public Bullet(String sprite, double x, double y, Pane root, Player player, double rotate){
         super(new ImageView(String.valueOf(Bullet.class.getResource(sprite))));
         getView().setTranslateX(x);
         getView().setTranslateY(y);
@@ -35,7 +35,7 @@ public class Bullet extends GameObjects {
      *
      * @param root Which pane that needs to be edited.
      */
-    void RemoveBullet(Pane root) {
+    public void RemoveBullet(Pane root) {
         root.getChildren().remove(getView());
     }
 }
