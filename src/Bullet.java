@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 public class Bullet extends GameObjects {
 
     /**
-     *
+     * initializes the Bullet object, sets view and rotation
      * @param sprite image for the bullet.
      * @param x x-coordinates for the bullets.
      * @param y y-coordinates for the bullets.
