@@ -6,7 +6,7 @@ import javafx.scene.Node;
  * @author s325919, s325894
  */
 
-class GameObjects {
+public class GameObjects {
 
     private Node view;
     private double speedX;

@@ -214,7 +214,7 @@
    </AnchorPane>
    <AnchorPane fx:id="saveP" disable="true" prefHeight="720.0" prefWidth="1280.0" visible="false">
       <Pane nodeOrientation="LEFT_TO_RIGHT" onKeyPressed="#goBackGame" onMouseClicked="#goBackGame" opacity="0.0" prefHeight="727.0" prefWidth="1292.0" style="-fx-background-color: black;" visible="false" />
-      <VBox alignment="CENTER" layoutX="392.0" layoutY="279.0" prefHeight="276.0" prefWidth="550.0" style="-fx-background-color: white;">
+      <VBox alignment="CENTER" layoutX="371.0" layoutY="279.0" prefHeight="282.0" prefWidth="550.0" style="-fx-background-color: white;">
          <Button alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goBackGame" prefHeight="50.0" prefWidth="90.0" text="BACK" textAlignment="CENTER">
             <font>
                <Font name="8BIT WONDER Nominal" size="15.0" />

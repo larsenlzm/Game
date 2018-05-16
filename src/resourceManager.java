@@ -6,7 +6,7 @@ import java.io.*;
  * @author s325919, s325894
  */
 
-class resourceManager {
+public class resourceManager {
 
     /**
      *

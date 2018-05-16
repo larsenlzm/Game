@@ -33,14 +33,14 @@ public class Wall extends GameObjects {
     /**
      * adds the objects to the pane.
      */
-    public void addPane(){
+    void addPane(){
         pane.getChildren().add(getView());
     }
 
     /**
      * Removes the objects from the pane.
      */
-    public void removePane(){
+    void removePane(){
         pane.getChildren().remove(getView());
     }
 }

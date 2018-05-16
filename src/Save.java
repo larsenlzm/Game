@@ -4,7 +4,7 @@
  * @author s325919, s325894
  */
 
-class Save implements java.io.Serializable {
+public class Save implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
 

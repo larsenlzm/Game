@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
  * @author s325919, s325894
  */
 
-class Bullet extends GameObjects {
+public class Bullet extends GameObjects {
 
     /**
      *
