@@ -1,2 +1,2 @@
-Programutvikling Vår 2018
-Gruppe 56
+The Tank Game
+Made in Java
